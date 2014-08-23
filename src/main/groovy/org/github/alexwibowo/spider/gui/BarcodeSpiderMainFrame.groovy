@@ -26,7 +26,6 @@ class BarcodeSpiderMainFrame extends JFrame{
             INSTANCE.defaultCloseOperation = EXIT_ON_CLOSE
         }
         INSTANCE.initializeContent()
-        INSTANCE.visible = true
         INSTANCE
     }
 

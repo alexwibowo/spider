@@ -22,17 +22,15 @@ public class MainPanel extends JPanel {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		toolBar1 = new JToolBar();
 		openFolderButton = new JButton();
-		addButton = new JButton();
-		clearButton = new JButton();
 		splitPane1 = new JSplitPane();
 		scrollPane1 = new JScrollPane();
 		fileList = new JList();
-		fileInfoPanel = new JSplitPane();
-		imageLabel = new JLabel();
-		imageDetailPanel = new JPanel();
+		panel1 = new JPanel();
+		image = new JLabel();
+		panel2 = new JPanel();
 		barcodeLabel = new JLabel();
-		barcodeTextField = new JTextField();
-		saveFileButton = new JButton();
+		textField1 = new JTextField();
+		button1 = new JButton();
 
 		//======== this ========
 		setLayout(new FormLayout(
@@ -47,14 +45,6 @@ public class MainPanel extends JPanel {
 			openFolderButton.setIcon(UIManager.getIcon("Tree.openIcon"));
 			openFolderButton.setBorder(new EmptyBorder(5, 5, 5, 5));
 			toolBar1.add(openFolderButton);
-
-			//---- addButton ----
-			addButton.setText("add");
-			toolBar1.add(addButton);
-
-			//---- clearButton ----
-			clearButton.setText("clear");
-			toolBar1.add(clearButton);
 		}
 		add(toolBar1, CC.xy(1, 1));
 
@@ -70,29 +60,31 @@ public class MainPanel extends JPanel {
 			}
 			splitPane1.setLeftComponent(scrollPane1);
 
-			//======== fileInfoPanel ========
+			//======== panel1 ========
 			{
-				fileInfoPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				fileInfoPanel.setTopComponent(imageLabel);
+				panel1.setLayout(new FormLayout(
+					"default:grow",
+					"fill:default:grow, $lgap, default"));
+				panel1.add(image, CC.xy(1, 1));
 
-				//======== imageDetailPanel ========
+				//======== panel2 ========
 				{
-					imageDetailPanel.setLayout(new FormLayout(
+					panel2.setLayout(new FormLayout(
 						"default, $lcgap, default:grow",
-						"2*(default, $lgap), default"));
+						"default, $lgap, default"));
 
 					//---- barcodeLabel ----
 					barcodeLabel.setText("Barcode");
-					imageDetailPanel.add(barcodeLabel, CC.xy(1, 1));
-					imageDetailPanel.add(barcodeTextField, CC.xy(3, 1));
+					panel2.add(barcodeLabel, CC.xy(1, 1));
+					panel2.add(textField1, CC.xy(3, 1));
 
-					//---- saveFileButton ----
-					saveFileButton.setText("Save");
-					imageDetailPanel.add(saveFileButton, CC.xy(3, 5, CC.LEFT, CC.DEFAULT));
+					//---- button1 ----
+					button1.setText("Save");
+					panel2.add(button1, CC.xy(3, 3, CC.LEFT, CC.DEFAULT));
 				}
-				fileInfoPanel.setBottomComponent(imageDetailPanel);
+				panel1.add(panel2, CC.xy(1, 3));
 			}
-			splitPane1.setRightComponent(fileInfoPanel);
+			splitPane1.setRightComponent(panel1);
 		}
 		add(splitPane1, CC.xy(1, 3));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -101,16 +93,14 @@ public class MainPanel extends JPanel {
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	protected JToolBar toolBar1;
 	protected JButton openFolderButton;
-	protected JButton addButton;
-	protected JButton clearButton;
 	protected JSplitPane splitPane1;
 	protected JScrollPane scrollPane1;
 	protected JList fileList;
-	protected JSplitPane fileInfoPanel;
-	protected JLabel imageLabel;
-	protected JPanel imageDetailPanel;
+	protected JPanel panel1;
+	protected JLabel image;
+	protected JPanel panel2;
 	protected JLabel barcodeLabel;
-	protected JTextField barcodeTextField;
-	protected JButton saveFileButton;
+	protected JTextField textField1;
+	protected JButton button1;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

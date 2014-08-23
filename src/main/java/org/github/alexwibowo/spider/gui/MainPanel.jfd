@@ -20,14 +20,6 @@ new FormModel {
 					"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
 					"border": new javax.swing.border.EmptyBorder( 5, 5, 5, 5 )
 				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "addButton"
-					"text": "add"
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "clearButton"
-					"text": "clear"
-				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
 			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 				name: "splitPane1"
@@ -40,19 +32,22 @@ new FormModel {
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "left"
 				} )
-				add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
-					name: "fileInfoPanel"
-					"orientation": 0
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
+					"$columnSpecs": "default:grow"
+					"$rowSpecs": "fill:default:grow, linegap, default"
+				} ) {
+					name: "panel1"
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "imageLabel"
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "left"
+						name: "image"
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridX": 1
+						"gridY": 1
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 						"$columnSpecs": "default, labelcompgap, default:grow"
-						"$rowSpecs": "default, linegap, default, linegap, default"
+						"$rowSpecs": "default, linegap, default"
 					} ) {
-						name: "imageDetailPanel"
+						name: "panel2"
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "barcodeLabel"
 							"text": "Barcode"
@@ -61,21 +56,22 @@ new FormModel {
 							"gridY": 1
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "barcodeTextField"
+							name: "textField1"
 						}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 							"gridX": 3
 							"gridY": 1
 						} )
 						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "saveFileButton"
+							name: "button1"
 							"text": "Save"
 						}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 							"gridX": 3
-							"gridY": 5
+							"gridY": 3
 							"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 						} )
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "right"
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridX": 1
+						"gridY": 3
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "right"

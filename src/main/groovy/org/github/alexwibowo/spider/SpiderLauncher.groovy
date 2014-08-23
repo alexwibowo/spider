@@ -1,10 +1,8 @@
 package org.github.alexwibowo.spider
 
-import com.jgoodies.looks.plastic.PlasticLookAndFeel
-import com.jgoodies.looks.plastic.theme.SkyBluer
 import org.github.alexwibowo.spider.gui.BarcodeSpiderMainFrame
 
-import javax.swing.SwingUtilities
+import javax.swing.*
 
 /**
  * User: alexwibowo
@@ -23,14 +21,8 @@ class SpiderLauncher {
     }
 
     void run(String[] args) {
-        configureUI()
-
-        barcodeSpiderMainFrame.show()
-    }
-
-    void configureUI() {
-        PlasticLookAndFeel.setPlasticTheme(new SkyBluer());
         barcodeSpiderMainFrame = BarcodeSpiderMainFrame.instance()
+        barcodeSpiderMainFrame.pack()
+        barcodeSpiderMainFrame.setVisible(true)
     }
-
 }
