@@ -1,4 +1,4 @@
-package org.github.alexwibowo.spider.gui
+package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel

@@ -1,6 +1,7 @@
-package org.github.alexwibowo.spider.gui
+package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.PresentationModel
+import com.jgoodies.common.collect.ArrayListModel
 
 import javax.swing.ListModel
 
@@ -13,8 +14,16 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeMainPan
         super(new BarcodeMainPanelModel())
     }
 
-    ListModel<File> getFiles() {
-        getBean().files
+    ArrayListModel<File> getFiles() {
+        getBean().getFiles()
+    }
+
+    void clearFiles() {
+        getFiles().clear()
+    }
+
+    void add(File file) {
+        getFiles().add(file)
     }
 
 }

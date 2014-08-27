@@ -6,6 +6,7 @@ package org.github.alexwibowo.spider.gui;
 
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
+import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

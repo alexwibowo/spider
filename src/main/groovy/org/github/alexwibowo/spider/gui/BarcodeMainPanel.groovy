@@ -1,7 +1,7 @@
 package org.github.alexwibowo.spider.gui
 
-import com.jgoodies.common.collect.ArrayListModel
 import groovy.io.FileType
+import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileTableModel
 
 import javax.swing.*
@@ -21,7 +21,9 @@ class BarcodeMainPanel extends MainPanel {
     @Override
     protected void bind() throws Exception {
         super.bind()
-        this.fileTable.setModel(new FileTableModel(getPM().files))
+
+        def fileTableModel = new FileTableModel(getPM().files)
+        this.fileTable.setModel(fileTableModel)
     }
 
     protected void initEventHandling() {
@@ -30,13 +32,12 @@ class BarcodeMainPanel extends MainPanel {
             @Override
             void actionPerformed(ActionEvent event) {
                 JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
                 chooser.setLocation(50, 50);
                 if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
-                    getPM().getBean().getFiles().clear()
-                    File selectedDirectory = chooser.getSelectedFile()
-                    selectedDirectory.eachFile(FileType.FILES) {
-                        getPM().getBean().getFiles().add(it)
+                    getPM().clearFiles()
+                    chooser.selectedFile.eachFile(FileType.FILES) { File file ->
+                        getPM().add(file)
                     }
                 } else {
                     System.out.println("No Selection ");
