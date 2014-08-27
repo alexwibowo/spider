@@ -3,6 +3,7 @@ package org.github.alexwibowo.spider.gui.model
 import com.jgoodies.binding.adapter.AbstractTableAdapter
 
 import javax.swing.*
+import java.text.SimpleDateFormat
 
 /**
  * User: alexwibowo
@@ -51,14 +52,15 @@ class FileTableModel extends AbstractTableAdapter<File> {
         if (this.rowCount == 0) {
             return null;
         }
-        File row = this.getRow(rowIndex)
+        def df = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss")
+        File file = this.getRow(rowIndex)
         Column column = Column.forColumnIndex(columnIndex);
         switch (column) {
             case Column.FileName:
-                return row.name
+                return file.name
             case Column.LastModifiedDate:
-                return new Date()
+                return df.format(file.lastModified())
         }
-        return row
+        return file
     }
 }
