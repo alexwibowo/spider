@@ -24,13 +24,14 @@ class BarcodeSpiderMainFrame extends JFrame{
             INSTANCE.preferredSize = new Dimension(1024,768)
             INSTANCE.maximumSize = new Dimension(1024,768)
             INSTANCE.defaultCloseOperation = EXIT_ON_CLOSE
+            INSTANCE.initializeContent()
         }
-        INSTANCE.initializeContent()
         INSTANCE
     }
 
     private void initializeContent() {
         BarcodeMainPanel mainPanel = new BarcodeMainPanel()
+        mainPanel.build()
         this.contentPane.add(mainPanel);
     }
 }

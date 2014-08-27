@@ -13,94 +13,91 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author alexwibowo
  */
-public class MainPanel extends JPanel {
-	public MainPanel() {
-		initComponents();
-	}
+public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
-	private void initComponents() {
+	protected void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		toolBar1 = new JToolBar();
+		menuToolBar = new JToolBar();
 		openFolderButton = new JButton();
-		splitPane1 = new JSplitPane();
-		scrollPane1 = new JScrollPane();
-		fileList = new JList();
-		panel1 = new JPanel();
-		image = new JLabel();
 		panel2 = new JPanel();
-		barcodeLabel = new JLabel();
-		textField1 = new JTextField();
-		button1 = new JButton();
+		fileTableContainer = new JScrollPane();
+		fileTable = new JTable();
+		controlContainer = new JPanel();
+		saveToLabel = new JLabel();
+		targetDirectoryTextField = new JTextField();
+		processButton = new JButton();
+		progressContainer = new JScrollPane();
+		progressTextArea = new JTextArea();
 
 		//======== this ========
 		setLayout(new FormLayout(
 			"default:grow",
 			"default, $lgap, fill:default:grow"));
 
-		//======== toolBar1 ========
+		//======== menuToolBar ========
 		{
-			toolBar1.setFloatable(false);
+			menuToolBar.setFloatable(false);
 
 			//---- openFolderButton ----
 			openFolderButton.setIcon(UIManager.getIcon("Tree.openIcon"));
 			openFolderButton.setBorder(new EmptyBorder(5, 5, 5, 5));
-			toolBar1.add(openFolderButton);
+			menuToolBar.add(openFolderButton);
 		}
-		add(toolBar1, CC.xy(1, 1));
+		add(menuToolBar, CC.xy(1, 1));
 
-		//======== splitPane1 ========
+		//======== panel2 ========
 		{
+			panel2.setLayout(new FormLayout(
+				"$ugap, default:grow, $ugap",
+				"fill:default, $lgap, default, $lgap, fill:pref:grow, $lgap, $nlgap"));
 
-			//======== scrollPane1 ========
+			//======== fileTableContainer ========
+			{
+				fileTableContainer.setViewportView(fileTable);
+			}
+			panel2.add(fileTableContainer, CC.xy(2, 1, CC.FILL, CC.FILL));
+
+			//======== controlContainer ========
+			{
+				controlContainer.setLayout(new FormLayout(
+					"default, $lcgap, default:grow, $lcgap, default",
+					"default"));
+
+				//---- saveToLabel ----
+				saveToLabel.setText("Save to");
+				controlContainer.add(saveToLabel, CC.xy(1, 1));
+				controlContainer.add(targetDirectoryTextField, CC.xy(3, 1));
+
+				//---- processButton ----
+				processButton.setText("Process");
+				controlContainer.add(processButton, CC.xy(5, 1));
+			}
+			panel2.add(controlContainer, CC.xy(2, 3, CC.FILL, CC.DEFAULT));
+
+			//======== progressContainer ========
 			{
 
-				//---- fileList ----
-				fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				scrollPane1.setViewportView(fileList);
+				//---- progressTextArea ----
+				progressTextArea.setRows(10);
+				progressContainer.setViewportView(progressTextArea);
 			}
-			splitPane1.setLeftComponent(scrollPane1);
-
-			//======== panel1 ========
-			{
-				panel1.setLayout(new FormLayout(
-					"default:grow",
-					"fill:default:grow, $lgap, default"));
-				panel1.add(image, CC.xy(1, 1));
-
-				//======== panel2 ========
-				{
-					panel2.setLayout(new FormLayout(
-						"default, $lcgap, default:grow",
-						"default, $lgap, default"));
-
-					//---- barcodeLabel ----
-					barcodeLabel.setText("Barcode");
-					panel2.add(barcodeLabel, CC.xy(1, 1));
-					panel2.add(textField1, CC.xy(3, 1));
-
-					//---- button1 ----
-					button1.setText("Save");
-					panel2.add(button1, CC.xy(3, 3, CC.LEFT, CC.DEFAULT));
-				}
-				panel1.add(panel2, CC.xy(1, 3));
-			}
-			splitPane1.setRightComponent(panel1);
+			panel2.add(progressContainer, CC.xy(2, 5, CC.FILL, CC.FILL));
 		}
-		add(splitPane1, CC.xy(1, 3));
+		add(panel2, CC.xy(1, 3, CC.FILL, CC.FILL));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	protected JToolBar toolBar1;
+	protected JToolBar menuToolBar;
 	protected JButton openFolderButton;
-	protected JSplitPane splitPane1;
-	protected JScrollPane scrollPane1;
-	protected JList fileList;
-	protected JPanel panel1;
-	protected JLabel image;
 	protected JPanel panel2;
-	protected JLabel barcodeLabel;
-	protected JTextField textField1;
-	protected JButton button1;
+	protected JScrollPane fileTableContainer;
+	protected JTable fileTable;
+	protected JPanel controlContainer;
+	protected JLabel saveToLabel;
+	protected JTextField targetDirectoryTextField;
+	protected JButton processButton;
+	protected JScrollPane progressContainer;
+	protected JTextArea progressTextArea;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }
