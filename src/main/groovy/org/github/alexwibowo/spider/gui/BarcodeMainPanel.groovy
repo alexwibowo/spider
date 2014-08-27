@@ -1,5 +1,6 @@
 package org.github.alexwibowo.spider.gui
 
+import com.jgoodies.binding.adapter.Bindings
 import groovy.io.FileType
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileTableModel
@@ -24,6 +25,8 @@ class BarcodeMainPanel extends MainPanel {
 
         def fileTableModel = new FileTableModel(getPM().files)
         this.fileTable.setModel(fileTableModel)
+
+        Bindings.bind(this.targetDirectoryTextField, getPM().getModel("outputLocation"))
     }
 
     protected void initEventHandling() {
@@ -39,6 +42,19 @@ class BarcodeMainPanel extends MainPanel {
                     chooser.selectedFile.eachFile(FileType.FILES) { File file ->
                         getPM().add(file)
                     }
+                } else {
+                    System.out.println("No Selection ");
+                }
+            }
+        })
+        targetDirectoryBrowseButton.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent event) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+                chooser.setLocation(50, 50);
+                if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
+                    getPM().setOutputLocation(chooser.selectedFile.absolutePath)
                 } else {
                     System.out.println("No Selection ");
                 }

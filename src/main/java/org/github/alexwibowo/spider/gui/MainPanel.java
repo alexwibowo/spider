@@ -21,11 +21,12 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		menuToolBar = new JToolBar();
 		openFolderButton = new JButton();
 		panel2 = new JPanel();
-		fileTableContainer = new JScrollPane();
-		fileTable = new JTable();
 		controlContainer = new JPanel();
 		saveToLabel = new JLabel();
 		targetDirectoryTextField = new JTextField();
+		targetDirectoryBrowseButton = new JButton();
+		fileTableContainer = new JScrollPane();
+		fileTable = new JTable();
 		processButton = new JButton();
 		progressContainer = new JScrollPane();
 		progressTextArea = new JTextArea();
@@ -50,13 +51,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		{
 			panel2.setLayout(new FormLayout(
 				"$ugap, default:grow, $ugap",
-				"fill:default, $lgap, default, $lgap, fill:pref:grow, $lgap, $nlgap"));
-
-			//======== fileTableContainer ========
-			{
-				fileTableContainer.setViewportView(fileTable);
-			}
-			panel2.add(fileTableContainer, CC.xy(2, 1, CC.FILL, CC.FILL));
+				"default, $lgap, fill:default, $lgap, default, $lgap, fill:pref:grow, $lgap, $nlgap"));
 
 			//======== controlContainer ========
 			{
@@ -69,11 +64,21 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 				controlContainer.add(saveToLabel, CC.xy(1, 1));
 				controlContainer.add(targetDirectoryTextField, CC.xy(3, 1));
 
-				//---- processButton ----
-				processButton.setText("Process");
-				controlContainer.add(processButton, CC.xy(5, 1));
+				//---- targetDirectoryBrowseButton ----
+				targetDirectoryBrowseButton.setText("Browse");
+				controlContainer.add(targetDirectoryBrowseButton, CC.xy(5, 1));
 			}
-			panel2.add(controlContainer, CC.xy(2, 3, CC.FILL, CC.DEFAULT));
+			panel2.add(controlContainer, CC.xy(2, 1, CC.FILL, CC.DEFAULT));
+
+			//======== fileTableContainer ========
+			{
+				fileTableContainer.setViewportView(fileTable);
+			}
+			panel2.add(fileTableContainer, CC.xy(2, 3, CC.FILL, CC.FILL));
+
+			//---- processButton ----
+			processButton.setText("Process");
+			panel2.add(processButton, CC.xy(2, 5, CC.LEFT, CC.DEFAULT));
 
 			//======== progressContainer ========
 			{
@@ -82,7 +87,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 				progressTextArea.setRows(10);
 				progressContainer.setViewportView(progressTextArea);
 			}
-			panel2.add(progressContainer, CC.xy(2, 5, CC.FILL, CC.FILL));
+			panel2.add(progressContainer, CC.xy(2, 7, CC.FILL, CC.FILL));
 		}
 		add(panel2, CC.xy(1, 3, CC.FILL, CC.FILL));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -92,11 +97,12 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JToolBar menuToolBar;
 	protected JButton openFolderButton;
 	protected JPanel panel2;
-	protected JScrollPane fileTableContainer;
-	protected JTable fileTable;
 	protected JPanel controlContainer;
 	protected JLabel saveToLabel;
 	protected JTextField targetDirectoryTextField;
+	protected JButton targetDirectoryBrowseButton;
+	protected JScrollPane fileTableContainer;
+	protected JTable fileTable;
 	protected JButton processButton;
 	protected JScrollPane progressContainer;
 	protected JTextArea progressTextArea;

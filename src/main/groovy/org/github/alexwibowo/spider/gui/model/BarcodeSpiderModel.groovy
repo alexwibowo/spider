@@ -6,10 +6,21 @@ import com.jgoodies.common.collect.ArrayListModel
 /**
  * User: alexwibowo
  */
-class BarcodeMainPanelModel extends Model{
+class BarcodeSpiderModel extends Model{
 
     ArrayListModel<File> files = new ArrayListModel<>()
 
+    String outputLocation
+
+    String getOutputLocation() {
+        return outputLocation
+    }
+
+    void setOutputLocation(String newValue) {
+        String oldValue = getOutputLocation()
+        this.outputLocation = newValue
+        this.firePropertyChange("outputLocation", oldValue, newValue)
+    }
 
     ArrayListModel<File> getFiles() {
         return files

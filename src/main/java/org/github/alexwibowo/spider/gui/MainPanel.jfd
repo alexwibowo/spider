@@ -23,19 +23,9 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 				"$columnSpecs": "unrelgap, default:grow, unrelgap"
-				"$rowSpecs": "fill:default, linegap, default, linegap, fill:pref:grow, linegap, narrowlinegap"
+				"$rowSpecs": "default, linegap, fill:default, linegap, default, linegap, fill:pref:grow, linegap, narrowlinegap"
 			} ) {
 				name: "panel2"
-				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-					name: "fileTableContainer"
-					add( new FormComponent( "javax.swing.JTable" ) {
-						name: "fileTable"
-					} )
-				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
-					"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
-					"gridX": 2
-				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "default, labelcompgap, default:grow, labelcompgap, default"
 					"$rowSpecs": "default"
@@ -51,15 +41,34 @@ new FormModel {
 						"gridX": 3
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "processButton"
-						"text": "Process"
+						name: "targetDirectoryBrowseButton"
+						"text": "Browse"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 5
+						"gridY": 1
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridY": 3
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 					"gridX": 2
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "fileTableContainer"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "fileTable"
+					} )
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+					"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+					"gridX": 2
+					"gridY": 3
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "processButton"
+					"text": "Process"
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"gridX": 2
+					"gridY": 5
+					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 				} )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "progressContainer"
@@ -68,7 +77,7 @@ new FormModel {
 						"rows": 10
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridY": 5
+					"gridY": 7
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 					"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 					"gridX": 2

@@ -3,15 +3,13 @@ package org.github.alexwibowo.spider.gui.model
 import com.jgoodies.binding.PresentationModel
 import com.jgoodies.common.collect.ArrayListModel
 
-import javax.swing.ListModel
-
 /**
  * User: alexwibowo
  */
-class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeMainPanelModel>{
+class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderModel>{
 
     BarcodeMainPanelPresentationModel() {
-        super(new BarcodeMainPanelModel())
+        super(new BarcodeSpiderModel())
     }
 
     ArrayListModel<File> getFiles() {
@@ -24,6 +22,11 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeMainPan
 
     void add(File file) {
         getFiles().add(file)
+    }
+
+    void setOutputLocation(String directory) {
+        getBean().setOutputLocation(directory)
+
     }
 
 }
