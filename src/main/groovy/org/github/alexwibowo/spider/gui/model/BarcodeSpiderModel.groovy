@@ -8,7 +8,7 @@ import com.jgoodies.common.collect.ArrayListModel
  */
 class BarcodeSpiderModel extends Model{
 
-    ArrayListModel<File> files = new ArrayListModel<>()
+    ArrayListModel<FileEntry> files = new ArrayListModel<>()
 
     String outputLocation
 
@@ -22,12 +22,12 @@ class BarcodeSpiderModel extends Model{
         this.firePropertyChange("outputLocation", oldValue, newValue)
     }
 
-    ArrayListModel<File> getFiles() {
+    ArrayListModel<FileEntry> getFiles() {
         return files
     }
 
-    void setFiles(ArrayListModel<File> newValue) {
-        ArrayListModel<File> oldValue = getFiles()
+    void setFiles(ArrayListModel<FileEntry> newValue) {
+        ArrayListModel<FileEntry> oldValue = getFiles()
         this.files = newValue
         this.firePropertyChange("files", oldValue, newValue)
     }

@@ -12,7 +12,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         super(new BarcodeSpiderModel())
     }
 
-    ArrayListModel<File> getFiles() {
+    ArrayListModel<FileEntry> getFiles() {
         getBean().getFiles()
     }
 
@@ -21,7 +21,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     }
 
     void add(File file) {
-        getFiles().add(file)
+        getFiles().add(new FileEntry(file))
     }
 
     void setOutputLocation(String directory) {

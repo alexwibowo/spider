@@ -8,15 +8,16 @@ import java.text.SimpleDateFormat
 /**
  * User: alexwibowo
  */
-class FileTableModel extends AbstractTableAdapter<File> {
+class FileTableModel extends AbstractTableAdapter<FileEntry> {
 
-    FileTableModel(ListModel<File> listModel) {
+    FileTableModel(ListModel<FileEntry> listModel) {
         super(listModel)
     }
 
     protected enum Column {
         FileName("File Name", 0),
         LastModifiedDate("Last Modified", 1),
+        Status("Status", 2),
 
         final String display;
         final int columnIndex;
@@ -32,7 +33,7 @@ class FileTableModel extends AbstractTableAdapter<File> {
                     return column;
                 }
             }
-            throw new RuntimeException("Unknown column index for PositionKeeperTableModel " + columnIndex);
+            throw new RuntimeException("Unknown column index for  " + columnIndex);
         }
     }
 
@@ -53,13 +54,17 @@ class FileTableModel extends AbstractTableAdapter<File> {
             return null;
         }
         def df = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss")
-        File file = this.getRow(rowIndex)
+
+        FileEntry fileEntry = this.getRow(rowIndex)
+        File file = fileEntry.file
         Column column = Column.forColumnIndex(columnIndex);
         switch (column) {
             case Column.FileName:
                 return file.name
             case Column.LastModifiedDate:
                 return df.format(file.lastModified())
+            case Column.Status:
+                return fileEntry.status
         }
         return file
     }

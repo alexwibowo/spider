@@ -22,8 +22,6 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
-		menuToolBar = new JToolBar();
-		openFolderButton = new JButton();
 		panel2 = new JPanel();
 		simpleInternalFrame1 = new SimpleInternalFrame();
 		fileTableContainer = new JScrollPane();
@@ -37,32 +35,24 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		targetDirectoryTextField = new JTextField();
 		targetDirectoryBrowseButton = new JButton();
 		processButton = new JButton();
+		menuToolBar = new JToolBar();
+		openFolderButton = new JButton();
 
 		//======== this ========
 		setLayout(new FormLayout(
 			"default:grow",
-			"default, $lgap, fill:default:grow"));
-
-		//======== menuToolBar ========
-		{
-			menuToolBar.setFloatable(false);
-
-			//---- openFolderButton ----
-			openFolderButton.setIcon(UIManager.getIcon("Tree.openIcon"));
-			openFolderButton.setBorder(new EmptyBorder(5, 5, 5, 5));
-			menuToolBar.add(openFolderButton);
-		}
-		add(menuToolBar, CC.xy(1, 1));
+			"fill:default:grow"));
 
 		//======== panel2 ========
 		{
 			panel2.setLayout(new FormLayout(
 				"$ugap, default:grow, $ugap",
-				"fill:default:grow, $lgap, default, $lgap, $nlgap"));
+				"$nlgap, $lgap, fill:default:grow, $lgap, default, $lgap, $nlgap"));
 
 			//======== simpleInternalFrame1 ========
 			{
-				simpleInternalFrame1.setTitle("Directory Contents");
+				simpleInternalFrame1.setTitle("Source Folder");
+				simpleInternalFrame1.setToolBar(menuToolBar);
 				Container simpleInternalFrame1ContentPane = simpleInternalFrame1.getContentPane();
 				simpleInternalFrame1ContentPane.setLayout(new FormLayout(
 					"default:grow",
@@ -70,11 +60,15 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//======== fileTableContainer ========
 				{
+
+					//---- fileTable ----
+					fileTable.setRowSelectionAllowed(false);
+					fileTable.setGridColor(SystemColor.controlShadow);
 					fileTableContainer.setViewportView(fileTable);
 				}
 				simpleInternalFrame1ContentPane.add(fileTableContainer, CC.xy(1, 1));
 			}
-			panel2.add(simpleInternalFrame1, CC.xy(2, 1));
+			panel2.add(simpleInternalFrame1, CC.xy(2, 3));
 
 			//======== controlContainer ========
 			{
@@ -105,15 +99,24 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 				processButton.setText("Process");
 				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
 			}
-			panel2.add(controlContainer, CC.xy(2, 3, CC.FILL, CC.DEFAULT));
+			panel2.add(controlContainer, CC.xy(2, 5, CC.FILL, CC.DEFAULT));
 		}
-		add(panel2, CC.xy(1, 3, CC.FILL, CC.FILL));
+		add(panel2, CC.xy(1, 1, CC.FILL, CC.FILL));
+
+		//======== menuToolBar ========
+		{
+			menuToolBar.setFloatable(false);
+
+			//---- openFolderButton ----
+			openFolderButton.setIcon(UIManager.getIcon("Tree.openIcon"));
+			openFolderButton.setBorder(new EmptyBorder(5, 5, 5, 5));
+			openFolderButton.setText("Open");
+			menuToolBar.add(openFolderButton);
+		}
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	protected JToolBar menuToolBar;
-	protected JButton openFolderButton;
 	protected JPanel panel2;
 	protected SimpleInternalFrame simpleInternalFrame1;
 	protected JScrollPane fileTableContainer;
@@ -127,5 +130,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JTextField targetDirectoryTextField;
 	protected JButton targetDirectoryBrowseButton;
 	protected JButton processButton;
+	protected JToolBar menuToolBar;
+	protected JButton openFolderButton;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }
