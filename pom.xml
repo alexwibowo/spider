@@ -44,6 +44,12 @@
             <artifactId>jgoodies-common</artifactId>
             <version>1.7.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>jgoodies-uif-lite</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.jgoodies</groupId>
             <artifactId>jgoodies-binding</artifactId>
