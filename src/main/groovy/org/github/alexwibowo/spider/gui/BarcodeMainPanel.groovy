@@ -2,6 +2,7 @@ package org.github.alexwibowo.spider.gui
 
 import com.jgoodies.binding.adapter.Bindings
 import groovy.io.FileType
+import javafx.application.Application
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileTableModel
 
@@ -10,11 +11,14 @@ import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
+import java.util.concurrent.CancellationException
 
 /**
  * User: alexwibowo
  */
 class BarcodeMainPanel extends MainPanel {
+
+    ThreadLocal<SwingWorker> processTask = new ThreadLocal<>()
 
     @Override
     protected BarcodeMainPanelPresentationModel buildModel() throws Exception {
@@ -65,7 +69,7 @@ class BarcodeMainPanel extends MainPanel {
         processButton.addActionListener(new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
-                SwingWorker worker = getPM().processFiles()
+                SwingWorker<Integer, Integer> worker = getPM().processFiles()
                 worker.addPropertyChangeListener(new PropertyChangeListener() {
                     @Override
                     void propertyChange(PropertyChangeEvent event) {
@@ -79,14 +83,46 @@ class BarcodeMainPanel extends MainPanel {
                                     case SwingWorker.StateValue.PENDING:
                                         break
                                     case SwingWorker.StateValue.STARTED:
+                                        processButton.setEnabled(false)
+                                        stopButton.setEnabled(true)
                                         break
                                     case SwingWorker.StateValue.DONE:
+                                        processButton.setEnabled(true)
+                                        stopButton.setEnabled(false)
+
+                                        try {
+                                            int totalProcessedFiles = worker.get();
+                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                                    "Successfully processed ${totalProcessedFiles} files",
+                                                    "Process files",
+                                                    JOptionPane.INFORMATION_MESSAGE
+                                            );
+                                        } catch (final CancellationException ex) {
+                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                                    "Process interrupted",
+                                                    "Process files",
+                                                    JOptionPane.WARNING_MESSAGE
+                                            );
+                                        } catch (final Exception ex) {
+                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                                    "An error has occurred", "Process files",
+                                                    JOptionPane.ERROR_MESSAGE);
+                                        }
                                         break
                                 }
                                 break;
                         }
                     }
                 })
+                processTask.set(worker)
+            }
+        })
+
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                processTask.get().cancel(true)
+
             }
         })
     }

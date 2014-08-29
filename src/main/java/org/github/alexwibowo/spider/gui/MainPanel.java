@@ -36,6 +36,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		targetDirectoryTextField = new JTextField();
 		targetDirectoryBrowseButton = new JButton();
 		processButton = new JButton();
+		stopButton = new JButton();
 		menuToolBar = new JToolBar();
 		openFolderButton = new JButton();
 
@@ -78,34 +79,40 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 			//======== controlContainer ========
 			{
 				controlContainer.setLayout(new FormLayout(
-					"right:default, $lcgap, default:grow, $lcgap, default",
+					"right:default, $lcgap, center:default, $lcgap, default:grow, $lcgap, default",
 					"3*(default, $lgap), default"));
-				controlContainer.add(settingsLabel, CC.xywh(1, 1, 5, 1));
+				controlContainer.add(settingsLabel, CC.xywh(1, 1, 7, 1));
 
 				//---- referenceFileLabel ----
 				referenceFileLabel.setText("Reference File");
 				controlContainer.add(referenceFileLabel, CC.xy(1, 3));
-				controlContainer.add(referenceFileTextField, CC.xy(3, 3));
+				controlContainer.add(referenceFileTextField, CC.xywh(3, 3, 3, 1));
 
 				//---- controlFileBrowseButton ----
 				controlFileBrowseButton.setText("Browse");
 				controlFileBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
-				controlContainer.add(controlFileBrowseButton, CC.xy(5, 3));
+				controlContainer.add(controlFileBrowseButton, CC.xy(7, 3));
 
 				//---- saveToLabel ----
 				saveToLabel.setText("Save to");
 				controlContainer.add(saveToLabel, CC.xy(1, 5));
-				controlContainer.add(targetDirectoryTextField, CC.xy(3, 5));
+				controlContainer.add(targetDirectoryTextField, CC.xywh(3, 5, 3, 1));
 
 				//---- targetDirectoryBrowseButton ----
 				targetDirectoryBrowseButton.setText("Browse");
 				targetDirectoryBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
-				controlContainer.add(targetDirectoryBrowseButton, CC.xy(5, 5));
+				controlContainer.add(targetDirectoryBrowseButton, CC.xy(7, 5));
 
 				//---- processButton ----
 				processButton.setText("Process");
 				processButton.setIcon(UIManager.getIcon("Menu.arrowIcon"));
 				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
+
+				//---- stopButton ----
+				stopButton.setText("Stop");
+				stopButton.setIcon(null);
+				stopButton.setEnabled(false);
+				controlContainer.add(stopButton, CC.xy(5, 7, CC.LEFT, CC.DEFAULT));
 			}
 			panel2.add(controlContainer, CC.xy(2, 7, CC.FILL, CC.DEFAULT));
 		}
@@ -139,6 +146,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JTextField targetDirectoryTextField;
 	protected JButton targetDirectoryBrowseButton;
 	protected JButton processButton;
+	protected JButton stopButton;
 	protected JToolBar menuToolBar;
 	protected JButton openFolderButton;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables

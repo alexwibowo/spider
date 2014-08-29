@@ -40,8 +40,8 @@ class BarcodeSpiderModel extends Model{
         this.firePropertyChange("files", oldValue, newValue)
     }
 
-    SwingWorker processFiles(Closure closure) {
-        SwingWorker worker = new BarcodeProcessingTask(inputFiles: files,
+    SwingWorker<Integer,Integer> processFiles(Closure closure) {
+        SwingWorker<Integer,Integer> worker = new BarcodeProcessingTask(inputFiles: files,
                 barcodeDictionary: barcodeDictionary,
                 barcodeReader: barcodeReader,
                 callback: closure

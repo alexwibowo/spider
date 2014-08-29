@@ -6,7 +6,7 @@ import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
 import javax.swing.SwingWorker
 
 
-class BarcodeProcessingTask extends SwingWorker<Void, Integer> {
+class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
 
     List<FileEntry> inputFiles
 
@@ -16,8 +16,10 @@ class BarcodeProcessingTask extends SwingWorker<Void, Integer> {
 
     Closure callback
 
+
+
     @Override
-    protected Void doInBackground() throws Exception {
+    protected Integer doInBackground() throws Exception {
         int photoSetSequenceNumber=0
         String currentPhotoSetItemName
         int size = inputFiles.size()
@@ -44,7 +46,7 @@ class BarcodeProcessingTask extends SwingWorker<Void, Integer> {
             Thread.sleep(1000)
         }
         setProgress(100)     // make sure we reach 100% at the end
-        return Void.newInstance()
+        return size
     }
 
     @Override

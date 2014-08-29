@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <entry key="classpath1" value="../../../../../../bin/JFormDesigner5/jgoodies/jgoodies-looks-2.5.3.jar" />
+  <entry key="classpath1" value="jgoodies-looks-2.5.3.jar" />
   <entry key="sourcefolders1" value="." />
 </project>
 
