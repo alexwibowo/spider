@@ -2,6 +2,8 @@ package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel
+import org.github.alexwibowo.spider.barcode.BarcodeReader
+import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
 
 /**
  * User: alexwibowo
@@ -10,7 +12,11 @@ class BarcodeSpiderModel extends Model{
 
     ArrayListModel<FileEntry> files = new ArrayListModel<>()
 
+    BarcodeDictionary barcodeDictionary
+
     String outputLocation
+
+    BarcodeReader barcodeReader
 
     String getOutputLocation() {
         return outputLocation
@@ -30,5 +36,13 @@ class BarcodeSpiderModel extends Model{
         ArrayListModel<FileEntry> oldValue = getFiles()
         this.files = newValue
         this.firePropertyChange("files", oldValue, newValue)
+    }
+
+    void processFiles(Closure closure) {
+        new BarcodeProcessingTask(inputFiles: files,
+                barcodeDictionary: barcodeDictionary,
+                barcodeReader: barcodeReader,
+                callback: closure
+        ).execute()
     }
 }

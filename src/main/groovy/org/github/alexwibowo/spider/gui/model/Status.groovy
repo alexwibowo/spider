@@ -6,6 +6,7 @@ package org.github.alexwibowo.spider.gui.model
 public enum Status {
 
     Unprocessed,
+    Processing,
     Processed
 
 }

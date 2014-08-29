@@ -10,6 +10,8 @@ class FileEntry extends Model{
 
     Status status
 
+    String itemName
+
     FileEntry(File file) {
         this.file = file
         this.status = Status.Unprocessed
@@ -33,5 +35,19 @@ class FileEntry extends Model{
         Status oldValue = getStatus()
         this.status = newValue
         this.firePropertyChange("status", oldValue, newValue)
+    }
+
+    String getItemName() {
+        return itemName
+    }
+
+    void setItemName(String newValue) {
+        def oldValue = getItemName()
+        this.itemName = newValue
+        this.firePropertyChange("itemName", oldValue, newValue)
+    }
+
+    void renameFile() {
+        
     }
 }

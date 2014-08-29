@@ -23,8 +23,7 @@ class BarcodeMainPanel extends MainPanel {
     protected void bind() throws Exception {
         super.bind()
 
-        def fileTableModel = new FileTableModel(getPM().files)
-        this.fileTable.setModel(fileTableModel)
+        this.fileTable.setModel(getPM().fileTableModel)
 
         Bindings.bind(this.targetDirectoryTextField, getPM().getModel("outputLocation"))
     }
@@ -58,6 +57,13 @@ class BarcodeMainPanel extends MainPanel {
                 } else {
                     System.out.println("No Selection ");
                 }
+            }
+        })
+
+        processButton.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                getPM().processFiles()
             }
         })
     }
