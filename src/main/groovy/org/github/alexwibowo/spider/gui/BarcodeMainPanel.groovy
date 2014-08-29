@@ -8,6 +8,8 @@ import org.github.alexwibowo.spider.gui.model.FileTableModel
 import javax.swing.*
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
+import java.beans.PropertyChangeEvent
+import java.beans.PropertyChangeListener
 
 /**
  * User: alexwibowo
@@ -63,7 +65,28 @@ class BarcodeMainPanel extends MainPanel {
         processButton.addActionListener(new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
-                getPM().processFiles()
+                SwingWorker worker = getPM().processFiles()
+                worker.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    void propertyChange(PropertyChangeEvent event) {
+                        switch (event.getPropertyName()) {
+                            case "progress":
+                                processProgressBar.setIndeterminate(false);
+                                processProgressBar.setValue((Integer) event.getNewValue());
+                                break;
+                            case "state":
+                                switch ((SwingWorker.StateValue) event.getNewValue()) {
+                                    case SwingWorker.StateValue.PENDING:
+                                        break
+                                    case SwingWorker.StateValue.STARTED:
+                                        break
+                                    case SwingWorker.StateValue.DONE:
+                                        break
+                                }
+                                break;
+                        }
+                    }
+                })
             }
         })
     }

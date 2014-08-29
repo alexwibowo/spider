@@ -26,6 +26,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		simpleInternalFrame1 = new SimpleInternalFrame();
 		fileTableContainer = new JScrollPane();
 		fileTable = new JTable();
+		processProgressBar = new JProgressBar();
 		controlContainer = new JPanel();
 		settingsLabel = compFactory.createSeparator("Output Settings");
 		referenceFileLabel = new JLabel();
@@ -47,7 +48,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		{
 			panel2.setLayout(new FormLayout(
 				"$ugap, default:grow, $ugap",
-				"$nlgap, $lgap, fill:default:grow, $lgap, default, $lgap, $nlgap"));
+				"$nlgap, $lgap, fill:default:grow, $lgap, fill:default, $lgap, default, $lgap, $nlgap"));
 
 			//======== simpleInternalFrame1 ========
 			{
@@ -66,9 +67,13 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 					fileTable.setGridColor(SystemColor.controlShadow);
 					fileTableContainer.setViewportView(fileTable);
 				}
-				simpleInternalFrame1ContentPane.add(fileTableContainer, CC.xy(1, 1));
+				simpleInternalFrame1ContentPane.add(fileTableContainer, CC.xy(1, 1, CC.DEFAULT, CC.FILL));
 			}
-			panel2.add(simpleInternalFrame1, CC.xy(2, 3));
+			panel2.add(simpleInternalFrame1, CC.xy(2, 3, CC.FILL, CC.DEFAULT));
+
+			//---- processProgressBar ----
+			processProgressBar.setString("0");
+			panel2.add(processProgressBar, CC.xy(2, 5));
 
 			//======== controlContainer ========
 			{
@@ -84,6 +89,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- controlFileBrowseButton ----
 				controlFileBrowseButton.setText("Browse");
+				controlFileBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
 				controlContainer.add(controlFileBrowseButton, CC.xy(5, 3));
 
 				//---- saveToLabel ----
@@ -93,13 +99,15 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- targetDirectoryBrowseButton ----
 				targetDirectoryBrowseButton.setText("Browse");
+				targetDirectoryBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
 				controlContainer.add(targetDirectoryBrowseButton, CC.xy(5, 5));
 
 				//---- processButton ----
 				processButton.setText("Process");
+				processButton.setIcon(UIManager.getIcon("Menu.arrowIcon"));
 				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
 			}
-			panel2.add(controlContainer, CC.xy(2, 5, CC.FILL, CC.DEFAULT));
+			panel2.add(controlContainer, CC.xy(2, 7, CC.FILL, CC.DEFAULT));
 		}
 		add(panel2, CC.xy(1, 1, CC.FILL, CC.FILL));
 
@@ -121,6 +129,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected SimpleInternalFrame simpleInternalFrame1;
 	protected JScrollPane fileTableContainer;
 	protected JTable fileTable;
+	protected JProgressBar processProgressBar;
 	protected JPanel controlContainer;
 	protected JComponent settingsLabel;
 	protected JLabel referenceFileLabel;

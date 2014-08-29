@@ -14,7 +14,7 @@ new FormModel {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 				"$columnSpecs": "unrelgap, default:grow, unrelgap"
-				"$rowSpecs": "narrowlinegap, linegap, fill:default:grow, linegap, default, linegap, narrowlinegap"
+				"$rowSpecs": "narrowlinegap, linegap, fill:default:grow, linegap, fill:default, linegap, default, linegap, narrowlinegap"
 			} ) {
 				name: "panel2"
 				add( new FormContainer( "com.jgoodies.uif_lite.panel.SimpleInternalFrame", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
@@ -31,10 +31,20 @@ new FormModel {
 							"rowSelectionAllowed": false
 							"gridColor": sfield java.awt.SystemColor controlShadow
 						} )
-					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"gridX": 2
 					"gridY": 3
+					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				} )
+				add( new FormComponent( "javax.swing.JProgressBar" ) {
+					name: "processProgressBar"
+					"string": "0"
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"gridX": 2
+					"gridY": 5
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "right:default, labelcompgap, default:grow, labelcompgap, default"
@@ -63,6 +73,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "controlFileBrowseButton"
 						"text": "Browse"
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 5
 						"gridY": 3
@@ -82,6 +93,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "targetDirectoryBrowseButton"
 						"text": "Browse"
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 5
 						"gridY": 5
@@ -89,6 +101,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "processButton"
 						"text": "Process"
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Menu.arrowIcon" )
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 7
@@ -97,7 +110,7 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 					"gridX": 2
-					"gridY": 5
+					"gridY": 7
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
@@ -105,7 +118,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 630, 400 )
+			"size": new java.awt.Dimension( 735, 460 )
 		} )
 		add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
 			name: "menuToolBar"

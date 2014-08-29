@@ -5,6 +5,8 @@ import com.jgoodies.common.collect.ArrayListModel
 import org.github.alexwibowo.spider.barcode.BarcodeReader
 import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
 
+import javax.swing.SwingWorker
+
 /**
  * User: alexwibowo
  */
@@ -38,11 +40,13 @@ class BarcodeSpiderModel extends Model{
         this.firePropertyChange("files", oldValue, newValue)
     }
 
-    void processFiles(Closure closure) {
-        new BarcodeProcessingTask(inputFiles: files,
+    SwingWorker processFiles(Closure closure) {
+        SwingWorker worker = new BarcodeProcessingTask(inputFiles: files,
                 barcodeDictionary: barcodeDictionary,
                 barcodeReader: barcodeReader,
                 callback: closure
-        ).execute()
+        )
+        worker.execute()
+        worker
     }
 }

@@ -6,7 +6,7 @@ import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
 import javax.swing.SwingWorker
 
 
-class BarcodeProcessingTask extends SwingWorker<Void, Void> {
+class BarcodeProcessingTask extends SwingWorker<Void, Integer> {
 
     List<FileEntry> inputFiles
 
@@ -20,10 +20,10 @@ class BarcodeProcessingTask extends SwingWorker<Void, Void> {
     protected Void doInBackground() throws Exception {
         int photoSetSequenceNumber=0
         String currentPhotoSetItemName
+        int size = inputFiles.size()
         inputFiles.eachWithIndex { fileEntry, index ->
             fileEntry.setStatus(Status.Processing)
             callback.call(index)
-            Thread.sleep(2000)
             InputStream is = fileEntry.getFile().newInputStream()
             def barcode = barcodeReader.readBarcode(is)
             if (barcode != null) {
@@ -38,10 +38,19 @@ class BarcodeProcessingTask extends SwingWorker<Void, Void> {
             }
             is.close()
             fileEntry.setStatus(Status.Processed)
-            callback.call(index)
-            Thread.sleep(2000)
+            int progress = (index + 1) * 100 / size
+            setProgress(progress)
+            publish(index)
+            Thread.sleep(1000)
         }
+        setProgress(100)     // make sure we reach 100% at the end
         return Void.newInstance()
     }
 
+    @Override
+    protected void process(List<Integer> chunks) {
+        chunks.each {
+            callback.call(it)
+        }
+    }
 }
