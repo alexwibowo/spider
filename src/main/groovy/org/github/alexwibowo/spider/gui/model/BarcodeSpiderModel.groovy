@@ -3,7 +3,7 @@ package org.github.alexwibowo.spider.gui.model
 import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel
 import org.github.alexwibowo.spider.barcode.BarcodeReader
-import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
+import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 
 import javax.swing.SwingWorker
 
@@ -14,7 +14,7 @@ class BarcodeSpiderModel extends Model{
 
     ArrayListModel<FileEntry> files = new ArrayListModel<>()
 
-    BarcodeDictionary barcodeDictionary
+    ProductCatalogue barcodeDictionary
 
     String outputLocation
 

@@ -7,7 +7,6 @@ import org.github.alexwibowo.spider.BarcodeSpiderException
  */
 class BarcodeNotFoundException extends BarcodeSpiderException{
 
-
     BarcodeNotFoundException() {
         super("Unable to find barcode")
     }

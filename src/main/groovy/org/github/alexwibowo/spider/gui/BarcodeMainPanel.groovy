@@ -4,7 +4,9 @@ import com.jgoodies.binding.adapter.Bindings
 import groovy.io.FileType
 import javafx.application.Application
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
+import org.github.alexwibowo.spider.gui.model.FileEntry
 import org.github.alexwibowo.spider.gui.model.FileTableModel
+import org.github.alexwibowo.spider.gui.model.InputFilesPreProcessor
 
 import javax.swing.*
 import java.awt.event.ActionEvent
@@ -44,9 +46,17 @@ class BarcodeMainPanel extends MainPanel {
                 chooser.setLocation(50, 50);
                 if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
                     getPM().clearFiles()
+
+                    List<FileEntry> fileEntries = []
                     chooser.selectedFile.eachFile(FileType.FILES) { File file ->
-                        getPM().add(file)
+                        fileEntries << new FileEntry(file)
                     }
+
+                    def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
+                    preProcessed.each {
+                        getPM().add(it)
+                    }
+
                 } else {
                     System.out.println("No Selection ");
                 }

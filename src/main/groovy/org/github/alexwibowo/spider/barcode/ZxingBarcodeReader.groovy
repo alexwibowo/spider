@@ -1,5 +1,6 @@
 package org.github.alexwibowo.spider.barcode
 
+import com.google.common.collect.Lists
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.ChecksumException
@@ -70,7 +71,7 @@ class ZxingBarcodeReader implements BarcodeReader {
         }
 
         if (results.isEmpty()) {
-            throw new BarcodeNotFoundException()
+            Lists.newArrayList()
         } else {
             return results.text
         }

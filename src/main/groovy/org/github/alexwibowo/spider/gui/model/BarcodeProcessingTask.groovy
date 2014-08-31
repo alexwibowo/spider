@@ -1,7 +1,7 @@
 package org.github.alexwibowo.spider.gui.model
 
 import org.github.alexwibowo.spider.barcode.BarcodeReader
-import org.github.alexwibowo.spider.dictionary.BarcodeDictionary
+import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 
 import javax.swing.SwingWorker
 
@@ -12,30 +12,30 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
 
     BarcodeReader barcodeReader
 
-    BarcodeDictionary barcodeDictionary
+    ProductCatalogue barcodeDictionary
 
     Closure callback
 
-
-
     @Override
     protected Integer doInBackground() throws Exception {
-        int photoSetSequenceNumber=0
+        int photoSetSequenceNumber = 0
         String currentPhotoSetItemName
         int size = inputFiles.size()
         inputFiles.eachWithIndex { fileEntry, index ->
             fileEntry.setStatus(Status.Processing)
             callback.call(index)
             InputStream is = fileEntry.getFile().newInputStream()
-            def barcode = barcodeReader.readBarcode(is)
-            if (barcode != null) {
-                photoSetSequenceNumber=0
-                currentPhotoSetItemName = barcodeDictionary.getItemName(barcode)
-                fileEntry.itemName = currentPhotoSetItemName
-            }else{
-                photoSetSequenceNumber++
+            Collection<String> barcodes = barcodeReader.readBarcode(is)
+            if (barcodes) {
+                photoSetSequenceNumber = 0
+                currentPhotoSetItemName = findProductNameForBarcode(barcodes)
+                fileEntry.barcode = "${barcodes}"
                 fileEntry.itemName = "${currentPhotoSetItemName}-${photoSetSequenceNumber}"
-                fileEntry.renameFile()
+            } else {
+                photoSetSequenceNumber++
+                fileEntry.barcode = "N/A"
+                fileEntry.itemName = "${currentPhotoSetItemName}-${photoSetSequenceNumber}"
+//                fileEntry.renameFile()
                 // rename file using currentPhotoSetItemName & photoSet sequence number
             }
             is.close()
@@ -43,10 +43,21 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
             int progress = (index + 1) * 100 / size
             setProgress(progress)
             publish(index)
-            Thread.sleep(1000)
         }
         setProgress(100)     // make sure we reach 100% at the end
         return size
+    }
+
+
+    private String findProductNameForBarcode(Collection<String> barcodes) {
+        for (String barcode : barcodes) {
+            def productName = barcodeDictionary.getItemName(barcode)
+            if (productName) {
+                return productName
+            }
+        }
+        return "UNKNOWNPRODUCT"
+
     }
 
     @Override

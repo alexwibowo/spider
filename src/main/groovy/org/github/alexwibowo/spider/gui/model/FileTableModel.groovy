@@ -18,6 +18,8 @@ class FileTableModel extends AbstractTableAdapter<FileEntry> {
         FileName("File Name", 0),
         LastModifiedDate("Last Modified", 1),
         Status("Status", 2),
+        Barcode("Barcode", 3),
+        ProductName("Product Name", 4)
 
         final String display;
         final int columnIndex;
@@ -65,6 +67,10 @@ class FileTableModel extends AbstractTableAdapter<FileEntry> {
                 return df.format(file.lastModified())
             case Column.Status:
                 return fileEntry.status
+            case Column.Barcode:
+                return fileEntry.barcode
+            case Column.ProductName:
+                return fileEntry.itemName
         }
         return file
     }

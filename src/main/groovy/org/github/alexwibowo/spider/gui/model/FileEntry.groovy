@@ -12,6 +12,8 @@ class FileEntry extends Model{
 
     String itemName
 
+    String barcode
+
     FileEntry(File file) {
         this.file = file
         this.status = Status.Unprocessed
@@ -45,6 +47,16 @@ class FileEntry extends Model{
         def oldValue = getItemName()
         this.itemName = newValue
         this.firePropertyChange("itemName", oldValue, newValue)
+    }
+
+    String getBarcode() {
+        return barcode
+    }
+
+    void setBarcode(String newValue) {
+        def oldValue = getBarcode()
+        this.barcode = newValue
+        this.firePropertyChange("barcode", oldValue, newValue)
     }
 
     void renameFile() {

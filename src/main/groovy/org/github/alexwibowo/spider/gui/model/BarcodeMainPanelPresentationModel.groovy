@@ -33,6 +33,11 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         getFiles().add(new FileEntry(file))
     }
 
+    void add(FileEntry fileEntry) {
+        getFiles().add(fileEntry)
+    }
+
+
     void setOutputLocation(String directory) {
         getBean().setOutputLocation(directory)
     }
