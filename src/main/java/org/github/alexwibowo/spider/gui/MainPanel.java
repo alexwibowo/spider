@@ -105,7 +105,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- processButton ----
 				processButton.setText("Process");
-				processButton.setIcon(UIManager.getIcon("Menu.arrowIcon"));
+//				processButton.setIcon(UIManager.getIcon("Menu.arrowIcon"));
 				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
 
 				//---- stopButton ----

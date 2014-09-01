@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap
 /**
  * User: alexwibowo
  */
-class InMemoryProductCatalogue implements ProductCatalogue {
+class DemoProductCatalogue implements ProductCatalogue {
 
     Map<String, String> catalogue = ImmutableMap.<String, String> builder()
             .put("51651651634", "Best Printer")

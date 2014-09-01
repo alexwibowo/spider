@@ -2,11 +2,11 @@ package org.github.alexwibowo.spider.gui
 
 import com.jgoodies.binding.adapter.Bindings
 import groovy.io.FileType
-import javafx.application.Application
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileEntry
-import org.github.alexwibowo.spider.gui.model.FileTableModel
 import org.github.alexwibowo.spider.gui.model.InputFilesPreProcessor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import javax.swing.*
 import java.awt.event.ActionEvent
@@ -19,6 +19,7 @@ import java.util.concurrent.CancellationException
  * User: alexwibowo
  */
 class BarcodeMainPanel extends MainPanel {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BarcodeMainPanel.class.getName());
 
     ThreadLocal<SwingWorker> processTask = new ThreadLocal<>()
 
@@ -38,42 +39,25 @@ class BarcodeMainPanel extends MainPanel {
 
     protected void initEventHandling() {
         super.initEventHandling()
-        openFolderButton.addActionListener(new ActionListener() {
-            @Override
-            void actionPerformed(ActionEvent event) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-                chooser.setLocation(50, 50);
-                if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
-                    getPM().clearFiles()
 
-                    List<FileEntry> fileEntries = []
-                    chooser.selectedFile.eachFile(FileType.FILES) { File file ->
-                        fileEntries << new FileEntry(file)
-                    }
-
-                    def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
-                    preProcessed.each {
-                        getPM().add(it)
-                    }
-
-                } else {
-                    System.out.println("No Selection ");
-                }
+        LOGGER.debug("Initializing open folder button event handling.");
+        openFolderButton.action = new SelectFolderAction({ File selectedDirectory ->
+            LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
+            getPM().clearFiles()
+            List<FileEntry> fileEntries = []
+            selectedDirectory.eachFile(FileType.FILES) { File file ->
+                fileEntries << new FileEntry(file)
+            }
+            def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
+            preProcessed.each { FileEntry fileEntry ->
+                LOGGER.info("Adding ${fileEntry.file} as file to be processed");
+                getPM().add(fileEntry)
             }
         })
-        targetDirectoryBrowseButton.addActionListener(new ActionListener() {
-            @Override
-            void actionPerformed(ActionEvent event) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-                chooser.setLocation(50, 50);
-                if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
-                    getPM().setOutputLocation(chooser.selectedFile.absolutePath)
-                } else {
-                    System.out.println("No Selection ");
-                }
-            }
+
+        targetDirectoryBrowseButton.action = new SelectFolderAction({ File selectedDirectory ->
+            LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
+            getPM().outputLocation = selectedDirectory.absolutePath
         })
 
         processButton.addActionListener(new ActionListener() {
@@ -132,7 +116,6 @@ class BarcodeMainPanel extends MainPanel {
             @Override
             void actionPerformed(ActionEvent e) {
                 processTask.get().cancel(true)
-
             }
         })
     }
