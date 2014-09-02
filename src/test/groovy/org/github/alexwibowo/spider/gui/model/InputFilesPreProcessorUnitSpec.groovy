@@ -7,6 +7,25 @@ import spock.lang.Specification
  */
 class InputFilesPreProcessorUnitSpec extends Specification {
 
+    def "should return empty list when given empty list"() {
+        expect:
+        new InputFilesPreProcessor().preProcess([]) == []
+    }
+
+    def "should ignore file without any number in it"() {
+        given:
+        def inputFiles = [
+                new FileEntry(new File("DSCONE.jpg")),
+                new FileEntry(new File("DSCTWO.png")),
+        ]
+
+        when:
+        def preprocessed = new InputFilesPreProcessor().preProcess(inputFiles)
+
+        then:
+        assert preprocessed.isEmpty()
+    }
+
     def "should only accept jpg or png file"() {
         given:
         def inputFiles = [

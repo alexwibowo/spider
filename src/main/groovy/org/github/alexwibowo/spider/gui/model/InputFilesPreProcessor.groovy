@@ -1,5 +1,4 @@
 package org.github.alexwibowo.spider.gui.model
-
 /**
  * User: alexwibowo
  */
@@ -7,14 +6,12 @@ class InputFilesPreProcessor {
 
     List<FileEntry> preProcess(List<FileEntry> files) {
         // filter only images
+        def filenamePattern = /(.*?)(\d+)\.(jpg|png)/
         def filtered = files.findAll {
-            def lowerCase = it.file.name.toLowerCase()
-            return lowerCase.endsWith(".jpg") ||
-                    lowerCase.endsWith(".png")
+            return it.file.name =~ filenamePattern
         }
 
         // sort
-        def filenamePattern = /(.*?)(\d+)\.(jpg|png)/
         filtered.sort { a, b ->
             def matcher1 = a.file.name =~ filenamePattern
             def matcher2 = b.file.name =~ filenamePattern
