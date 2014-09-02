@@ -23,11 +23,22 @@ class ExcelBasedProductCatalogueSpec extends Specification {
     }
 
     def "should fail when given catalogue without the barcode column"() {
+        when: "reading the catalogue"
+        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-no-barcode-column.xls"))
+
+        then: "should have failed"
+        CatalogueLoadingException ex = thrown()
+        assert ex.message == "Failed to load the catalogue. Message: Row 1 has blank barcode."
 
     }
 
     def "should fail when given catalogue without the product name column"() {
+        when: "reading the catalogue"
+        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-no-product-name-column.xls"))
 
+        then: "should have failed"
+        CatalogueLoadingException ex = thrown()
+        assert ex.message == "Failed to load the catalogue. Message: Row 1 has blank product name."
     }
 
     def "should fail when given catalogue with missing barcode entry"() {
