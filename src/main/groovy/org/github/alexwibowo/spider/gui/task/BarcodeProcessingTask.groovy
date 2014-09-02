@@ -1,7 +1,9 @@
-package org.github.alexwibowo.spider.gui.model
+package org.github.alexwibowo.spider.gui.task
 
 import org.github.alexwibowo.spider.barcode.BarcodeReader
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
+import org.github.alexwibowo.spider.gui.model.FileEntry
+import org.github.alexwibowo.spider.gui.model.Status
 
 import javax.swing.SwingWorker
 

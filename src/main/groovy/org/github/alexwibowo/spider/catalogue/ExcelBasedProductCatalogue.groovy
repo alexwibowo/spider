@@ -6,8 +6,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import org.apache.poi.ss.usermodel.Cell
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class ExcelBasedProductCatalogue implements ProductCatalogue {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelBasedProductCatalogue.class.getName());
+
     public static final int BARCODE_COLUMN = 0
 
     public static final int PRODUCT_NAME_COLUMN = 1
@@ -18,7 +22,7 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
         catalogue = Collections.synchronizedMap([:])
     }
 
-    void load(InputStream is) {
+    void load(InputStream is, Closure closure = null) {
             clear()
             POIFSFileSystem fs = new POIFSFileSystem(is);
             HSSFWorkbook wb = new HSSFWorkbook(fs);
@@ -32,7 +36,13 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
                     validateRow(currentRow)
                     String barcode = readBarcode(currentRow)
                     String productName = readProductName(currentRow)
-                    addProductToCatalogue(new Product(barcode: barcode, name: productName))
+
+                    def product = new Product(barcode: barcode, name: productName)
+                    LOGGER.info("Product ${product} is loaded.");
+                    addProductToCatalogue(product)
+                    if (closure) {
+                        closure.call(product)
+                    }
                 }
             }
     }

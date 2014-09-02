@@ -4,6 +4,7 @@ import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel
 import org.github.alexwibowo.spider.barcode.BarcodeReader
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
+import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
 
 import javax.swing.SwingWorker
 

@@ -15,6 +15,15 @@ class DemoProductCatalogue implements ProductCatalogue {
             .put("77260002051", "Russel Stover")
             .build()
 
+    @Override
+    void clear() {
+        throw new UnsupportedOperationException()
+    }
+
+    @Override
+    int size() {
+        return catalogue.size()
+    }
 
     @Override
     String getItemName(String barcode) {
