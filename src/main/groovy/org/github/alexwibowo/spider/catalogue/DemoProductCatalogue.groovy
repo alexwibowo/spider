@@ -16,6 +16,12 @@ class DemoProductCatalogue implements ProductCatalogue {
             .build()
 
     @Override
+    String name() {
+        ""
+
+    }
+
+    @Override
     void clear() {
         throw new UnsupportedOperationException()
     }

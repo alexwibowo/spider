@@ -10,9 +10,36 @@ class ExcelBasedProductCatalogueSpec extends Specification {
         catalogue = new ExcelBasedProductCatalogue()
     }
 
+    private File getTestInputFile(String filename) {
+        new File(Thread.currentThread().contextClassLoader.getResource(filename).toURI())
+    }
+
+    def "should throw CatalogueLoadingException when loading corrupted excel file"() {
+        given:
+        def file = getTestInputFile("corrupted-catalogue.xls")
+
+        when: "reading corrupted catalogue"
+        catalogue.load file
+
+        then:
+        CatalogueLoadingException ex = thrown()
+        ex.message == "Failed to load the catalogue. Message: Error encountered while reading [${file.absolutePath}]."
+    }
+
+    def "should return absolute file path as the catalogue name"() {
+        given:
+        def inputFile = getTestInputFile("catalogue.xls")
+        when: "reading the catalogue"
+        catalogue.load inputFile
+
+        then: "catalogue should have all the entries"
+        assert catalogue.name() == inputFile.absolutePath
+
+    }
+
     def "should be able to read the catalogue in XLS format"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue.xls"))
+        catalogue.load getTestInputFile("catalogue.xls")
 
         then: "catalogue should have all the entries"
         assert catalogue.size() == 3
@@ -24,7 +51,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should fail when given catalogue without the barcode column"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-no-barcode-column.xls"))
+        catalogue.load getTestInputFile("catalogue-with-no-barcode-column.xls")
 
         then: "should have failed"
         CatalogueLoadingException ex = thrown()
@@ -34,7 +61,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should fail when given catalogue without the product name column"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-no-product-name-column.xls"))
+        catalogue.load getTestInputFile("catalogue-with-no-product-name-column.xls")
 
         then: "should have failed"
         CatalogueLoadingException ex = thrown()
@@ -43,7 +70,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should fail when given catalogue with missing barcode entry"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-missing-barcode.xls"))
+        catalogue.load getTestInputFile("catalogue-with-missing-barcode.xls")
 
         then: "should have failed"
         CatalogueLoadingException ex = thrown()
@@ -53,7 +80,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should fail when given catalogue with missing product name entry"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-missing-product-name.xls"))
+        catalogue.load getTestInputFile("catalogue-with-missing-product-name.xls")
 
         then: "should have failed"
         CatalogueLoadingException ex = thrown()
@@ -62,7 +89,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should fail when given catalogue with duplicated barcode"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue-with-non-unique-barcode.xls"))
+        catalogue.load getTestInputFile("catalogue-with-non-unique-barcode.xls")
 
         then: "should have failed"
         CatalogueLoadingException ex = thrown()
@@ -71,7 +98,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should be able to find a specific product in the catalogue"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue.xls"))
+        catalogue.load getTestInputFile("catalogue.xls")
 
         then: "catalogue should have all the entries"
         assert catalogue.getItemName("4905524449563") == "Special Toaster"
@@ -79,7 +106,7 @@ class ExcelBasedProductCatalogueSpec extends Specification {
 
     def "should return null when unable to find product in the catalogue"() {
         when: "reading the catalogue"
-        catalogue.load(Thread.currentThread().contextClassLoader.getResourceAsStream("catalogue.xls"))
+        catalogue.load getTestInputFile("catalogue.xls")
 
         then: "catalogue should have all the entries"
         assert catalogue.getItemName("AAAAAA") == null

@@ -19,7 +19,7 @@ class BarcodeSpiderModel extends Model{
 
     ProductCatalogue productCatalogue
 
-    String productCatalogueFileLocation
+    String productCatalogueFileLocation  //TODO: dont quite like this
 
     String outputLocation
 

@@ -20,19 +20,12 @@ class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue
     @Override
     protected ProductCatalogue doInBackground() throws Exception {
         def catalogue = new ExcelBasedProductCatalogue()
-        def stream = new FileInputStream(sourceFile)
         LOGGER.info("About to load catalogue from [${sourceFile.absolutePath}");
-        try {
-            catalogue.load(stream) { Product product ->
-                publish(product)
-            }
-            LOGGER.info("Finished reading catalogue from [${sourceFile.absolutePath}]");
-            return catalogue
-        } finally {
-            if (stream) {
-                closeQuietly(stream)
-            }
+        catalogue.load(sourceFile) { Product product ->
+            publish(product)
         }
+        LOGGER.info("Finished reading catalogue from [${sourceFile.absolutePath}]");
+        return catalogue
     }
 
     @Override

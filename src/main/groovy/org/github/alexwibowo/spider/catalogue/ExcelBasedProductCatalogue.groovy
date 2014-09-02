@@ -1,5 +1,6 @@
 package org.github.alexwibowo.spider.catalogue
 
+import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.StringUtils
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFSheet
@@ -18,32 +19,43 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
 
     private final Map<String, Product> catalogue
 
+    private String name
+
     ExcelBasedProductCatalogue() {
         catalogue = Collections.synchronizedMap([:])
     }
 
-    void load(InputStream is, Closure closure = null) {
+    void load(File file, Closure closure = null) {
             clear()
-            POIFSFileSystem fs = new POIFSFileSystem(is);
-            HSSFWorkbook wb = new HSSFWorkbook(fs);
-            HSSFSheet sheet = wb.getSheetAt(0);
+            this.name = file.getAbsolutePath()
+            def is = file.newInputStream()
+            try {
+                POIFSFileSystem fs = new POIFSFileSystem(is);
+                HSSFWorkbook wb = new HSSFWorkbook(fs);
+                HSSFSheet sheet = wb.getSheetAt(0);
 
-            int numberOfRows = sheet.getPhysicalNumberOfRows();
+                int numberOfRows = sheet.getPhysicalNumberOfRows();
 
-            for (int rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
-                HSSFRow currentRow = sheet.getRow(rowIndex);
-                if (currentRow != null) {
-                    validateRow(currentRow)
-                    String barcode = readBarcode(currentRow)
-                    String productName = readProductName(currentRow)
+                for (int rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
+                    HSSFRow currentRow = sheet.getRow(rowIndex);
+                    if (currentRow != null) {
+                        validateRow(currentRow)
+                        String barcode = readBarcode(currentRow)
+                        String productName = readProductName(currentRow)
 
-                    def product = new Product(barcode: barcode, name: productName)
-                    LOGGER.info("Product ${product} is loaded.");
-                    addProductToCatalogue(product)
-                    if (closure) {
-                        closure.call(product)
+                        def product = new Product(barcode: barcode, name: productName)
+                        LOGGER.info("Product ${product} is loaded.");
+                        addProductToCatalogue(product)
+                        if (closure) {
+                            closure.call(product)
+                        }
                     }
                 }
+            } catch (IOException ex) {
+              LOGGER.error("Failed to read file", ex);
+              throw new CatalogueLoadingException("Error encountered while reading [${file}].", ex)
+            } finally{
+                IOUtils.closeQuietly(is)
             }
     }
 
@@ -80,6 +92,11 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
             throw new NonUniqueProductException(product.barcode)
         }
         catalogue[product.barcode] = product
+    }
+
+    @Override
+    String name() {
+        name
     }
 
     void clear() {
