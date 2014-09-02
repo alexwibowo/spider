@@ -2,6 +2,8 @@ package org.github.alexwibowo.spider.gui
 
 import com.jgoodies.binding.adapter.Bindings
 import groovy.io.FileType
+import org.github.alexwibowo.spider.catalogue.Product
+import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileEntry
 import org.github.alexwibowo.spider.gui.model.InputFilesPreProcessor
@@ -34,6 +36,7 @@ class BarcodeMainPanel extends MainPanel {
 
         this.fileTable.setModel(getPM().fileTableModel)
 
+        Bindings.bind(this.referenceFileTextField, getPM().getModel("productCatalogueFileLocation"))
         Bindings.bind(this.targetDirectoryTextField, getPM().getModel("outputLocation"))
     }
 
@@ -53,6 +56,37 @@ class BarcodeMainPanel extends MainPanel {
                 LOGGER.info("Adding ${fileEntry.file} as file to be processed");
                 getPM().add(fileEntry)
             }
+        })
+
+        controlFileBrowseButton.action = new SelectFileAction({ File selectedFile ->
+            LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
+            SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
+            worker.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                void propertyChange(PropertyChangeEvent event) {
+                    switch (event.getPropertyName()) {
+                        case "progress":
+                            break;
+                        case "state":
+                            switch ((SwingWorker.StateValue) event.getNewValue()) {
+                                case SwingWorker.StateValue.PENDING:
+                                    break
+                                case SwingWorker.StateValue.STARTED:
+                                    break;
+                                case SwingWorker.StateValue.DONE:
+                                    ProductCatalogue productCatalogue = worker.get();
+                                    getPM().getBean().setProductCatalogue(productCatalogue)
+                                    getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
+                                    JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                            "Successfully loaded catalogue ${selectedFile}.",
+                                            "Catalogue loaded",
+                                            JOptionPane.INFORMATION_MESSAGE
+                                    );
+                                    break;
+                            }
+                    }
+                }
+            })
         })
 
         targetDirectoryBrowseButton.action = new SelectFolderAction({ File selectedDirectory ->

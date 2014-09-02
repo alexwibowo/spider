@@ -8,11 +8,12 @@ import javax.swing.JFileChooser
 import java.awt.event.ActionEvent
 
 
-class SelectFolderAction extends AbstractAction {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SelectFolderAction.class.getName());
+class SelectFileAction extends AbstractAction{
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectFileAction.class.getName());
+
     Closure closure
 
-    SelectFolderAction(Closure closure) {
+    SelectFileAction(Closure closure) {
         super("Open")
         this.closure = closure
     }
@@ -20,12 +21,13 @@ class SelectFolderAction extends AbstractAction {
     @Override
     void actionPerformed(ActionEvent e) {
         JFileChooser chooser = new JFileChooser();
-        chooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+        chooser.fileSelectionMode = JFileChooser.FILES_ONLY
         chooser.setLocation(50, 50);
         if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
             closure.call(chooser.selectedFile)
         } else {
-            LOGGER.info("No folder was selected");
+            LOGGER.info("No file was selected");
         }
+
     }
 }

@@ -3,6 +3,8 @@ package org.github.alexwibowo.spider.gui.model
 import com.jgoodies.binding.PresentationModel
 import com.jgoodies.common.collect.ArrayListModel
 import org.github.alexwibowo.spider.ApplicationContext
+import org.github.alexwibowo.spider.catalogue.Product
+import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 
 import javax.swing.SwingWorker
 
@@ -16,7 +18,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     BarcodeMainPanelPresentationModel() {
         super(new BarcodeSpiderModel(
                 barcodeReader: ApplicationContext.instance().barcodeReader,
-                barcodeDictionary: ApplicationContext.instance().barcodeDictionary
+                productCatalogue: ApplicationContext.instance().barcodeDictionary
         ))
         fileTableModel = new FileTableModel(getFiles())
     }
@@ -45,6 +47,12 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     SwingWorker<Integer,Integer> processFiles() {
         getBean().processFiles() { index ->
             fileTableModel.fireTableRowsUpdated(index, index)
+        }
+    }
+
+    SwingWorker<ProductCatalogue, Product> loadCatalogue(File file) {
+        getBean().loadCatalogue(file) { Product loadedProduct ->
+
         }
     }
 
