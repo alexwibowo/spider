@@ -2,6 +2,7 @@ package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel
+import org.github.alexwibowo.spider.BarcodeSpiderException
 import org.github.alexwibowo.spider.barcode.BarcodeReader
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
@@ -21,7 +22,7 @@ class BarcodeSpiderModel extends Model{
 
     String productCatalogueFileLocation  //TODO: dont quite like this
 
-    String outputLocation
+    File outputLocation
 
     BarcodeReader barcodeReader
 
@@ -45,14 +46,29 @@ class BarcodeSpiderModel extends Model{
         this.firePropertyChange("productCatalogue", oldValue, newValue)
     }
 
-    String getOutputLocation() {
+    File getOutputLocation() {
         return outputLocation
     }
 
     void setOutputLocation(String newValue) {
         String oldValue = getOutputLocation()
-        this.outputLocation = newValue
+        File outputDirectory = new File(newValue)
+        validateOutputDirectory(outputDirectory)
+        this.outputLocation = outputDirectory
         this.firePropertyChange("outputLocation", oldValue, newValue)
+    }
+
+    // TODO: maybe do this using JGoodies validation...
+    void validateOutputDirectory(File directory) {
+        if (!directory.isDirectory()) {
+            throw new BarcodeSpiderException("Target directory must be a directory")
+        }
+        if (!directory.exists()) {
+            throw new BarcodeSpiderException("Target directory must exists")
+        }
+        if (!directory.canWrite()) {
+            throw new BarcodeSpiderException("Target directory must be writeable")
+        }
     }
 
     ArrayListModel<FileEntry> getFiles() {
@@ -66,7 +82,9 @@ class BarcodeSpiderModel extends Model{
     }
 
     SwingWorker<Integer,Integer> processFiles(Closure closure) {
-        SwingWorker<Integer,Integer> worker = new BarcodeProcessingTask(inputFiles: files,
+        SwingWorker<Integer,Integer> worker = new BarcodeProcessingTask(
+                inputFiles: files,
+                outputLocation: outputLocation,
                 barcodeDictionary: productCatalogue,
                 barcodeReader: barcodeReader,
                 callback: closure

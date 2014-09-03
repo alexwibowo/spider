@@ -1,6 +1,9 @@
 package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.beans.Model
+import org.apache.commons.io.FileUtils
+import org.apache.commons.io.FilenameUtils
+import org.apache.commons.io.IOUtils
 
 /**
  * User: alexwibowo
@@ -59,7 +62,10 @@ class FileEntry extends Model{
         this.firePropertyChange("barcode", oldValue, newValue)
     }
 
-    void renameFile() {
-        
+    void copyTo(File targetDirectory) {
+        def sourceFileExtension = FilenameUtils.getExtension(file.getName())
+        def targetFileExtension = sourceFileExtension ? ".${sourceFileExtension}" : ""
+        String targetFileName  = "${targetDirectory.absolutePath}${File.separator}${itemName}${targetFileExtension}"
+        FileUtils.copyFile(file, new File(targetFileName))
     }
 }

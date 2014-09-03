@@ -12,6 +12,8 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
 
     List<FileEntry> inputFiles
 
+    File outputLocation
+
     BarcodeReader barcodeReader
 
     ProductCatalogue barcodeDictionary
@@ -37,9 +39,8 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
                 photoSetSequenceNumber++
                 fileEntry.barcode = "N/A"
                 fileEntry.itemName = "${currentPhotoSetItemName}-${photoSetSequenceNumber}"
-//                fileEntry.renameFile()
-                // rename file using currentPhotoSetItemName & photoSet sequence number
             }
+            fileEntry.copyTo(outputLocation)
             is.close()
             fileEntry.setStatus(Status.Processed)
             int progress = (index + 1) * 100 / size
