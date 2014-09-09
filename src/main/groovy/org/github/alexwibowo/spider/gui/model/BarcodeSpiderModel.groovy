@@ -26,6 +26,18 @@ class BarcodeSpiderModel extends Model{
 
     BarcodeReader barcodeReader
 
+    String systemMessage = "Idle"
+
+    String getSystemMessage() {
+        return systemMessage
+    }
+
+    void setSystemMessage(String newValue) {
+        String oldValue = getSystemMessage()
+        this.systemMessage = newValue
+        this.firePropertyChange("systemMessage", oldValue, newValue)
+    }
+
     ProductCatalogue getProductCatalogue() {
         return productCatalogue
     }

@@ -52,7 +52,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
 
     SwingWorker<ProductCatalogue, Product> loadCatalogue(File file) {
         getBean().loadCatalogue(file) { Product loadedProduct ->
-
+           getBean().setSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
         }
     }
 

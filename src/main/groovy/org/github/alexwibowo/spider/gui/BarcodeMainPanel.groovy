@@ -6,11 +6,17 @@ import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileEntry
+import org.github.alexwibowo.spider.gui.model.FileTableModel
 import org.github.alexwibowo.spider.gui.model.InputFilesPreProcessor
+import org.github.alexwibowo.spider.gui.model.Status
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import javax.swing.*
+import javax.swing.table.DefaultTableCellRenderer
+import javax.swing.table.TableColumnModel
+import java.awt.Color
+import java.awt.Component
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.beans.PropertyChangeEvent
@@ -31,13 +37,50 @@ class BarcodeMainPanel extends MainPanel {
     }
 
     @Override
+    protected void initComponents() {
+        super.initComponents()
+
+
+    }
+
+    public static class FileEntryTabelRowRenderer extends DefaultTableCellRenderer {
+        FileTableModel fileTableModel
+
+        FileEntryTabelRowRenderer() {
+            setOpaque(true); //MUST do this for background to show up.
+        }
+
+        @Override
+        Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            FileEntry fileEntry = fileTableModel.getRow(row)
+            if (fileEntry.status == Status.Unprocessed) {
+                c.setBackground(Color.WHITE);
+            } else if (fileEntry.status == Status.Processing) {
+                c.setBackground(Color.ORANGE);
+            } else if (fileEntry.status == Status.Processed) {
+                c.setBackground(Color.GREEN);
+            }
+            return c;
+        }
+    }
+
+    @Override
     protected void bind() throws Exception {
         super.bind()
 
         this.fileTable.setModel(getPM().fileTableModel)
 
-        Bindings.bind(this.referenceFileTextField, getPM().getModel("productCatalogueFileLocation"))
-        Bindings.bind(this.targetDirectoryTextField, getPM().getModel("outputLocation"))
+        TableColumnModel columnModel = this.fileTable.getColumnModel()
+        columnModel.getColumn(0).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(1).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(2).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(3).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(4).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+
+        Bindings.bind(this.catalogueFileValueLabel, getPM().getModel("productCatalogueFileLocation"))
+        Bindings.bind(this.targetDirectoryValueLabel, getPM().getModel("outputLocation"))
+        Bindings.bind(this.statusLabel, getPM().getModel("systemMessage"))
     }
 
     protected void initEventHandling() {
@@ -77,8 +120,9 @@ class BarcodeMainPanel extends MainPanel {
                                     ProductCatalogue productCatalogue = worker.get();
                                     getPM().getBean().setProductCatalogue(productCatalogue)
                                     getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
+                                    getPM().getBean().setSystemMessage("Loaded ${productCatalogue.size()} products.")
                                     JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
-                                            "Successfully loaded catalogue ${selectedFile}.",
+                                            "Successfully loaded ${productCatalogue.size()} products from catalogue ${selectedFile}.",
                                             "Catalogue loaded",
                                             JOptionPane.INFORMATION_MESSAGE
                                     );

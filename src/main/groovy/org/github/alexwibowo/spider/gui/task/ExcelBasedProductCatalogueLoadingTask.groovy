@@ -24,6 +24,7 @@ class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue
         catalogue.load(sourceFile) { Product product ->
             publish(product)
         }
+        setProgress(100)     // make sure we reach 100% at the end
         LOGGER.info("Finished reading catalogue from [${sourceFile.absolutePath}]");
         return catalogue
     }

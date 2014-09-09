@@ -13,17 +13,29 @@ new FormModel {
 		} ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-				"$columnSpecs": "unrelgap, default:grow, unrelgap"
-				"$rowSpecs": "narrowlinegap, linegap, fill:default:grow, linegap, fill:default, linegap, default, linegap, narrowlinegap"
+				"$columnSpecs": "labelcompgap, default:grow, labelcompgap"
+				"$rowSpecs": "narrowlinegap, linegap, default, linegap, fill:default:grow, linegap, fill:default, linegap, default, linegap, narrowlinegap, fill:default"
 			} ) {
 				name: "panel2"
+				add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+					name: "toolBar1"
+					"floatable": false
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "openFolderButton"
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
+						"border": new javax.swing.border.EmptyBorder( 5, 5, 5, 5 )
+						"text": "Open"
+					} )
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"gridX": 2
+					"gridY": 3
+				} )
 				add( new FormContainer( "com.jgoodies.uif_lite.panel.SimpleInternalFrame", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "default:grow"
 					"$rowSpecs": "fill:default:grow"
 				} ) {
 					name: "simpleInternalFrame1"
 					"title": "Source Folder"
-					"toolBar": new FormReference( "menuToolBar" )
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "fileTableContainer"
 						add( new FormComponent( "javax.swing.JTable" ) {
@@ -36,7 +48,7 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"gridX": 2
-					"gridY": 3
+					"gridY": 5
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 				} )
 				add( new FormComponent( "javax.swing.JProgressBar" ) {
@@ -44,7 +56,7 @@ new FormModel {
 					"string": "0"
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"gridX": 2
-					"gridY": 5
+					"gridY": 7
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "right:default, labelcompgap, center:default, labelcompgap, default:grow, labelcompgap, default"
@@ -58,14 +70,13 @@ new FormModel {
 						"gridWidth": 7
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "referenceFileLabel"
-						"text": "Reference File"
+						name: "catalogueFileLabel"
+						"text": "Catalogue File"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridX": 1
 						"gridY": 3
 					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "referenceFileTextField"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "catalogueFileValueLabel"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 3
@@ -80,13 +91,13 @@ new FormModel {
 						"gridY": 3
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "saveToLabel"
+						name: "targetDirectoryLabel"
 						"text": "Save to"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridY": 5
 					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "targetDirectoryTextField"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "targetDirectoryValueLabel"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 5
@@ -122,7 +133,26 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 					"gridX": 2
-					"gridY": 7
+					"gridY": 9
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
+					"$columnSpecs": "default:grow"
+					"$rowSpecs": "fill:default:grow"
+				} ) {
+					name: "statusPanel"
+					"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "statusLabel"
+						"foreground": sfield java.awt.Color darkGray
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridX": 1
+						"gridY": 1
+						"vAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+					} )
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"gridY": 12
+					"gridWidth": 3
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
@@ -131,19 +161,6 @@ new FormModel {
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 735, 460 )
-		} )
-		add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-			name: "menuToolBar"
-			"floatable": false
-			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "openFolderButton"
-				"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
-				"border": new javax.swing.border.EmptyBorder( 5, 5, 5, 5 )
-				"text": "Open"
-			} )
-		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 575, 105 )
-			"size": new java.awt.Dimension( 630, 30 )
 		} )
 	}
 }

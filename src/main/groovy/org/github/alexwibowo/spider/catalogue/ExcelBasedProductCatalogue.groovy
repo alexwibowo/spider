@@ -69,7 +69,7 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
 
     private String readBarcode(HSSFRow currentRow) {
         if (currentRow.getCell(BARCODE_COLUMN).cellType != Cell.CELL_TYPE_STRING) {
-            throw new CatalogueLoadingException("One or more barcode is not in textual format.")
+            throw new CatalogueLoadingException("Row ${currentRow.rowNum + 1} doesnt have barcode is textual format.")
         }
         String barcode = currentRow.getCell(BARCODE_COLUMN).toString()
         if (StringUtils.isBlank(barcode)) {
