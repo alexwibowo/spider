@@ -104,7 +104,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- controlFileBrowseButton ----
 				controlFileBrowseButton.setText("Browse");
-				controlFileBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
+				controlFileBrowseButton.setIcon(null);
 				controlContainer.add(controlFileBrowseButton, CC.xy(7, 3));
 
 				//---- targetDirectoryLabel ----
@@ -114,12 +114,12 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- targetDirectoryBrowseButton ----
 				targetDirectoryBrowseButton.setText("Browse");
-				targetDirectoryBrowseButton.setIcon(UIManager.getIcon("Tree.openIcon"));
+				targetDirectoryBrowseButton.setIcon(null);
 				controlContainer.add(targetDirectoryBrowseButton, CC.xy(7, 5));
 
 				//---- processButton ----
 				processButton.setText("Process");
-				processButton.setIcon(UIManager.getIcon("Menu.arrowIcon"));
+				processButton.setIcon(null);
 				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
 
 				//---- stopButton ----

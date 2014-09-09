@@ -1,11 +1,15 @@
 package org.github.alexwibowo.spider
 
+import apple.laf.AquaLookAndFeel
 import com.jgoodies.looks.LookUtils
+import com.jgoodies.looks.Options
 import com.jgoodies.looks.plastic.PlasticLookAndFeel
+import com.jgoodies.looks.plastic.theme.DesertBlue
 import com.jgoodies.looks.plastic.theme.SkyBluer
 import org.github.alexwibowo.spider.gui.BarcodeSpiderMainFrame
 
 import javax.swing.*
+import java.awt.Dimension
 
 /**
  * User: alexwibowo
@@ -32,24 +36,24 @@ class SpiderLauncher {
     }
 
     public void configureUI() {
+        System.setProperty("jgoodies.looks", "true");
 
-        if (!System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-            return;
-        }
-        System.setProperty("Windows.controlFont", "Tahoma-plain-11");
-        System.setProperty("Windows.menuFont", "Tahoma-plain-11");
-        System.setProperty("Plastic.controlFont", "Tahoma-plain-11");
-        System.setProperty("Plastic.menuFont", "Tahoma-plain-11");
+        UIManager.put(Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE);
+        PlasticLookAndFeel.setPlasticTheme(new SkyBluer());
 
-        try {
-            PlasticLookAndFeel.setPlasticTheme(new SkyBluer());
-        } catch (Exception e) {
-        }
+        Options.setUseNarrowButtons(false);
+        Options.setDefaultIconSize(new Dimension(18, 18));
+        Options.setPopupDropShadowEnabled(true);
+        Options.setTabIconsEnabled(false); // bug in 1.3.0 looks (false is true!)
+        ToolTipManager.sharedInstance().setInitialDelay(200);
+        ToolTipManager.sharedInstance().setDismissDelay(20000);
+
 
         UIManager.put("ClassLoader", LookUtils.class.getClassLoader());
         try {
             UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
         } catch (Exception e) {
         }
+
     }
 }

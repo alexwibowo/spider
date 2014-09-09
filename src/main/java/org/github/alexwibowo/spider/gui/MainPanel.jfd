@@ -85,7 +85,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "controlFileBrowseButton"
 						"text": "Browse"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
+						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 7
 						"gridY": 3
@@ -106,7 +106,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "targetDirectoryBrowseButton"
 						"text": "Browse"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
+						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 7
 						"gridY": 5
@@ -114,7 +114,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "processButton"
 						"text": "Process"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Menu.arrowIcon" )
+						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 7

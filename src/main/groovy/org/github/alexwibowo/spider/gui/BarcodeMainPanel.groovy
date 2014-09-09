@@ -36,13 +36,6 @@ class BarcodeMainPanel extends MainPanel {
         new BarcodeMainPanelPresentationModel()
     }
 
-    @Override
-    protected void initComponents() {
-        super.initComponents()
-
-
-    }
-
     public static class FileEntryTabelRowRenderer extends DefaultTableCellRenderer {
         FileTableModel fileTableModel
 
