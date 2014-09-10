@@ -4,6 +4,7 @@ import com.jgoodies.binding.adapter.Bindings
 import com.jgoodies.validation.ValidationResult
 import com.jgoodies.validation.view.ValidationComponentUtils
 import groovy.io.FileType
+import org.github.alexwibowo.spider.BarcodeSpiderException
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
@@ -110,7 +111,7 @@ class BarcodeMainPanel extends MainPanel {
                 fileEntries << new FileEntry(file)
             }
             def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
-            getPM().getBean().setFiles(preProcessed)
+            getPM().setFiles(preProcessed)
         })
 
         controlFileBrowseButton.action = new SelectFileAction({ File selectedFile ->
@@ -148,7 +149,12 @@ class BarcodeMainPanel extends MainPanel {
 
         targetDirectoryBrowseButton.action = new SelectFolderAction("Select", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
-            getPM().outputLocation = selectedDirectory.absolutePath
+            try {
+                getPM().outputLocation = selectedDirectory.absolutePath
+            } catch (BarcodeSpiderException e) {
+                JOptionPane.showMessageDialog(BarcodeSpiderMainFrame.instance(),
+                        e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         })
 
         processButton.addActionListener(new ActionListener() {

@@ -35,7 +35,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
     public static final String PROPERTYNAME_SYSTEM_MESSAGE ="systemMessage"
     String systemMessage = "Idle"
 
-    public static final List<String> VALIDATEABLE_PROPERTIES = [PROPERTYNAME_FILES, PROPERTYNAME_PRODUCT_CATALOGUE, PROPERTYNAME_OUTPUT_LOCATION]
+    public static final List<String> VALIDATEABLE_PROPERTIES = [PROPERTYNAME_PRODUCT_CATALOGUE, PROPERTYNAME_OUTPUT_LOCATION]
 
     String getSystemMessage() {
         return systemMessage
@@ -96,21 +96,10 @@ class BarcodeSpiderModel extends Model implements Validatable {
         return files
     }
 
-    void setFiles(ArrayListModel<FileEntry> newValue) {
-        ArrayListModel<FileEntry> oldValue = getFiles()
-        this.files = newValue
-        this.firePropertyChange(PROPERTYNAME_FILES, oldValue, newValue)
-    }
-
     void setFiles(List<FileEntry> newValue) {
         newValue.each { FileEntry fileEntry ->
-           files.add(fileEntry)
+            files.add(fileEntry)
         }
-
-        //TODO: yuck. Not sure how else to do this.. have to pass in null as old value, to force
-        // property change.  We can not just replace 'files' attribute, as it is used by FileTableModel.
-        // but maybe we can fireDataChange on it... hmmmm...
-        this.firePropertyChange(PROPERTYNAME_FILES, null, files)
     }
 
     SwingWorker<Integer, Integer> processFiles(Closure closure) {

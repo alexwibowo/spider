@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFSheet
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import org.apache.poi.ss.usermodel.Cell
 import org.slf4j.Logger
@@ -53,10 +54,10 @@ class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
                         }
                     }
                 }
-            } catch (IOException ex) {
+            } catch (IOException | OfficeXmlFileException ex) {
               LOGGER.error("Failed to read file", ex);
               throw new CatalogueLoadingException("Error encountered while reading [${file}].", ex)
-            } finally{
+            }finally{
                 IOUtils.closeQuietly(is)
             }
     }

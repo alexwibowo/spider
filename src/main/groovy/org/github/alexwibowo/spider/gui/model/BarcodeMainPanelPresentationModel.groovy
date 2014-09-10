@@ -11,6 +11,8 @@ import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 
 import javax.swing.SwingWorker
+import javax.swing.event.TableModelEvent
+import javax.swing.event.TableModelListener
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 
@@ -21,8 +23,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
 
     FileTableModel fileTableModel
 
-     ValidationResultModel validationResultModel;
-
+    ValidationResultModel validationResultModel;
 
     BarcodeMainPanelPresentationModel() {
         super(new BarcodeSpiderModel(
@@ -40,6 +41,13 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
                 }
             }
         });
+
+        fileTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            void tableChanged(TableModelEvent e) {
+                validate()
+            }
+        })
     }
 
     void validate() {
@@ -55,12 +63,9 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         getFiles().clear()
     }
 
-    void add(File file) {
-        getFiles().add(new FileEntry(file))
-    }
 
-    void add(FileEntry fileEntry) {
-        getFiles().add(fileEntry)
+    void setFiles(List<FileEntry> fileEntries) {
+        getBean().setFiles(fileEntries)
     }
 
 
@@ -76,7 +81,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
 
     SwingWorker<ProductCatalogue, Product> loadCatalogue(File file) {
         getBean().loadCatalogue(file) { Product loadedProduct ->
-           getBean().setSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
+            getBean().setSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
         }
     }
 }
