@@ -1,5 +1,7 @@
 package org.github.alexwibowo.spider.catalogue
 
+import com.jgoodies.validation.Validatable
+import com.jgoodies.validation.ValidationResult
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.StringUtils
 import org.apache.poi.hssf.usermodel.HSSFRow
@@ -10,7 +12,7 @@ import org.apache.poi.ss.usermodel.Cell
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class ExcelBasedProductCatalogue implements ProductCatalogue {
+class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelBasedProductCatalogue.class.getName());
 
     public static final int BARCODE_COLUMN = 0
@@ -110,5 +112,14 @@ class ExcelBasedProductCatalogue implements ProductCatalogue {
     @Override
     String getItemName(String barcode) {
         return catalogue.get(barcode)?.name
+    }
+
+    @Override
+    ValidationResult validate() {
+        ValidationResult validationResult = new ValidationResult()
+        if (size() == 0) {
+            validationResult.addError("Catalogue is empty")
+        }
+        return validationResult
     }
 }

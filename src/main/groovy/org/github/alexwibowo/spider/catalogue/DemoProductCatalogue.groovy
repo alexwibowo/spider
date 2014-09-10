@@ -1,6 +1,7 @@
 package org.github.alexwibowo.spider.catalogue
 
 import com.google.common.collect.ImmutableMap
+import com.jgoodies.validation.ValidationResult
 
 /**
  * User: alexwibowo
@@ -38,5 +39,10 @@ class DemoProductCatalogue implements ProductCatalogue {
             return productName
         }
         return null
+    }
+
+    @Override
+    ValidationResult validate() {
+        return new ValidationResult()
     }
 }

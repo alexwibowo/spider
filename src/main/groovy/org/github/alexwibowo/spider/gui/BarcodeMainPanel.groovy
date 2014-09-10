@@ -1,6 +1,8 @@
 package org.github.alexwibowo.spider.gui
 
 import com.jgoodies.binding.adapter.Bindings
+import com.jgoodies.validation.ValidationResult
+import com.jgoodies.validation.view.ValidationComponentUtils
 import groovy.io.FileType
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
@@ -32,8 +34,28 @@ class BarcodeMainPanel extends MainPanel {
     ThreadLocal<SwingWorker> processTask = new ThreadLocal<>()
 
     @Override
+    protected void initGUIState() throws Exception {
+        super.initGUIState()
+        getPM().validate()
+    }
+
+    @Override
     protected BarcodeMainPanelPresentationModel buildModel() throws Exception {
         new BarcodeMainPanelPresentationModel()
+    }
+
+    @Override
+    protected void initComponents() {
+        super.initComponents()
+        ValidationComponentUtils.setMandatory(catalogueFileValueLabel, true);
+        ValidationComponentUtils.setMandatory(targetDirectoryValueLabel, true);
+
+        getPM().validationResultModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            void propertyChange(PropertyChangeEvent evt) {
+                 processButton.setEnabled(!getPM().validationResultModel.hasErrors())
+            }
+        })
     }
 
     public static class FileEntryTabelRowRenderer extends DefaultTableCellRenderer {
@@ -80,7 +102,7 @@ class BarcodeMainPanel extends MainPanel {
         super.initEventHandling()
 
         LOGGER.debug("Initializing open folder button event handling.");
-        openFolderButton.action = new SelectFolderAction({ File selectedDirectory ->
+        openFolderMenuItem.action = new SelectFolderAction("Open folder", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
             getPM().clearFiles()
             List<FileEntry> fileEntries = []
@@ -88,10 +110,7 @@ class BarcodeMainPanel extends MainPanel {
                 fileEntries << new FileEntry(file)
             }
             def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
-            preProcessed.each { FileEntry fileEntry ->
-                LOGGER.info("Adding ${fileEntry.file} as file to be processed");
-                getPM().add(fileEntry)
-            }
+            getPM().getBean().setFiles(preProcessed)
         })
 
         controlFileBrowseButton.action = new SelectFileAction({ File selectedFile ->
@@ -126,7 +145,8 @@ class BarcodeMainPanel extends MainPanel {
             })
         })
 
-        targetDirectoryBrowseButton.action = new SelectFolderAction({ File selectedDirectory ->
+
+        targetDirectoryBrowseButton.action = new SelectFolderAction("Select", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
             getPM().outputLocation = selectedDirectory.absolutePath
         })

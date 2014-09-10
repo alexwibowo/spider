@@ -1,5 +1,7 @@
 package org.github.alexwibowo.spider.catalogue
 
+import com.jgoodies.validation.ValidationResult
+
 
 interface ProductCatalogue {
 
@@ -10,4 +12,6 @@ interface ProductCatalogue {
     int size();
 
     String getItemName(String barcode)
+
+    ValidationResult validate()
 }

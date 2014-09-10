@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 
 import javax.swing.AbstractAction
 import javax.swing.JFileChooser
+import javax.swing.UIManager
 import java.awt.event.ActionEvent
 
 
@@ -12,8 +13,8 @@ class SelectFolderAction extends AbstractAction {
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectFolderAction.class.getName());
     Closure closure
 
-    SelectFolderAction(Closure closure) {
-        super("Open")
+    SelectFolderAction(String actionName, Closure closure) {
+        super(actionName, UIManager.getIcon("Tree.openIcon"))
         this.closure = closure
     }
 

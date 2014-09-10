@@ -13,29 +13,39 @@ new FormModel {
 		} ) {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-				"$columnSpecs": "labelcompgap, default:grow, labelcompgap"
-				"$rowSpecs": "narrowlinegap, linegap, default, linegap, fill:default:grow, linegap, fill:default, linegap, default, linegap, narrowlinegap, fill:default"
+				"$columnSpecs": "labelcompgap, default, labelcompgap, max(default;100dlu):grow, labelcompgap"
+				"$rowSpecs": "default, linegap, fill:default:grow, linegap, default, linegap, fill:default, linegap, narrowlinegap, fill:default"
 			} ) {
 				name: "panel2"
-				add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-					name: "toolBar1"
-					"floatable": false
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "openFolderButton"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.openIcon" )
-						"border": new javax.swing.border.EmptyBorder( 5, 5, 5, 5 )
-						"text": "Open"
+				add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+					name: "menuBar1"
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "menu1"
+						"text": "File"
+						"mnemonic": 70
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "openFolderMenuItem"
+							"text": "Open folder"
+							"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.directoryIcon" )
+							"accelerator": static javax.swing.KeyStroke getKeyStroke( 79, 260, false )
+						} )
+						add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+							name: "separator1"
+						} )
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "menuItem2"
+							"text": "Exit"
+						} )
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridX": 2
-					"gridY": 3
+					"gridWidth": 5
 				} )
 				add( new FormContainer( "com.jgoodies.uif_lite.panel.SimpleInternalFrame", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "default:grow"
 					"$rowSpecs": "fill:default:grow"
 				} ) {
 					name: "simpleInternalFrame1"
-					"title": "Source Folder"
+					"title": "Images"
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "fileTableContainer"
 						add( new FormComponent( "javax.swing.JTable" ) {
@@ -48,18 +58,12 @@ new FormModel {
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"gridX": 2
-					"gridY": 5
+					"gridY": 3
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
-				} )
-				add( new FormComponent( "javax.swing.JProgressBar" ) {
-					name: "processProgressBar"
-					"string": "0"
-				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridX": 2
-					"gridY": 7
+					"gridWidth": 3
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-					"$columnSpecs": "right:default, labelcompgap, center:default, labelcompgap, default:grow, labelcompgap, default"
+					"$columnSpecs": "right:default, labelcompgap, center:default, labelcompgap, max(default;100dlu), labelcompgap, center:default"
 					"$rowSpecs": "default, linegap, default, linegap, default, linegap, default"
 				} ) {
 					name: "controlContainer"
@@ -75,11 +79,13 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridY": 3
 					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
+					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "catalogueFileValueLabel"
+						"editable": false
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 3
+						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 						"gridWidth": 3
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
@@ -96,11 +102,13 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridY": 5
 					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
+					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "targetDirectoryValueLabel"
+						"editable": false
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 						"gridY": 5
+						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 						"gridWidth": 3
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
@@ -131,28 +139,40 @@ new FormModel {
 						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					"gridX": 2
-					"gridY": 9
+					"gridY": 5
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-					"$columnSpecs": "default:grow"
-					"$rowSpecs": "fill:default:grow"
+					"$columnSpecs": "default, labelcompgap, default:grow"
+					"$rowSpecs": "default, linegap, default, linegap, default"
 				} ) {
-					name: "statusPanel"
-					"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+					name: "panel1"
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "progressLabel"
+						"textWithMnemonic": "text"
+						"text": "Progress"
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridX": 1
+						"gridY": 1
+					} )
+					add( new FormComponent( "javax.swing.JProgressBar" ) {
+						name: "processProgressBar"
+						"string": "0"
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridX": 3
+					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "statusLabel"
 						"foreground": sfield java.awt.Color darkGray
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridX": 1
-						"gridY": 1
+						"gridY": 3
 						"vAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
-						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
+						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridY": 12
-					"gridWidth": 3
+					"gridX": 4
+					"gridY": 5
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL

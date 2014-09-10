@@ -1,15 +1,13 @@
 package org.github.alexwibowo.spider
 
-import apple.laf.AquaLookAndFeel
 import com.jgoodies.looks.LookUtils
 import com.jgoodies.looks.Options
 import com.jgoodies.looks.plastic.PlasticLookAndFeel
-import com.jgoodies.looks.plastic.theme.DesertBlue
 import com.jgoodies.looks.plastic.theme.SkyBluer
 import org.github.alexwibowo.spider.gui.BarcodeSpiderMainFrame
 
 import javax.swing.*
-import java.awt.Dimension
+import java.awt.*
 
 /**
  * User: alexwibowo
