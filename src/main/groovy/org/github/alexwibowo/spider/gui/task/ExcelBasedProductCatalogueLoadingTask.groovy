@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import javax.swing.*
 import java.util.concurrent.ExecutionException
 
+import static javax.swing.JOptionPane.showMessageDialog
 import static org.apache.commons.io.IOUtils.closeQuietly
 
 class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue, Product>{
@@ -23,6 +24,7 @@ class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue
     protected ProductCatalogue doInBackground() throws Exception {
         def catalogue = new ExcelBasedProductCatalogue()
         LOGGER.info("About to load catalogue from [${sourceFile.absolutePath}");
+        setProgress(0)     // make sure we reach 100% at the end
         catalogue.load(sourceFile) { Product product ->
             publish(product)
         }
@@ -46,9 +48,9 @@ class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue
             LOGGER.error("An error has occurred while loading catalogue",e)
             String msg = String.format("Unexpected problem: %s",
                            e.getCause().getMessage());
-            JOptionPane.showMessageDialog(BarcodeSpiderMainFrame.instance(),
-                msg, "Error", JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(BarcodeSpiderMainFrame.instance(), msg, "Error", JOptionPane.ERROR_MESSAGE);
         } catch (InterruptedException e) {
+            LOGGER.info("Work was interrupted");
             // Process e here
         }
     }

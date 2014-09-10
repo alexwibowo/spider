@@ -10,6 +10,7 @@ import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
 import org.github.alexwibowo.spider.gui.task.ExcelBasedProductCatalogueLoadingTask
+import org.github.alexwibowo.spider.gui.task.SourceFolderPreprocessorTask
 
 import javax.swing.SwingWorker
 import java.beans.PropertyChangeEvent
@@ -109,6 +110,14 @@ class BarcodeSpiderModel extends Model implements Validatable {
                 barcodeDictionary: productCatalogue,
                 barcodeReader: barcodeReader,
                 callback: closure
+        )
+        worker.execute()
+        worker
+    }
+
+    SwingWorker<List<FileEntry>, Void> loadInputDirectory(File inputDirectory) {
+        SwingWorker<List<FileEntry>, Void> worker = new SourceFolderPreprocessorTask(
+                inputDirectory: inputDirectory
         )
         worker.execute()
         worker

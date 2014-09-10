@@ -1,16 +1,13 @@
 package org.github.alexwibowo.spider.gui
 
 import com.jgoodies.binding.adapter.Bindings
-import com.jgoodies.validation.ValidationResult
 import com.jgoodies.validation.view.ValidationComponentUtils
-import groovy.io.FileType
 import org.github.alexwibowo.spider.BarcodeSpiderException
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileEntry
 import org.github.alexwibowo.spider.gui.model.FileTableModel
-import org.github.alexwibowo.spider.gui.model.InputFilesPreProcessor
 import org.github.alexwibowo.spider.gui.model.Status
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,12 +15,12 @@ import org.slf4j.LoggerFactory
 import javax.swing.*
 import javax.swing.table.DefaultTableCellRenderer
 import javax.swing.table.TableColumnModel
-import java.awt.Color
-import java.awt.Component
+import java.awt.*
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
+import java.util.List
 import java.util.concurrent.CancellationException
 
 /**
@@ -54,7 +51,7 @@ class BarcodeMainPanel extends MainPanel {
         getPM().validationResultModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             void propertyChange(PropertyChangeEvent evt) {
-                 processButton.setEnabled(!getPM().validationResultModel.hasErrors())
+                processButton.setEnabled(!getPM().validationResultModel.hasErrors())
             }
         })
     }
@@ -105,13 +102,29 @@ class BarcodeMainPanel extends MainPanel {
         LOGGER.debug("Initializing open folder button event handling.");
         openFolderMenuItem.action = new SelectFolderAction("Open folder", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
-            getPM().clearFiles()
-            List<FileEntry> fileEntries = []
-            selectedDirectory.eachFile(FileType.FILES) { File file ->
-                fileEntries << new FileEntry(file)
-            }
-            def preProcessed = new InputFilesPreProcessor().preProcess(fileEntries)
-            getPM().setFiles(preProcessed)
+            SwingWorker<List<FileEntry>, Void> worker = getPM().loadInputDirectory(selectedDirectory)
+            worker.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                void propertyChange(PropertyChangeEvent event) {
+                    switch (event.getPropertyName()) {
+                        case "progress":
+                            break;
+                        case "state":
+                            switch ((SwingWorker.StateValue) event.getNewValue()) {
+                                case SwingWorker.StateValue.PENDING:
+                                    break
+                                case SwingWorker.StateValue.STARTED:
+                                    getPM().clearFiles()
+                                    break;
+                                case SwingWorker.StateValue.DONE:
+                                    List<FileEntry> preProcessed = worker.get()
+                                    getPM().setFiles(preProcessed)
+                                    getPM().getBean().setSystemMessage("Queued ${preProcessed.size()} images for processing.")
+                                    break;
+                            }
+                    }
+                }
+            });
         })
 
         controlFileBrowseButton.action = new SelectFileAction({ File selectedFile ->
