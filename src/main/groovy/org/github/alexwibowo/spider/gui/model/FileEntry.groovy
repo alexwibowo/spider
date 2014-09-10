@@ -62,6 +62,10 @@ class FileEntry extends Model{
         this.firePropertyChange("barcode", oldValue, newValue)
     }
 
+    void resetStatus() {
+        this.status = Status.Unprocessed
+    }
+
     void copyTo(File targetDirectory) {
         def sourceFileExtension = FilenameUtils.getExtension(file.getName())
         def targetFileExtension = sourceFileExtension ? ".${sourceFileExtension}" : ""

@@ -73,6 +73,11 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         getBean().setOutputLocation(directory)
     }
 
+    void resetInputFilesStatus() {
+        getBean().resetInputFilesStatus()
+        fileTableModel.fireTableDataChanged()
+    }
+
     SwingWorker<Integer,Integer> processFiles() {
         getBean().processFiles() { index ->
             fileTableModel.fireTableRowsUpdated(index, index)

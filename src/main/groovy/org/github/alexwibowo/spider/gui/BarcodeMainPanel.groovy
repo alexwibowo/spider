@@ -23,6 +23,8 @@ import java.beans.PropertyChangeListener
 import java.util.List
 import java.util.concurrent.CancellationException
 
+import static javax.swing.JOptionPane.showMessageDialog
+
 /**
  * User: alexwibowo
  */
@@ -147,7 +149,7 @@ class BarcodeMainPanel extends MainPanel {
                                     getPM().getBean().setProductCatalogue(productCatalogue)
                                     getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
                                     getPM().getBean().setSystemMessage("Loaded ${productCatalogue.size()} products.")
-                                    JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                    showMessageDialog(BarcodeMainPanel.this.getParent(),
                                             "Successfully loaded ${productCatalogue.size()} products from catalogue ${selectedFile}.",
                                             "Catalogue loaded",
                                             JOptionPane.INFORMATION_MESSAGE
@@ -165,7 +167,7 @@ class BarcodeMainPanel extends MainPanel {
             try {
                 getPM().outputLocation = selectedDirectory.absolutePath
             } catch (BarcodeSpiderException e) {
-                JOptionPane.showMessageDialog(BarcodeSpiderMainFrame.instance(),
+                showMessageDialog(BarcodeSpiderMainFrame.instance(),
                         e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         })
@@ -187,6 +189,7 @@ class BarcodeMainPanel extends MainPanel {
                                     case SwingWorker.StateValue.PENDING:
                                         break
                                     case SwingWorker.StateValue.STARTED:
+                                        getPM().resetInputFilesStatus()
                                         processButton.setEnabled(false)
                                         stopButton.setEnabled(true)
                                         break
@@ -196,19 +199,19 @@ class BarcodeMainPanel extends MainPanel {
 
                                         try {
                                             int totalProcessedFiles = worker.get();
-                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                            showMessageDialog(BarcodeMainPanel.this.getParent(),
                                                     "Successfully processed ${totalProcessedFiles} files",
                                                     "Process files",
                                                     JOptionPane.INFORMATION_MESSAGE
                                             );
                                         } catch (final CancellationException ex) {
-                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                            showMessageDialog(BarcodeMainPanel.this.getParent(),
                                                     "Process interrupted",
                                                     "Process files",
                                                     JOptionPane.WARNING_MESSAGE
                                             );
                                         } catch (final Exception ex) {
-                                            JOptionPane.showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                            showMessageDialog(BarcodeMainPanel.this.getParent(),
                                                     "An error has occurred", "Process files",
                                                     JOptionPane.ERROR_MESSAGE);
                                         }

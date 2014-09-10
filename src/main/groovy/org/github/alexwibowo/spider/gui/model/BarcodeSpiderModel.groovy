@@ -72,6 +72,10 @@ class BarcodeSpiderModel extends Model implements Validatable {
         return outputLocation
     }
 
+    void resetInputFilesStatus() {
+        files*.resetStatus()
+    }
+
     void setOutputLocation(String newValue) {
         String oldValue = getOutputLocation()
         File outputDirectory = new File(newValue)
