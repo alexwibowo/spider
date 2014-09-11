@@ -14,7 +14,7 @@ new FormModel {
 			name: "this"
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 				"$columnSpecs": "labelcompgap, default, labelcompgap, max(default;100dlu):grow, labelcompgap"
-				"$rowSpecs": "default, linegap, fill:default:grow, linegap, default, linegap, fill:default, linegap, narrowlinegap, fill:default"
+				"$rowSpecs": "default, linegap, fill:default:grow, linegap, default, linegap, fill:default, linegap"
 			} ) {
 				name: "panel2"
 				add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
@@ -64,27 +64,19 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "right:default, labelcompgap, center:default, labelcompgap, max(default;100dlu), labelcompgap, center:default"
-					"$rowSpecs": "default, linegap, default, linegap, default, linegap, default"
+					"$rowSpecs": "default, linegap, default, linegap, default"
 				} ) {
 					name: "controlContainer"
-					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsSeparator" ) {
-						name: "settingsLabel"
-						"text": "Output Settings"
-					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridWidth": 7
-					} )
+					"border": new javax.swing.border.TitledBorder( "Settings" )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "catalogueFileLabel"
 						"text": "Catalogue File"
-					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridY": 3
-					} )
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "catalogueFileValueLabel"
 						"editable": false
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
-						"gridY": 3
 						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 						"gridWidth": 3
 					} )
@@ -94,20 +86,19 @@ new FormModel {
 						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 7
-						"gridY": 3
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "targetDirectoryLabel"
 						"text": "Save to"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridY": 5
+						"gridY": 3
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "targetDirectoryValueLabel"
 						"editable": false
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
-						"gridY": 5
+						"gridY": 3
 						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 						"gridWidth": 3
 					} )
@@ -117,7 +108,7 @@ new FormModel {
 						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 7
-						"gridY": 5
+						"gridY": 3
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "processButton"
@@ -125,7 +116,7 @@ new FormModel {
 						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
-						"gridY": 7
+						"gridY": 5
 						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
@@ -135,44 +126,61 @@ new FormModel {
 						"enabled": false
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 5
-						"gridY": 7
+						"gridY": 5
 						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
 					"gridX": 2
 					"gridY": 5
+					"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
+					"$columnSpecs": "default, default:grow"
+					"$rowSpecs": "fill:default:grow, narrowlinegap, default"
+				} ) {
+					name: "outputContainer"
+					"border": new javax.swing.border.TitledBorder( "Logs" )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "logScrollPane"
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "logTextArea"
+						} )
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridWidth": 2
+						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "clearLogButton"
+						"text": "Clear"
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+						"gridY": 3
+					} )
+				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+					"gridX": 4
+					"gridY": 5
+					"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 					"$columnSpecs": "default, labelcompgap, default:grow"
-					"$rowSpecs": "default, linegap, default, linegap, default"
+					"$rowSpecs": "default"
 				} ) {
-					name: "panel1"
+					name: "statusBarPanel"
 					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
 						name: "progressLabel"
 						"textWithMnemonic": "text"
 						"text": "Progress"
-					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridX": 1
-						"gridY": 1
-					} )
+					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
 					add( new FormComponent( "javax.swing.JProgressBar" ) {
 						name: "processProgressBar"
 						"string": "0"
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridX": 3
 					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "statusLabel"
-						"foreground": sfield java.awt.Color darkGray
-					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-						"gridY": 3
-						"vAlign": sfield com.jgoodies.forms.layout.CellConstraints CENTER
-						"hAlign": sfield com.jgoodies.forms.layout.CellConstraints LEFT
-					} )
 				}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-					"gridX": 4
-					"gridY": 5
+					"gridY": 7
+					"gridWidth": 4
+					"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL

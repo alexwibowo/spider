@@ -63,6 +63,10 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         getFiles().clear()
     }
 
+    void appendSystemMessage(String message) {
+        getBean().appendSystemMessage(message)
+    }
+
 
     void setFiles(List<FileEntry> fileEntries) {
         getBean().setFiles(fileEntries)
@@ -90,7 +94,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
 
     SwingWorker<ProductCatalogue, Product> loadCatalogue(File file) {
         getBean().loadCatalogue(file) { Product loadedProduct ->
-            getBean().setSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
+            appendSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
         }
     }
 }

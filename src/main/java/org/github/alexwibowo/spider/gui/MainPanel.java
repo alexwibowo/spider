@@ -34,7 +34,6 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		fileTableContainer = new JScrollPane();
 		fileTable = new JTable();
 		controlContainer = new JPanel();
-		settingsLabel = compFactory.createSeparator("Output Settings");
 		catalogueFileLabel = new JLabel();
 		catalogueFileValueLabel = new JTextField();
 		controlFileBrowseButton = new JButton();
@@ -43,10 +42,13 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		targetDirectoryBrowseButton = new JButton();
 		processButton = new JButton();
 		stopButton = new JButton();
-		panel1 = new JPanel();
+		outputContainer = new JPanel();
+		logScrollPane = new JScrollPane();
+		logTextArea = new JTextArea();
+		clearLogButton = new JButton();
+		statusBarPanel = new JPanel();
 		progressLabel = compFactory.createLabel("text");
 		processProgressBar = new JProgressBar();
-		statusLabel = new JLabel();
 
 		//======== this ========
 		setLayout(new FormLayout(
@@ -57,7 +59,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		{
 			panel2.setLayout(new FormLayout(
 				"$lcgap, default, $lcgap, [100dlu,default]:grow, $lcgap",
-				"default, $lgap, fill:default:grow, $lgap, default, $lgap, fill:default, $lgap, $nlgap, fill:default"));
+				"default, $lgap, fill:default:grow, $lgap, default, $lgap, fill:default, $lgap"));
 
 			//======== menuBar1 ========
 			{
@@ -104,69 +106,84 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 			//======== controlContainer ========
 			{
+				controlContainer.setBorder(new TitledBorder("Settings"));
 				controlContainer.setLayout(new FormLayout(
 					"right:default, $lcgap, center:default, $lcgap, [100dlu,default], $lcgap, center:default",
-					"3*(default, $lgap), default"));
-				controlContainer.add(settingsLabel, CC.xywh(1, 1, 7, 1));
+					"2*(default, $lgap), default"));
 
 				//---- catalogueFileLabel ----
 				catalogueFileLabel.setText("Catalogue File");
-				controlContainer.add(catalogueFileLabel, CC.xy(1, 3));
+				controlContainer.add(catalogueFileLabel, CC.xy(1, 1));
 
 				//---- catalogueFileValueLabel ----
 				catalogueFileValueLabel.setEditable(false);
-				controlContainer.add(catalogueFileValueLabel, CC.xywh(3, 3, 3, 1, CC.FILL, CC.DEFAULT));
+				controlContainer.add(catalogueFileValueLabel, CC.xywh(3, 1, 3, 1, CC.FILL, CC.DEFAULT));
 
 				//---- controlFileBrowseButton ----
 				controlFileBrowseButton.setText("Browse");
 				controlFileBrowseButton.setIcon(null);
-				controlContainer.add(controlFileBrowseButton, CC.xy(7, 3));
+				controlContainer.add(controlFileBrowseButton, CC.xy(7, 1));
 
 				//---- targetDirectoryLabel ----
 				targetDirectoryLabel.setText("Save to");
-				controlContainer.add(targetDirectoryLabel, CC.xy(1, 5));
+				controlContainer.add(targetDirectoryLabel, CC.xy(1, 3));
 
 				//---- targetDirectoryValueLabel ----
 				targetDirectoryValueLabel.setEditable(false);
-				controlContainer.add(targetDirectoryValueLabel, CC.xywh(3, 5, 3, 1, CC.FILL, CC.DEFAULT));
+				controlContainer.add(targetDirectoryValueLabel, CC.xywh(3, 3, 3, 1, CC.FILL, CC.DEFAULT));
 
 				//---- targetDirectoryBrowseButton ----
 				targetDirectoryBrowseButton.setText("Browse");
 				targetDirectoryBrowseButton.setIcon(null);
-				controlContainer.add(targetDirectoryBrowseButton, CC.xy(7, 5));
+				controlContainer.add(targetDirectoryBrowseButton, CC.xy(7, 3));
 
 				//---- processButton ----
 				processButton.setText("Process");
 				processButton.setIcon(null);
-				controlContainer.add(processButton, CC.xy(3, 7, CC.LEFT, CC.DEFAULT));
+				controlContainer.add(processButton, CC.xy(3, 5, CC.LEFT, CC.DEFAULT));
 
 				//---- stopButton ----
 				stopButton.setText("Stop");
 				stopButton.setIcon(null);
 				stopButton.setEnabled(false);
-				controlContainer.add(stopButton, CC.xy(5, 7, CC.LEFT, CC.DEFAULT));
+				controlContainer.add(stopButton, CC.xy(5, 5, CC.LEFT, CC.DEFAULT));
 			}
-			panel2.add(controlContainer, CC.xy(2, 5, CC.LEFT, CC.DEFAULT));
+			panel2.add(controlContainer, CC.xy(2, 5, CC.LEFT, CC.FILL));
 
-			//======== panel1 ========
+			//======== outputContainer ========
 			{
-				panel1.setLayout(new FormLayout(
+				outputContainer.setBorder(new TitledBorder("Logs"));
+				outputContainer.setLayout(new FormLayout(
+					"default, default:grow",
+					"fill:default:grow, $nlgap, default"));
+
+				//======== logScrollPane ========
+				{
+					logScrollPane.setViewportView(logTextArea);
+				}
+				outputContainer.add(logScrollPane, CC.xywh(1, 1, 2, 1, CC.FILL, CC.DEFAULT));
+
+				//---- clearLogButton ----
+				clearLogButton.setText("Clear");
+				outputContainer.add(clearLogButton, CC.xy(1, 3));
+			}
+			panel2.add(outputContainer, CC.xy(4, 5, CC.DEFAULT, CC.FILL));
+
+			//======== statusBarPanel ========
+			{
+				statusBarPanel.setLayout(new FormLayout(
 					"default, $lcgap, default:grow",
-					"2*(default, $lgap), default"));
+					"default"));
 
 				//---- progressLabel ----
 				progressLabel.setText("Progress");
-				panel1.add(progressLabel, CC.xy(1, 1));
+				statusBarPanel.add(progressLabel, CC.xy(1, 1));
 
 				//---- processProgressBar ----
 				processProgressBar.setString("0");
-				panel1.add(processProgressBar, CC.xy(3, 1));
-
-				//---- statusLabel ----
-				statusLabel.setForeground(Color.darkGray);
-				panel1.add(statusLabel, CC.xy(1, 3, CC.LEFT, CC.CENTER));
+				statusBarPanel.add(processProgressBar, CC.xy(3, 1));
 			}
-			panel2.add(panel1, CC.xy(4, 5));
+			panel2.add(statusBarPanel, CC.xywh(1, 7, 4, 1, CC.FILL, CC.DEFAULT));
 		}
 		add(panel2, CC.xy(1, 1, CC.FILL, CC.FILL));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -182,7 +199,6 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JScrollPane fileTableContainer;
 	protected JTable fileTable;
 	protected JPanel controlContainer;
-	protected JComponent settingsLabel;
 	protected JLabel catalogueFileLabel;
 	protected JTextField catalogueFileValueLabel;
 	protected JButton controlFileBrowseButton;
@@ -191,9 +207,12 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JButton targetDirectoryBrowseButton;
 	protected JButton processButton;
 	protected JButton stopButton;
-	protected JPanel panel1;
+	protected JPanel outputContainer;
+	protected JScrollPane logScrollPane;
+	protected JTextArea logTextArea;
+	protected JButton clearLogButton;
+	protected JPanel statusBarPanel;
 	protected JLabel progressLabel;
 	protected JProgressBar processProgressBar;
-	protected JLabel statusLabel;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

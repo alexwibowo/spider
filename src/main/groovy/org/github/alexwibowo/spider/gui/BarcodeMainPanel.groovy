@@ -95,7 +95,7 @@ class BarcodeMainPanel extends MainPanel {
 
         Bindings.bind(this.catalogueFileValueLabel, getPM().getModel("productCatalogueFileLocation"))
         Bindings.bind(this.targetDirectoryValueLabel, getPM().getModel("outputLocation"))
-        Bindings.bind(this.statusLabel, getPM().getModel("systemMessage"))
+        Bindings.bind(this.logTextArea, getPM().getModel("systemMessage"))
     }
 
     protected void initEventHandling() {
@@ -121,7 +121,7 @@ class BarcodeMainPanel extends MainPanel {
                                 case SwingWorker.StateValue.DONE:
                                     List<FileEntry> preProcessed = worker.get()
                                     getPM().setFiles(preProcessed)
-                                    getPM().getBean().setSystemMessage("Queued ${preProcessed.size()} images for processing.")
+                                    getPM().appendSystemMessage("Queued ${preProcessed.size()} images for processing.")
                                     break;
                             }
                     }
@@ -148,7 +148,7 @@ class BarcodeMainPanel extends MainPanel {
                                     ProductCatalogue productCatalogue = worker.get();
                                     getPM().getBean().setProductCatalogue(productCatalogue)
                                     getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
-                                    getPM().getBean().setSystemMessage("Loaded ${productCatalogue.size()} products.")
+                                    getPM().appendSystemMessage("Loaded ${productCatalogue.size()} products.")
                                     showMessageDialog(BarcodeMainPanel.this.getParent(),
                                             "Successfully loaded ${productCatalogue.size()} products from catalogue ${selectedFile}.",
                                             "Catalogue loaded",

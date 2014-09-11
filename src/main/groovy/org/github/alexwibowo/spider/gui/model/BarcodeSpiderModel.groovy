@@ -1,5 +1,6 @@
 package org.github.alexwibowo.spider.gui.model
 
+import com.google.common.base.Joiner
 import com.jgoodies.binding.beans.Model
 import com.jgoodies.common.collect.ArrayListModel
 import com.jgoodies.validation.Validatable
@@ -12,8 +13,7 @@ import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
 import org.github.alexwibowo.spider.gui.task.ExcelBasedProductCatalogueLoadingTask
 import org.github.alexwibowo.spider.gui.task.SourceFolderPreprocessorTask
 
-import javax.swing.SwingWorker
-import java.beans.PropertyChangeEvent
+import javax.swing.*
 
 /**
  * User: alexwibowo
@@ -166,5 +166,11 @@ class BarcodeSpiderModel extends Model implements Validatable {
 
 
         return validationResult
+    }
+
+    void appendSystemMessage(String systemMessage) {
+        def oldValue = getSystemMessage()
+        String newSystemMessage = Joiner.on("\n").join(oldValue, systemMessage)
+        setSystemMessage(newSystemMessage)
     }
 }
