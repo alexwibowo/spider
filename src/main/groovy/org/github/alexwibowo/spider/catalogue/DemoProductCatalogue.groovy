@@ -1,6 +1,7 @@
 package org.github.alexwibowo.spider.catalogue
 
 import com.google.common.collect.ImmutableMap
+import com.jgoodies.common.collect.ArrayListModel
 import com.jgoodies.validation.ValidationResult
 
 /**
@@ -30,6 +31,11 @@ class DemoProductCatalogue implements ProductCatalogue {
     @Override
     int size() {
         return catalogue.size()
+    }
+
+    @Override
+    ArrayListModel<Product> getProductAsList() {
+        return null
     }
 
     @Override

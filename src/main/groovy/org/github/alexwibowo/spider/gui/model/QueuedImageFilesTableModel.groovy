@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat
 /**
  * User: alexwibowo
  */
-class FileTableModel extends AbstractTableAdapter<FileEntry> {
+class QueuedImageFilesTableModel extends AbstractTableAdapter<FileEntry> {
 
-    FileTableModel(ListModel<FileEntry> listModel) {
+    QueuedImageFilesTableModel(ListModel<FileEntry> listModel) {
         super(listModel)
     }
 

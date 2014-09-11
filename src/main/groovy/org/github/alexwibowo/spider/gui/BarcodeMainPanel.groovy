@@ -7,7 +7,7 @@ import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.model.BarcodeMainPanelPresentationModel
 import org.github.alexwibowo.spider.gui.model.FileEntry
-import org.github.alexwibowo.spider.gui.model.FileTableModel
+import org.github.alexwibowo.spider.gui.model.QueuedImageFilesTableModel
 import org.github.alexwibowo.spider.gui.model.Status
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -58,7 +58,7 @@ class BarcodeMainPanel extends MainPanel {
     }
 
     public static class FileEntryTabelRowRenderer extends DefaultTableCellRenderer {
-        FileTableModel fileTableModel
+        QueuedImageFilesTableModel fileTableModel
 
         FileEntryTabelRowRenderer() {
             setOpaque(true); //MUST do this for background to show up.
@@ -84,6 +84,7 @@ class BarcodeMainPanel extends MainPanel {
         super.bind()
 
         this.fileTable.setModel(getPM().fileTableModel)
+        this.catalogueTable.setModel(getPM().catalogueTableModel)
 
         TableColumnModel columnModel = this.fileTable.getColumnModel()
         columnModel.getColumn(0).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
@@ -155,7 +156,6 @@ class BarcodeMainPanel extends MainPanel {
                                     break;
                                 case SwingWorker.StateValue.DONE:
                                     ProductCatalogue productCatalogue = worker.get();
-                                    getPM().getBean().setProductCatalogue(productCatalogue)
                                     getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
                                     getPM().appendSystemMessage("Loaded ${productCatalogue.size()} products.")
                                     showMessageDialog(BarcodeMainPanel.this.getParent(),

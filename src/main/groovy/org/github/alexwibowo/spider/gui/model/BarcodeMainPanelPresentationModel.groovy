@@ -2,8 +2,6 @@ package org.github.alexwibowo.spider.gui.model
 
 import com.jgoodies.binding.PresentationModel
 import com.jgoodies.common.collect.ArrayListModel
-import com.jgoodies.validation.Validatable
-import com.jgoodies.validation.ValidationResult
 import com.jgoodies.validation.ValidationResultModel
 import com.jgoodies.validation.util.DefaultValidationResultModel
 import org.github.alexwibowo.spider.ApplicationContext
@@ -21,17 +19,20 @@ import java.beans.PropertyChangeListener
  */
 class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderModel> {
 
-    FileTableModel fileTableModel
+    QueuedImageFilesTableModel fileTableModel
 
-    ValidationResultModel validationResultModel;
+    CatalogueTableModel catalogueTableModel
+
+    ValidationResultModel validationResultModel
 
     BarcodeMainPanelPresentationModel() {
         super(new BarcodeSpiderModel(
                 barcodeReader: ApplicationContext.instance().barcodeReader,
                 productCatalogue: ApplicationContext.instance().barcodeDictionary
         ))
-        validationResultModel = new DefaultValidationResultModel();
-        fileTableModel = new FileTableModel(getFiles())
+        validationResultModel = new DefaultValidationResultModel()
+        fileTableModel = new QueuedImageFilesTableModel(getFiles())
+        catalogueTableModel = new CatalogueTableModel(getCatalogueProducts())
 
         addBeanPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -57,6 +58,9 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
 
     ArrayListModel<FileEntry> getFiles() {
         getBean().getFiles()
+    }
+    ArrayListModel<Product> getCatalogueProducts() {
+        getBean().getCatalogueProducts()
     }
 
     void clearFiles() {
@@ -101,7 +105,9 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     }
 
     SwingWorker<ProductCatalogue, Product> loadCatalogue(File file) {
-        getBean().loadCatalogue(file) { Product loadedProduct ->
+        getBean().loadCatalogue(file) { index ->
+            catalogueTableModel.fireTableRowsUpdated(index, index)
+            Product loadedProduct = catalogueTableModel.getRow(index)
             appendSystemMessage("Loaded product: '${loadedProduct.name}' with barcode '${loadedProduct.barcode}'")
         }
     }

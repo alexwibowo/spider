@@ -1,5 +1,6 @@
 package org.github.alexwibowo.spider.catalogue
 
+import com.jgoodies.common.collect.ArrayListModel
 import com.jgoodies.validation.Validatable
 import com.jgoodies.validation.ValidationResult
 import org.apache.commons.io.IOUtils
@@ -22,10 +23,13 @@ class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
 
     private final Map<String, Product> catalogue
 
+    private final ArrayListModel<Product> productAsList //TODO: yuck.... this has to be kept synced with catalogue
+
     private String name
 
     ExcelBasedProductCatalogue() {
         catalogue = Collections.synchronizedMap([:])
+        productAsList = new ArrayListModel<>()
     }
 
     void load(File file, Closure closure = null) {
@@ -50,7 +54,7 @@ class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
                         LOGGER.info("Product ${product} is loaded.");
                         addProductToCatalogue(product)
                         if (closure) {
-                            closure.call(product)
+                            closure.call(rowIndex)
                         }
                     }
                 }
@@ -95,6 +99,7 @@ class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
             throw new NonUniqueProductException(product.barcode)
         }
         catalogue[product.barcode] = product
+        productAsList.add(product)
     }
 
     @Override
@@ -104,10 +109,17 @@ class ExcelBasedProductCatalogue implements ProductCatalogue, Validatable{
 
     void clear() {
         catalogue.clear()
+        productAsList.clear()
     }
 
     int size() {
+        assert catalogue.size() == productAsList.size()
         catalogue.size()
+    }
+
+    @Override
+    ArrayListModel<Product> getProductAsList() {
+        return productAsList
     }
 
     @Override

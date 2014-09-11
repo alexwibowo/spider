@@ -7,6 +7,7 @@ import com.jgoodies.validation.Validatable
 import com.jgoodies.validation.ValidationResult
 import org.github.alexwibowo.spider.BarcodeSpiderException
 import org.github.alexwibowo.spider.barcode.BarcodeReader
+import org.github.alexwibowo.spider.catalogue.ExcelBasedProductCatalogue
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
@@ -24,7 +25,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
     ArrayListModel<FileEntry> files = new ArrayListModel<>()
 
     public static final String PROPERTYNAME_PRODUCT_CATALOGUE ="productCatalogue"
-    ProductCatalogue productCatalogue
+    ExcelBasedProductCatalogue productCatalogue
 
     String productCatalogueFileLocation  //TODO: dont quite like this
 
@@ -48,7 +49,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
         this.firePropertyChange(PROPERTYNAME_SYSTEM_MESSAGE, oldValue, newValue)
     }
 
-    ProductCatalogue getProductCatalogue() {
+    ExcelBasedProductCatalogue getProductCatalogue() {
         return productCatalogue
     }
 
@@ -62,7 +63,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
         this.firePropertyChange("productCatalogueFileLocation", oldValue, newValue)
     }
 
-    void setProductCatalogue(ProductCatalogue newValue) {
+    void setProductCatalogue(ExcelBasedProductCatalogue newValue) {
         def oldValue = getProductCatalogue()
         this.productCatalogue = newValue
         this.firePropertyChange(PROPERTYNAME_PRODUCT_CATALOGUE, oldValue, newValue)
@@ -101,6 +102,10 @@ class BarcodeSpiderModel extends Model implements Validatable {
         return files
     }
 
+    ArrayListModel<Product> getCatalogueProducts() {
+        return productCatalogue.getProductAsList()
+    }
+
     void setFiles(List<FileEntry> newValue) {
         newValue.each { FileEntry fileEntry ->
             files.add(fileEntry)
@@ -131,8 +136,9 @@ class BarcodeSpiderModel extends Model implements Validatable {
         worker
     }
 
-    SwingWorker<ProductCatalogue, Product> loadCatalogue(File sourceFile, Closure closure) {
-        SwingWorker<ProductCatalogue, Product> worker = new ExcelBasedProductCatalogueLoadingTask(
+    SwingWorker<ProductCatalogue, Integer> loadCatalogue(File sourceFile, Closure closure) {
+        SwingWorker<ProductCatalogue, Integer> worker = new ExcelBasedProductCatalogueLoadingTask(
+                catalogue: productCatalogue,
                 sourceFile: sourceFile,
                 callback: closure
         )

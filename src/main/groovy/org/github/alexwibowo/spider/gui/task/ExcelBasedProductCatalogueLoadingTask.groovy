@@ -13,20 +13,22 @@ import java.util.concurrent.ExecutionException
 import static javax.swing.JOptionPane.showMessageDialog
 import static org.apache.commons.io.IOUtils.closeQuietly
 
-class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue, Product>{
+class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue, Integer>{
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelBasedProductCatalogueLoadingTask.class.getName());
 
     File sourceFile
 
     Closure callback
 
+    ExcelBasedProductCatalogue catalogue
+
     @Override
     protected ProductCatalogue doInBackground() throws Exception {
-        def catalogue = new ExcelBasedProductCatalogue()
         LOGGER.info("About to load catalogue from [${sourceFile.absolutePath}");
+        catalogue.clear()
         setProgress(0)     // make sure we reach 100% at the end
-        catalogue.load(sourceFile) { Product product ->
-            publish(product)
+        catalogue.load(sourceFile) { int index ->
+            publish(index)
         }
         setProgress(100)     // make sure we reach 100% at the end
         LOGGER.info("Finished reading catalogue from [${sourceFile.absolutePath}]");
@@ -34,7 +36,7 @@ class ExcelBasedProductCatalogueLoadingTask extends SwingWorker<ProductCatalogue
     }
 
     @Override
-    protected void process(List<Product> chunks) {
+    protected void process(List<Integer> chunks) {
         chunks.each {
             callback.call(it)
         }
