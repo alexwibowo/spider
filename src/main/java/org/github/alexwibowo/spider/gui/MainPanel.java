@@ -25,137 +25,179 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		DefaultComponentFactory compFactory = DefaultComponentFactory.getInstance();
-		panel2 = new JPanel();
 		menuBar1 = new JMenuBar();
 		menu1 = new JMenu();
 		openFolderMenuItem = new JMenuItem();
+		openCatalogueMenuItem = new JMenuItem();
 		menuItem2 = new JMenuItem();
-		simpleInternalFrame1 = new SimpleInternalFrame();
+		toolBar1 = new JToolBar();
+		processButton = new JButton();
+		stopButton = new JButton();
+		clearLogButton = new JButton();
+		mainBodySplitPane = new JSplitPane();
+		topLevelSplitPane = new JSplitPane();
+		sourceFolderPanel = new JPanel();
+		imageFilesContainer = new SimpleInternalFrame();
 		fileTableContainer = new JScrollPane();
 		fileTable = new JTable();
-		controlContainer = new JPanel();
-		catalogueFileLabel = new JLabel();
-		catalogueFileValueLabel = new JTextField();
-		controlFileBrowseButton = new JButton();
 		targetDirectoryLabel = new JLabel();
 		targetDirectoryValueLabel = new JTextField();
 		targetDirectoryBrowseButton = new JButton();
-		processButton = new JButton();
-		stopButton = new JButton();
-		outputContainer = new JPanel();
+		cataloguePanel = new JPanel();
+		catalogueContainer = new SimpleInternalFrame();
+		catalogueScrollPane = new JScrollPane();
+		catalogueTable = new JTable();
+		outputContainer = new SimpleInternalFrame();
 		logScrollPane = new JScrollPane();
 		logTextArea = new JTextArea();
-		clearLogButton = new JButton();
 		statusBarPanel = new JPanel();
 		progressLabel = compFactory.createLabel("text");
 		processProgressBar = new JProgressBar();
 
 		//======== this ========
+		setMinimumSize(new Dimension(850, 539));
+		setPreferredSize(new Dimension(850, 610));
 		setLayout(new FormLayout(
 			"default:grow",
-			"fill:default:grow"));
+			"default, $lgap, default, $nlgap, fill:default:grow, $lgap, default"));
 
-		//======== panel2 ========
+		//======== menuBar1 ========
 		{
-			panel2.setLayout(new FormLayout(
-				"$lcgap, default, $lcgap, [100dlu,default]:grow, $lcgap",
-				"default, $lgap, fill:default:grow, $lgap, default, $lgap, fill:default, $lgap"));
 
-			//======== menuBar1 ========
+			//======== menu1 ========
 			{
+				menu1.setText("File");
+				menu1.setMnemonic('F');
 
-				//======== menu1 ========
+				//---- openFolderMenuItem ----
+				openFolderMenuItem.setText("Open folder");
+				openFolderMenuItem.setIcon(UIManager.getIcon("FileView.directoryIcon"));
+				openFolderMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_MASK));
+				menu1.add(openFolderMenuItem);
+
+				//---- openCatalogueMenuItem ----
+				openCatalogueMenuItem.setText("Open catalogue");
+				menu1.add(openCatalogueMenuItem);
+				menu1.addSeparator();
+
+				//---- menuItem2 ----
+				menuItem2.setText("Exit");
+				menu1.add(menuItem2);
+			}
+			menuBar1.add(menu1);
+		}
+		add(menuBar1, CC.xy(1, 1));
+
+		//======== toolBar1 ========
+		{
+			toolBar1.setFloatable(false);
+
+			//---- processButton ----
+			processButton.setText("Process");
+			processButton.setIcon(null);
+			toolBar1.add(processButton);
+
+			//---- stopButton ----
+			stopButton.setText("Stop");
+			stopButton.setIcon(null);
+			stopButton.setEnabled(false);
+			toolBar1.add(stopButton);
+			toolBar1.addSeparator();
+
+			//---- clearLogButton ----
+			clearLogButton.setText("Clear Logs");
+			toolBar1.add(clearLogButton);
+		}
+		add(toolBar1, CC.xy(1, 3));
+
+		//======== mainBodySplitPane ========
+		{
+			mainBodySplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			mainBodySplitPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+			//======== topLevelSplitPane ========
+			{
+				topLevelSplitPane.setBorder(null);
+
+				//======== sourceFolderPanel ========
 				{
-					menu1.setText("File");
-					menu1.setMnemonic('F');
+					sourceFolderPanel.setPreferredSize(new Dimension(580, 400));
+					sourceFolderPanel.setMinimumSize(new Dimension(580, 400));
+					sourceFolderPanel.setLayout(new FormLayout(
+						"default, $lcgap, default:grow, $lcgap, default",
+						"fill:default:grow, $lgap, default"));
 
-					//---- openFolderMenuItem ----
-					openFolderMenuItem.setText("Open folder");
-					openFolderMenuItem.setIcon(UIManager.getIcon("FileView.directoryIcon"));
-					openFolderMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.META_MASK));
-					menu1.add(openFolderMenuItem);
-					menu1.addSeparator();
+					//======== imageFilesContainer ========
+					{
+						imageFilesContainer.setTitle("Images");
+						imageFilesContainer.setMinimumSize(new Dimension(600, 55));
+						Container imageFilesContainerContentPane = imageFilesContainer.getContentPane();
+						imageFilesContainerContentPane.setLayout(new FormLayout(
+							"default:grow",
+							"fill:default:grow"));
 
-					//---- menuItem2 ----
-					menuItem2.setText("Exit");
-					menu1.add(menuItem2);
+						//======== fileTableContainer ========
+						{
+
+							//---- fileTable ----
+							fileTable.setRowSelectionAllowed(false);
+							fileTable.setGridColor(SystemColor.controlShadow);
+							fileTableContainer.setViewportView(fileTable);
+						}
+						imageFilesContainerContentPane.add(fileTableContainer, CC.xy(1, 1, CC.DEFAULT, CC.FILL));
+					}
+					sourceFolderPanel.add(imageFilesContainer, CC.xywh(1, 1, 5, 1));
+
+					//---- targetDirectoryLabel ----
+					targetDirectoryLabel.setText("Save to");
+					sourceFolderPanel.add(targetDirectoryLabel, CC.xy(1, 3));
+
+					//---- targetDirectoryValueLabel ----
+					targetDirectoryValueLabel.setEditable(false);
+					sourceFolderPanel.add(targetDirectoryValueLabel, CC.xy(3, 3, CC.FILL, CC.DEFAULT));
+
+					//---- targetDirectoryBrowseButton ----
+					targetDirectoryBrowseButton.setText("Browse");
+					targetDirectoryBrowseButton.setIcon(null);
+					sourceFolderPanel.add(targetDirectoryBrowseButton, CC.xy(5, 3));
 				}
-				menuBar1.add(menu1);
-			}
-			panel2.add(menuBar1, CC.xywh(1, 1, 5, 1));
+				topLevelSplitPane.setLeftComponent(sourceFolderPanel);
 
-			//======== simpleInternalFrame1 ========
-			{
-				simpleInternalFrame1.setTitle("Images");
-				Container simpleInternalFrame1ContentPane = simpleInternalFrame1.getContentPane();
-				simpleInternalFrame1ContentPane.setLayout(new FormLayout(
-					"default:grow",
-					"fill:default:grow"));
-
-				//======== fileTableContainer ========
+				//======== cataloguePanel ========
 				{
+					cataloguePanel.setMinimumSize(new Dimension(200, 52));
+					cataloguePanel.setPreferredSize(new Dimension(200, 448));
+					cataloguePanel.setLayout(new FormLayout(
+						"default:grow",
+						"fill:default:grow"));
 
-					//---- fileTable ----
-					fileTable.setRowSelectionAllowed(false);
-					fileTable.setGridColor(SystemColor.controlShadow);
-					fileTableContainer.setViewportView(fileTable);
+					//======== catalogueContainer ========
+					{
+						catalogueContainer.setTitle("Catalogue");
+						Container catalogueContainerContentPane = catalogueContainer.getContentPane();
+						catalogueContainerContentPane.setLayout(new FormLayout(
+							"default:grow",
+							"fill:default:grow"));
+
+						//======== catalogueScrollPane ========
+						{
+							catalogueScrollPane.setViewportView(catalogueTable);
+						}
+						catalogueContainerContentPane.add(catalogueScrollPane, CC.xy(1, 1));
+					}
+					cataloguePanel.add(catalogueContainer, CC.xy(1, 1));
 				}
-				simpleInternalFrame1ContentPane.add(fileTableContainer, CC.xy(1, 1, CC.DEFAULT, CC.FILL));
+				topLevelSplitPane.setRightComponent(cataloguePanel);
 			}
-			panel2.add(simpleInternalFrame1, CC.xywh(2, 3, 3, 1, CC.FILL, CC.DEFAULT));
-
-			//======== controlContainer ========
-			{
-				controlContainer.setBorder(new TitledBorder("Settings"));
-				controlContainer.setLayout(new FormLayout(
-					"right:default, $lcgap, center:default, $lcgap, [100dlu,default], $lcgap, center:default",
-					"2*(default, $lgap), default"));
-
-				//---- catalogueFileLabel ----
-				catalogueFileLabel.setText("Catalogue File");
-				controlContainer.add(catalogueFileLabel, CC.xy(1, 1));
-
-				//---- catalogueFileValueLabel ----
-				catalogueFileValueLabel.setEditable(false);
-				controlContainer.add(catalogueFileValueLabel, CC.xywh(3, 1, 3, 1, CC.FILL, CC.DEFAULT));
-
-				//---- controlFileBrowseButton ----
-				controlFileBrowseButton.setText("Browse");
-				controlFileBrowseButton.setIcon(null);
-				controlContainer.add(controlFileBrowseButton, CC.xy(7, 1));
-
-				//---- targetDirectoryLabel ----
-				targetDirectoryLabel.setText("Save to");
-				controlContainer.add(targetDirectoryLabel, CC.xy(1, 3));
-
-				//---- targetDirectoryValueLabel ----
-				targetDirectoryValueLabel.setEditable(false);
-				controlContainer.add(targetDirectoryValueLabel, CC.xywh(3, 3, 3, 1, CC.FILL, CC.DEFAULT));
-
-				//---- targetDirectoryBrowseButton ----
-				targetDirectoryBrowseButton.setText("Browse");
-				targetDirectoryBrowseButton.setIcon(null);
-				controlContainer.add(targetDirectoryBrowseButton, CC.xy(7, 3));
-
-				//---- processButton ----
-				processButton.setText("Process");
-				processButton.setIcon(null);
-				controlContainer.add(processButton, CC.xy(3, 5, CC.LEFT, CC.DEFAULT));
-
-				//---- stopButton ----
-				stopButton.setText("Stop");
-				stopButton.setIcon(null);
-				stopButton.setEnabled(false);
-				controlContainer.add(stopButton, CC.xy(5, 5, CC.LEFT, CC.DEFAULT));
-			}
-			panel2.add(controlContainer, CC.xy(2, 5, CC.LEFT, CC.FILL));
+			mainBodySplitPane.setTopComponent(topLevelSplitPane);
 
 			//======== outputContainer ========
 			{
-				outputContainer.setBorder(new TitledBorder("Logs"));
-				outputContainer.setLayout(new FormLayout(
-					"default, default:grow",
-					"fill:default:grow, $nlgap, default"));
+				outputContainer.setTitle("Logs");
+				Container outputContainerContentPane = outputContainer.getContentPane();
+				outputContainerContentPane.setLayout(new FormLayout(
+					"default:grow",
+					"fill:default:grow"));
 
 				//======== logScrollPane ========
 				{
@@ -164,56 +206,57 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 					logTextArea.setEditable(false);
 					logScrollPane.setViewportView(logTextArea);
 				}
-				outputContainer.add(logScrollPane, CC.xywh(1, 1, 2, 1, CC.FILL, CC.DEFAULT));
-
-				//---- clearLogButton ----
-				clearLogButton.setText("Clear");
-				outputContainer.add(clearLogButton, CC.xy(1, 3));
+				outputContainerContentPane.add(logScrollPane, CC.xy(1, 1, CC.FILL, CC.FILL));
 			}
-			panel2.add(outputContainer, CC.xy(4, 5, CC.DEFAULT, CC.FILL));
-
-			//======== statusBarPanel ========
-			{
-				statusBarPanel.setLayout(new FormLayout(
-					"default, $lcgap, default:grow",
-					"default"));
-
-				//---- progressLabel ----
-				progressLabel.setText("Progress");
-				statusBarPanel.add(progressLabel, CC.xy(1, 1));
-
-				//---- processProgressBar ----
-				processProgressBar.setString("0");
-				statusBarPanel.add(processProgressBar, CC.xy(3, 1));
-			}
-			panel2.add(statusBarPanel, CC.xywh(1, 7, 4, 1, CC.FILL, CC.DEFAULT));
+			mainBodySplitPane.setBottomComponent(outputContainer);
 		}
-		add(panel2, CC.xy(1, 1, CC.FILL, CC.FILL));
+		add(mainBodySplitPane, CC.xy(1, 5, CC.FILL, CC.FILL));
+
+		//======== statusBarPanel ========
+		{
+			statusBarPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			statusBarPanel.setLayout(new FormLayout(
+				"default, $lcgap, default:grow",
+				"default"));
+
+			//---- progressLabel ----
+			progressLabel.setText("Progress");
+			statusBarPanel.add(progressLabel, CC.xy(1, 1));
+
+			//---- processProgressBar ----
+			processProgressBar.setString("0");
+			statusBarPanel.add(processProgressBar, CC.xy(3, 1));
+		}
+		add(statusBarPanel, CC.xy(1, 7, CC.FILL, CC.DEFAULT));
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	protected JPanel panel2;
 	protected JMenuBar menuBar1;
 	protected JMenu menu1;
 	protected JMenuItem openFolderMenuItem;
+	protected JMenuItem openCatalogueMenuItem;
 	protected JMenuItem menuItem2;
-	protected SimpleInternalFrame simpleInternalFrame1;
+	protected JToolBar toolBar1;
+	protected JButton processButton;
+	protected JButton stopButton;
+	protected JButton clearLogButton;
+	protected JSplitPane mainBodySplitPane;
+	protected JSplitPane topLevelSplitPane;
+	protected JPanel sourceFolderPanel;
+	protected SimpleInternalFrame imageFilesContainer;
 	protected JScrollPane fileTableContainer;
 	protected JTable fileTable;
-	protected JPanel controlContainer;
-	protected JLabel catalogueFileLabel;
-	protected JTextField catalogueFileValueLabel;
-	protected JButton controlFileBrowseButton;
 	protected JLabel targetDirectoryLabel;
 	protected JTextField targetDirectoryValueLabel;
 	protected JButton targetDirectoryBrowseButton;
-	protected JButton processButton;
-	protected JButton stopButton;
-	protected JPanel outputContainer;
+	protected JPanel cataloguePanel;
+	protected SimpleInternalFrame catalogueContainer;
+	protected JScrollPane catalogueScrollPane;
+	protected JTable catalogueTable;
+	protected SimpleInternalFrame outputContainer;
 	protected JScrollPane logScrollPane;
 	protected JTextArea logTextArea;
-	protected JButton clearLogButton;
 	protected JPanel statusBarPanel;
 	protected JLabel progressLabel;
 	protected JProgressBar processProgressBar;

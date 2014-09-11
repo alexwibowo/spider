@@ -14,8 +14,8 @@ class SelectFileAction extends AbstractAction{
 
     Closure closure
 
-    SelectFileAction(Closure closure) {
-        super("Select",UIManager.getIcon("Tree.openIcon"))
+    SelectFileAction(String name, Closure closure) {
+        super(name,UIManager.getIcon("Tree.openIcon"))
         this.closure = closure
     }
 

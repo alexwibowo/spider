@@ -47,7 +47,6 @@ class BarcodeMainPanel extends MainPanel {
     @Override
     protected void initComponents() {
         super.initComponents()
-        ValidationComponentUtils.setMandatory(catalogueFileValueLabel, true);
         ValidationComponentUtils.setMandatory(targetDirectoryValueLabel, true);
 
         getPM().validationResultModel.addPropertyChangeListener(new PropertyChangeListener() {
@@ -93,7 +92,6 @@ class BarcodeMainPanel extends MainPanel {
         columnModel.getColumn(3).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
         columnModel.getColumn(4).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
 
-        Bindings.bind(this.catalogueFileValueLabel, getPM().getModel("productCatalogueFileLocation"))
         Bindings.bind(this.targetDirectoryValueLabel, getPM().getModel("outputLocation"))
         Bindings.bind(this.logTextArea, getPM().getModel("systemMessage"))
     }
@@ -140,7 +138,7 @@ class BarcodeMainPanel extends MainPanel {
             });
         })
 
-        controlFileBrowseButton.action = new SelectFileAction({ File selectedFile ->
+        openCatalogueMenuItem.action = new SelectFileAction("Open Catalogue", { File selectedFile ->
             LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
             SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
             worker.addPropertyChangeListener(new PropertyChangeListener() {
@@ -173,7 +171,7 @@ class BarcodeMainPanel extends MainPanel {
         })
 
         clearLogButton.action = new ClearLogAction()
-        targetDirectoryBrowseButton.action = new SelectFolderAction("Select", { File selectedDirectory ->
+        targetDirectoryBrowseButton.action = new SelectFolderAction("Browse", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
             try {
                 getPM().outputLocation = selectedDirectory.absolutePath
