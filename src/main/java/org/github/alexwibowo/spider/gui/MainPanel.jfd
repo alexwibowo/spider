@@ -145,6 +145,7 @@ new FormModel {
 						name: "logScrollPane"
 						add( new FormComponent( "javax.swing.JTextArea" ) {
 							name: "logTextArea"
+							"editable": false
 						} )
 					}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 						"gridWidth": 2

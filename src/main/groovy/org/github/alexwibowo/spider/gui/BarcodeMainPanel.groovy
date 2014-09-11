@@ -98,6 +98,17 @@ class BarcodeMainPanel extends MainPanel {
         Bindings.bind(this.logTextArea, getPM().getModel("systemMessage"))
     }
 
+    private class ClearLogAction extends AbstractAction{
+        ClearLogAction() {
+            super("Clear")
+        }
+
+        @Override
+        void actionPerformed(ActionEvent e) {
+            getPM().clearSystemMessage()
+        }
+    }
+
     protected void initEventHandling() {
         super.initEventHandling()
 
@@ -161,7 +172,7 @@ class BarcodeMainPanel extends MainPanel {
             })
         })
 
-
+        clearLogButton.action = new ClearLogAction()
         targetDirectoryBrowseButton.action = new SelectFolderAction("Select", { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
             try {

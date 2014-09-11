@@ -67,6 +67,10 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
         getBean().appendSystemMessage(message)
     }
 
+    void clearSystemMessage() {
+        getBean().setSystemMessage("")
+    }
+
 
     void setFiles(List<FileEntry> fileEntries) {
         getBean().setFiles(fileEntries)

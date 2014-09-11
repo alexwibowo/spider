@@ -159,6 +159,9 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//======== logScrollPane ========
 				{
+
+					//---- logTextArea ----
+					logTextArea.setEditable(false);
 					logScrollPane.setViewportView(logTextArea);
 				}
 				outputContainer.add(logScrollPane, CC.xywh(1, 1, 2, 1, CC.FILL, CC.DEFAULT));
