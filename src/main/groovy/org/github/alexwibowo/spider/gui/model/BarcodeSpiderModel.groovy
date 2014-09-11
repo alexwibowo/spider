@@ -107,6 +107,10 @@ class BarcodeSpiderModel extends Model implements Validatable {
         }
     }
 
+    FileEntry getFileEntryAt(int index) {
+        getFiles().getElementAt(index)
+    }
+
     SwingWorker<Integer, Integer> processFiles(Closure closure) {
         SwingWorker<Integer, Integer> worker = new BarcodeProcessingTask(
                 inputFiles: files,

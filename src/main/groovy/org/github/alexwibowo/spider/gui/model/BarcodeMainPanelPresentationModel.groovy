@@ -89,6 +89,10 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     SwingWorker<Integer,Integer> processFiles() {
         getBean().processFiles() { index ->
             fileTableModel.fireTableRowsUpdated(index, index)
+            FileEntry updatedFileEntry = getBean().getFileEntryAt(index)
+            if (updatedFileEntry.status == Status.Processed) {
+                appendSystemMessage("Processed file [${updatedFileEntry.file.name}] as product '${updatedFileEntry.itemName}'")
+            }
         }
     }
 
