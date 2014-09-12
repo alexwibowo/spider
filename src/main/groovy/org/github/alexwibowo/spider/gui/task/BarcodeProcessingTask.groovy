@@ -16,7 +16,7 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
 
     BarcodeReader barcodeReader
 
-    ProductCatalogue barcodeDictionary
+    ProductCatalogue productCatalogue
 
     Closure callback
 
@@ -54,7 +54,7 @@ class BarcodeProcessingTask extends SwingWorker<Integer, Integer> {
 
     private String findProductNameForBarcode(Collection<String> barcodes) {
         for (String barcode : barcodes) {
-            def productName = barcodeDictionary.getItemName(barcode)
+            def productName = productCatalogue.getItemName(barcode)
             if (productName) {
                 return productName
             }

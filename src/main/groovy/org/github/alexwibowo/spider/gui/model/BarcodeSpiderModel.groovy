@@ -7,11 +7,10 @@ import com.jgoodies.validation.Validatable
 import com.jgoodies.validation.ValidationResult
 import org.github.alexwibowo.spider.BarcodeSpiderException
 import org.github.alexwibowo.spider.barcode.BarcodeReader
-import org.github.alexwibowo.spider.catalogue.ExcelBasedProductCatalogue
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
-import org.github.alexwibowo.spider.gui.task.ExcelBasedProductCatalogueLoadingTask
+import org.github.alexwibowo.spider.gui.task.ExcelProductCatalogueLoader
 import org.github.alexwibowo.spider.gui.task.SourceFolderPreprocessorTask
 
 import javax.swing.*
@@ -25,7 +24,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
     ArrayListModel<FileEntry> files = new ArrayListModel<>()
 
     public static final String PROPERTYNAME_PRODUCT_CATALOGUE ="productCatalogue"
-    ExcelBasedProductCatalogue productCatalogue
+    ProductCatalogue productCatalogue
 
     String productCatalogueFileLocation  //TODO: dont quite like this
 
@@ -49,7 +48,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
         this.firePropertyChange(PROPERTYNAME_SYSTEM_MESSAGE, oldValue, newValue)
     }
 
-    ExcelBasedProductCatalogue getProductCatalogue() {
+    ProductCatalogue getProductCatalogue() {
         return productCatalogue
     }
 
@@ -63,7 +62,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
         this.firePropertyChange("productCatalogueFileLocation", oldValue, newValue)
     }
 
-    void setProductCatalogue(ExcelBasedProductCatalogue newValue) {
+    void setProductCatalogue(ProductCatalogue newValue) {
         def oldValue = getProductCatalogue()
         this.productCatalogue = newValue
         this.firePropertyChange(PROPERTYNAME_PRODUCT_CATALOGUE, oldValue, newValue)
@@ -120,7 +119,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
         SwingWorker<Integer, Integer> worker = new BarcodeProcessingTask(
                 inputFiles: files,
                 outputLocation: outputLocation,
-                barcodeDictionary: productCatalogue,
+                productCatalogue: productCatalogue,
                 barcodeReader: barcodeReader,
                 callback: closure
         )
@@ -136,9 +135,9 @@ class BarcodeSpiderModel extends Model implements Validatable {
         worker
     }
 
-    SwingWorker<ProductCatalogue, Integer> loadCatalogue(File sourceFile, Closure closure) {
-        SwingWorker<ProductCatalogue, Integer> worker = new ExcelBasedProductCatalogueLoadingTask(
-                catalogue: productCatalogue,
+    SwingWorker<Void, Integer> loadCatalogue(File sourceFile, Closure closure) {
+        SwingWorker<Void, Integer> worker = new ExcelProductCatalogueLoader(
+                productCatalogue: productCatalogue,
                 sourceFile: sourceFile,
                 callback: closure
         )

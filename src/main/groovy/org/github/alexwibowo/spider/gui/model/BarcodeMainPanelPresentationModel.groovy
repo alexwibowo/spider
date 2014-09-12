@@ -28,7 +28,7 @@ class BarcodeMainPanelPresentationModel extends PresentationModel<BarcodeSpiderM
     BarcodeMainPanelPresentationModel() {
         super(new BarcodeSpiderModel(
                 barcodeReader: ApplicationContext.instance().barcodeReader,
-                productCatalogue: ApplicationContext.instance().barcodeDictionary
+                productCatalogue: ApplicationContext.instance().productCatalogue
         ))
         validationResultModel = new DefaultValidationResultModel()
         fileTableModel = new QueuedImageFilesTableModel(getFiles())
