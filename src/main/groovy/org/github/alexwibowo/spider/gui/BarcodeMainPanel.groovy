@@ -97,90 +97,13 @@ class BarcodeMainPanel extends MainPanel {
         Bindings.bind(this.logTextArea, getPM().getModel("systemMessage"))
     }
 
-    private class ClearLogAction extends AbstractAction{
-        ClearLogAction() {
-            super("Clear")
-        }
-
-        @Override
-        void actionPerformed(ActionEvent e) {
-            getPM().clearSystemMessage()
-        }
-    }
-
     protected void initEventHandling() {
         super.initEventHandling()
 
-        LOGGER.debug("Initializing open folder button event handling.");
-        openFolderMenuItem.action = new SelectFolderAction("Open folder", { File selectedDirectory ->
-            LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
-            SwingWorker<List<FileEntry>, Void> worker = getPM().loadInputDirectory(selectedDirectory)
-            worker.addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                void propertyChange(PropertyChangeEvent event) {
-                    switch (event.getPropertyName()) {
-                        case "progress":
-                            break;
-                        case "state":
-                            switch ((SwingWorker.StateValue) event.getNewValue()) {
-                                case SwingWorker.StateValue.PENDING:
-                                    break
-                                case SwingWorker.StateValue.STARTED:
-                                    getPM().clearFiles()
-                                    break;
-                                case SwingWorker.StateValue.DONE:
-                                    List<FileEntry> preProcessed = worker.get()
-                                    getPM().setFiles(preProcessed)
-                                    getPM().appendSystemMessage("Queued ${preProcessed.size()} images for processing.")
-                                    break;
-                            }
-                    }
-                }
-            });
-        })
-
-        openCatalogueMenuItem.action = new SelectFileAction("Open Catalogue", { File selectedFile ->
-            LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
-            SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
-            worker.addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                void propertyChange(PropertyChangeEvent event) {
-                    switch (event.getPropertyName()) {
-                        case "progress":
-                            break;
-                        case "state":
-                            switch ((SwingWorker.StateValue) event.getNewValue()) {
-                                case SwingWorker.StateValue.PENDING:
-                                    break
-                                case SwingWorker.StateValue.STARTED:
-                                    break;
-                                case SwingWorker.StateValue.DONE:
-                                    ProductCatalogue productCatalogue = worker.get();
-                                    getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
-                                    getPM().appendSystemMessage("Loaded ${productCatalogue.size()} products.")
-                                    showMessageDialog(BarcodeMainPanel.this.getParent(),
-                                            "Successfully loaded ${productCatalogue.size()} products from catalogue ${selectedFile}.",
-                                            "Catalogue loaded",
-                                            JOptionPane.INFORMATION_MESSAGE
-                                    );
-                                    break;
-                            }
-                    }
-                }
-            })
-        })
-
-        clearLogButton.action = new ClearLogAction()
-        targetDirectoryBrowseButton.action = new SelectFolderAction("Browse", { File selectedDirectory ->
-            LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
-            try {
-                getPM().outputLocation = selectedDirectory.absolutePath
-            } catch (BarcodeSpiderException e) {
-                showMessageDialog(BarcodeSpiderMainFrame.instance(),
-                        e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        })
-
+        toolbarOpenFolderButton.action = createOpenImageFolderAction()
+        toolbarOpenCatalogueButton.action = createOpenCatalogueAction()
+        targetDirectoryBrowseButton.action = createSelectTargetFolderAction()
+        clearLogButton.action = createClearLogAction()
         processButton.addActionListener(new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
@@ -240,6 +163,103 @@ class BarcodeMainPanel extends MainPanel {
                 processTask.get().cancel(true)
             }
         })
+    }
+
+
+    private ClearLogAction createClearLogAction() {
+        new ClearLogAction("", new ImageIcon(getClass().getResource("/clear.png")))
+    }
+
+    private SelectFolderAction createSelectTargetFolderAction() {
+        new SelectFolderAction("Browse", new ImageIcon(getClass().getResource("/directory.png")), { File selectedDirectory ->
+            LOGGER.info("Directory ${selectedDirectory} was chosen as output directory");
+            try {
+                getPM().outputLocation = selectedDirectory.absolutePath
+            } catch (BarcodeSpiderException e) {
+                showMessageDialog(BarcodeSpiderMainFrame.instance(),
+                        e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        })
+    }
+
+    private SelectFolderAction createOpenImageFolderAction() {
+        def action = new SelectFolderAction("", new ImageIcon(getClass().getResource("/directory.png")), { File selectedDirectory ->
+            LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
+            SwingWorker<List<FileEntry>, Void> worker = getPM().loadInputDirectory(selectedDirectory)
+            worker.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                void propertyChange(PropertyChangeEvent event) {
+                    switch (event.getPropertyName()) {
+                        case "progress":
+                            break;
+                        case "state":
+                            switch ((SwingWorker.StateValue) event.getNewValue()) {
+                                case SwingWorker.StateValue.PENDING:
+                                    break
+                                case SwingWorker.StateValue.STARTED:
+                                    getPM().clearFiles()
+                                    break;
+                                case SwingWorker.StateValue.DONE:
+                                    List<FileEntry> preProcessed = worker.get()
+                                    getPM().setFiles(preProcessed)
+                                    getPM().appendSystemMessage("Queued ${preProcessed.size()} images for processing.")
+                                    break;
+                            }
+                    }
+                }
+            });
+        })
+        action.putValue(Action.SHORT_DESCRIPTION, "Open folder that contains the images to be processed")
+        action
+    }
+
+    private SelectFileAction createOpenCatalogueAction() {
+        def selectCatalogueAction = new SelectFileAction("", new ImageIcon(getClass().getResource("/catalogue.png")), { File selectedFile ->
+            LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
+            SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
+            worker.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                void propertyChange(PropertyChangeEvent event) {
+                    switch (event.getPropertyName()) {
+                        case "progress":
+                            break;
+                        case "state":
+                            switch ((SwingWorker.StateValue) event.getNewValue()) {
+                                case SwingWorker.StateValue.PENDING:
+                                    break
+                                case SwingWorker.StateValue.STARTED:
+                                    break;
+                                case SwingWorker.StateValue.DONE:
+                                    // not doing worker.get(), as the worker updates the model itself.
+                                    def productCatalogue = getPM().getBean().getProductCatalogue()
+                                    getPM().getBean().setProductCatalogueFileLocation(selectedFile.getAbsolutePath())
+                                    getPM().appendSystemMessage("Loaded ${productCatalogue.size()} products.")
+                                    showMessageDialog(BarcodeMainPanel.this.getParent(),
+                                            "Successfully loaded ${productCatalogue.size()} products from catalogue ${selectedFile}.",
+                                            "Catalogue loaded",
+                                            JOptionPane.INFORMATION_MESSAGE
+                                    );
+                                    break;
+                            }
+                    }
+                }
+            })
+        })
+        selectCatalogueAction.putValue(Action.SHORT_DESCRIPTION, "Open catalogue file containing the barcode and the corresponding product name")
+        selectCatalogueAction
+    }
+
+
+
+    private class ClearLogAction extends AbstractAction {
+        ClearLogAction(String actionName, ImageIcon icon) {
+            super(actionName, icon)
+        }
+
+        @Override
+        void actionPerformed(ActionEvent e) {
+            getPM().clearSystemMessage()
+        }
     }
 }
 

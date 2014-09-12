@@ -9,7 +9,7 @@ new FormModel {
 		}
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 			"$columnSpecs": "default:grow"
-			"$rowSpecs": "default, linegap, default, narrowlinegap, fill:default:grow, linegap, default"
+			"$rowSpecs": "default, linegap, fill:default:grow, linegap, default"
 		} ) {
 			name: "this"
 			"minimumSize": new java.awt.Dimension( 850, 539 )
@@ -36,33 +36,10 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuItem2"
 						"text": "Exit"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/exit.png" )
 					} )
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) )
-			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-				name: "toolBar1"
-				"floatable": false
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "processButton"
-					"text": "Process"
-					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "stopButton"
-					"text": "Stop"
-					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
-					"enabled": false
-				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "separator2"
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "clearLogButton"
-					"text": "Clear Logs"
-				} )
-			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-				"gridY": 3
-			} )
 			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 				name: "mainBodySplitPane"
 				"orientation": 0
@@ -70,8 +47,10 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 					name: "topLevelSplitPane"
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": new java.awt.Dimension( 787, 300 )
+					"preferredSize": new java.awt.Dimension( 787, 300 )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
-						"$columnSpecs": "default, labelcompgap, default:grow, labelcompgap, default"
+						"$columnSpecs": "default, labelcompgap, default:grow, labelcompgap, default, labelcompgap, default, labelcompgap, default"
 						"$rowSpecs": "fill:default:grow, linegap, default"
 					} ) {
 						name: "sourceFolderPanel"
@@ -84,6 +63,7 @@ new FormModel {
 							name: "imageFilesContainer"
 							"title": "Images"
 							"minimumSize": new java.awt.Dimension( 600, 55 )
+							"toolBar": new FormReference( "imageInternalFrameToolbar" )
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "fileTableContainer"
 								add( new FormComponent( "javax.swing.JTable" ) {
@@ -95,7 +75,7 @@ new FormModel {
 								"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 							} )
 						}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-							"gridWidth": 5
+							"gridWidth": 9
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "targetDirectoryLabel"
@@ -119,6 +99,25 @@ new FormModel {
 							"gridX": 5
 							"gridY": 3
 						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "processButton"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/go-next.png" )
+							"border": static com.jgoodies.forms.factories.Borders createEmptyBorder( "2dlu, 2dlu, 2dlu, 2dlu" )
+							"text": "Start Processing"
+						}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+							"gridX": 7
+							"gridY": 3
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "stopButton"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/stop.png" )
+							"enabled": false
+							"border": static com.jgoodies.forms.factories.Borders createEmptyBorder( "2dlu, 2dlu, 2dlu, 2dlu" )
+							"text": "Stop Processing"
+						}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+							"gridX": 9
+							"gridY": 3
+						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
 						"value": "left"
 					} )
@@ -135,6 +134,7 @@ new FormModel {
 						} ) {
 							name: "catalogueContainer"
 							"title": "Catalogue"
+							"toolBar": new FormReference( "catalogueInternalFrameToolbar" )
 							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 								name: "catalogueScrollPane"
 								add( new FormComponent( "javax.swing.JTable" ) {
@@ -160,6 +160,9 @@ new FormModel {
 				} ) {
 					name: "outputContainer"
 					"title": "Logs"
+					"toolBar": new FormReference( "logsInternalFrameToolbar" )
+					"minimumSize": new java.awt.Dimension( 66, 125 )
+					"preferredSize": new java.awt.Dimension( 66, 125 )
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "logScrollPane"
 						add( new FormComponent( "javax.swing.JTextArea" ) {
@@ -176,7 +179,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 				"vAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
-				"gridY": 5
+				"gridY": 3
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
 				"$columnSpecs": "default, labelcompgap, default:grow"
@@ -196,12 +199,44 @@ new FormModel {
 					"gridX": 3
 				} )
 			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
-				"gridY": 7
+				"gridY": 5
 				"hAlign": sfield com.jgoodies.forms.layout.CellConstraints FILL
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 30, 10 )
-			"size": new java.awt.Dimension( 800, 620 )
+			"size": new java.awt.Dimension( 800, 600 )
+		} )
+		add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+			name: "logsInternalFrameToolbar"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "clearLogButton"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/clear.png" )
+				"border": static com.jgoodies.forms.factories.Borders createEmptyBorder( "2dlu, 2dlu, 2dlu, 2dlu" )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 845, 100 )
+		} )
+		add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+			name: "imageInternalFrameToolbar"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "toolbarOpenFolderButton"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/directory.png" )
+				"toolTipText": "Open folder that contains the images to be processed"
+				"border": static com.jgoodies.forms.factories.Borders createEmptyBorder( "2dlu, 2dlu, 2dlu, 2dlu" )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 855, 65 )
+		} )
+		add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+			name: "catalogueInternalFrameToolbar"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "toolbarOpenCatalogueButton"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/catalogue.png" )
+				"toolTipText": "Open catalogue file containing the barcode and the corresponding product name"
+				"border": static com.jgoodies.forms.factories.Borders createEmptyBorder( "2dlu, 2dlu, 2dlu, 2dlu" )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 860, 145 )
 		} )
 	}
 }

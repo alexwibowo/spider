@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <entry key="classpath1" value="jgoodies-looks-2.5.3.jar" />
+  <entry key="classpath2" value="/Users/alexwibowo/dev/insight/barcodeSpider/src/main/resources" />
   <entry key="sourcefolders1" value="." />
 </project>
 

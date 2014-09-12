@@ -137,7 +137,7 @@ class BarcodeSpiderModel extends Model implements Validatable {
 
     SwingWorker<Void, Integer> loadCatalogue(File sourceFile, Closure closure) {
         SwingWorker<Void, Integer> worker = new ExcelProductCatalogueLoader(
-                productCatalogue: productCatalogue,
+                catalogue: productCatalogue,
                 sourceFile: sourceFile,
                 callback: closure
         )

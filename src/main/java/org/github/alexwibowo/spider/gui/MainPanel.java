@@ -30,10 +30,6 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		openFolderMenuItem = new JMenuItem();
 		openCatalogueMenuItem = new JMenuItem();
 		menuItem2 = new JMenuItem();
-		toolBar1 = new JToolBar();
-		processButton = new JButton();
-		stopButton = new JButton();
-		clearLogButton = new JButton();
 		mainBodySplitPane = new JSplitPane();
 		topLevelSplitPane = new JSplitPane();
 		sourceFolderPanel = new JPanel();
@@ -43,6 +39,8 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		targetDirectoryLabel = new JLabel();
 		targetDirectoryValueLabel = new JTextField();
 		targetDirectoryBrowseButton = new JButton();
+		processButton = new JButton();
+		stopButton = new JButton();
 		cataloguePanel = new JPanel();
 		catalogueContainer = new SimpleInternalFrame();
 		catalogueScrollPane = new JScrollPane();
@@ -53,13 +51,19 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		statusBarPanel = new JPanel();
 		progressLabel = compFactory.createLabel("text");
 		processProgressBar = new JProgressBar();
+		logsInternalFrameToolbar = new JToolBar();
+		clearLogButton = new JButton();
+		imageInternalFrameToolbar = new JToolBar();
+		toolbarOpenFolderButton = new JButton();
+		catalogueInternalFrameToolbar = new JToolBar();
+		toolbarOpenCatalogueButton = new JButton();
 
 		//======== this ========
 		setMinimumSize(new Dimension(850, 539));
 		setPreferredSize(new Dimension(850, 610));
 		setLayout(new FormLayout(
 			"default:grow",
-			"default, $lgap, default, $nlgap, fill:default:grow, $lgap, default"));
+			"default, $lgap, fill:default:grow, $lgap, default"));
 
 		//======== menuBar1 ========
 		{
@@ -82,33 +86,12 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 
 				//---- menuItem2 ----
 				menuItem2.setText("Exit");
+				menuItem2.setIcon(new ImageIcon(getClass().getResource("/exit.png")));
 				menu1.add(menuItem2);
 			}
 			menuBar1.add(menu1);
 		}
 		add(menuBar1, CC.xy(1, 1));
-
-		//======== toolBar1 ========
-		{
-			toolBar1.setFloatable(false);
-
-			//---- processButton ----
-			processButton.setText("Process");
-			processButton.setIcon(null);
-			toolBar1.add(processButton);
-
-			//---- stopButton ----
-			stopButton.setText("Stop");
-			stopButton.setIcon(null);
-			stopButton.setEnabled(false);
-			toolBar1.add(stopButton);
-			toolBar1.addSeparator();
-
-			//---- clearLogButton ----
-			clearLogButton.setText("Clear Logs");
-			toolBar1.add(clearLogButton);
-		}
-		add(toolBar1, CC.xy(1, 3));
 
 		//======== mainBodySplitPane ========
 		{
@@ -118,19 +101,22 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 			//======== topLevelSplitPane ========
 			{
 				topLevelSplitPane.setBorder(null);
+				topLevelSplitPane.setMinimumSize(new Dimension(787, 300));
+				topLevelSplitPane.setPreferredSize(new Dimension(787, 300));
 
 				//======== sourceFolderPanel ========
 				{
 					sourceFolderPanel.setPreferredSize(new Dimension(580, 400));
 					sourceFolderPanel.setMinimumSize(new Dimension(580, 400));
 					sourceFolderPanel.setLayout(new FormLayout(
-						"default, $lcgap, default:grow, $lcgap, default",
+						"default, $lcgap, default:grow, 3*($lcgap, default)",
 						"fill:default:grow, $lgap, default"));
 
 					//======== imageFilesContainer ========
 					{
 						imageFilesContainer.setTitle("Images");
 						imageFilesContainer.setMinimumSize(new Dimension(600, 55));
+						imageFilesContainer.setToolBar(imageInternalFrameToolbar);
 						Container imageFilesContainerContentPane = imageFilesContainer.getContentPane();
 						imageFilesContainerContentPane.setLayout(new FormLayout(
 							"default:grow",
@@ -146,7 +132,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 						}
 						imageFilesContainerContentPane.add(fileTableContainer, CC.xy(1, 1, CC.DEFAULT, CC.FILL));
 					}
-					sourceFolderPanel.add(imageFilesContainer, CC.xywh(1, 1, 5, 1));
+					sourceFolderPanel.add(imageFilesContainer, CC.xywh(1, 1, 9, 1));
 
 					//---- targetDirectoryLabel ----
 					targetDirectoryLabel.setText("Save to");
@@ -160,6 +146,19 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 					targetDirectoryBrowseButton.setText("Browse");
 					targetDirectoryBrowseButton.setIcon(null);
 					sourceFolderPanel.add(targetDirectoryBrowseButton, CC.xy(5, 3));
+
+					//---- processButton ----
+					processButton.setIcon(new ImageIcon(getClass().getResource("/go-next.png")));
+					processButton.setBorder(Borders.createEmptyBorder("2dlu, 2dlu, 2dlu, 2dlu"));
+					processButton.setText("Start Processing");
+					sourceFolderPanel.add(processButton, CC.xy(7, 3));
+
+					//---- stopButton ----
+					stopButton.setIcon(new ImageIcon(getClass().getResource("/stop.png")));
+					stopButton.setEnabled(false);
+					stopButton.setBorder(Borders.createEmptyBorder("2dlu, 2dlu, 2dlu, 2dlu"));
+					stopButton.setText("Stop Processing");
+					sourceFolderPanel.add(stopButton, CC.xy(9, 3));
 				}
 				topLevelSplitPane.setLeftComponent(sourceFolderPanel);
 
@@ -174,6 +173,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 					//======== catalogueContainer ========
 					{
 						catalogueContainer.setTitle("Catalogue");
+						catalogueContainer.setToolBar(catalogueInternalFrameToolbar);
 						Container catalogueContainerContentPane = catalogueContainer.getContentPane();
 						catalogueContainerContentPane.setLayout(new FormLayout(
 							"default:grow",
@@ -194,6 +194,9 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 			//======== outputContainer ========
 			{
 				outputContainer.setTitle("Logs");
+				outputContainer.setToolBar(logsInternalFrameToolbar);
+				outputContainer.setMinimumSize(new Dimension(66, 125));
+				outputContainer.setPreferredSize(new Dimension(66, 125));
 				Container outputContainerContentPane = outputContainer.getContentPane();
 				outputContainerContentPane.setLayout(new FormLayout(
 					"default:grow",
@@ -210,7 +213,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 			}
 			mainBodySplitPane.setBottomComponent(outputContainer);
 		}
-		add(mainBodySplitPane, CC.xy(1, 5, CC.FILL, CC.FILL));
+		add(mainBodySplitPane, CC.xy(1, 3, CC.FILL, CC.FILL));
 
 		//======== statusBarPanel ========
 		{
@@ -227,7 +230,36 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 			processProgressBar.setString("0");
 			statusBarPanel.add(processProgressBar, CC.xy(3, 1));
 		}
-		add(statusBarPanel, CC.xy(1, 7, CC.FILL, CC.DEFAULT));
+		add(statusBarPanel, CC.xy(1, 5, CC.FILL, CC.DEFAULT));
+
+		//======== logsInternalFrameToolbar ========
+		{
+
+			//---- clearLogButton ----
+			clearLogButton.setIcon(new ImageIcon(getClass().getResource("/clear.png")));
+			clearLogButton.setBorder(Borders.createEmptyBorder("2dlu, 2dlu, 2dlu, 2dlu"));
+			logsInternalFrameToolbar.add(clearLogButton);
+		}
+
+		//======== imageInternalFrameToolbar ========
+		{
+
+			//---- toolbarOpenFolderButton ----
+			toolbarOpenFolderButton.setIcon(new ImageIcon(getClass().getResource("/directory.png")));
+			toolbarOpenFolderButton.setToolTipText("Open folder that contains the images to be processed");
+			toolbarOpenFolderButton.setBorder(Borders.createEmptyBorder("2dlu, 2dlu, 2dlu, 2dlu"));
+			imageInternalFrameToolbar.add(toolbarOpenFolderButton);
+		}
+
+		//======== catalogueInternalFrameToolbar ========
+		{
+
+			//---- toolbarOpenCatalogueButton ----
+			toolbarOpenCatalogueButton.setIcon(new ImageIcon(getClass().getResource("/catalogue.png")));
+			toolbarOpenCatalogueButton.setToolTipText("Open catalogue file containing the barcode and the corresponding product name");
+			toolbarOpenCatalogueButton.setBorder(Borders.createEmptyBorder("2dlu, 2dlu, 2dlu, 2dlu"));
+			catalogueInternalFrameToolbar.add(toolbarOpenCatalogueButton);
+		}
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
 	}
 
@@ -237,10 +269,6 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JMenuItem openFolderMenuItem;
 	protected JMenuItem openCatalogueMenuItem;
 	protected JMenuItem menuItem2;
-	protected JToolBar toolBar1;
-	protected JButton processButton;
-	protected JButton stopButton;
-	protected JButton clearLogButton;
 	protected JSplitPane mainBodySplitPane;
 	protected JSplitPane topLevelSplitPane;
 	protected JPanel sourceFolderPanel;
@@ -250,6 +278,8 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JLabel targetDirectoryLabel;
 	protected JTextField targetDirectoryValueLabel;
 	protected JButton targetDirectoryBrowseButton;
+	protected JButton processButton;
+	protected JButton stopButton;
 	protected JPanel cataloguePanel;
 	protected SimpleInternalFrame catalogueContainer;
 	protected JScrollPane catalogueScrollPane;
@@ -260,5 +290,11 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JPanel statusBarPanel;
 	protected JLabel progressLabel;
 	protected JProgressBar processProgressBar;
+	protected JToolBar logsInternalFrameToolbar;
+	protected JButton clearLogButton;
+	protected JToolBar imageInternalFrameToolbar;
+	protected JButton toolbarOpenFolderButton;
+	protected JToolBar catalogueInternalFrameToolbar;
+	protected JButton toolbarOpenCatalogueButton;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

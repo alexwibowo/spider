@@ -4,8 +4,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import javax.swing.AbstractAction
+import javax.swing.Icon
 import javax.swing.JFileChooser
-import javax.swing.UIManager
 import java.awt.event.ActionEvent
 
 
@@ -14,9 +14,10 @@ class SelectFileAction extends AbstractAction{
 
     Closure closure
 
-    SelectFileAction(String name, Closure closure) {
-        super(name,UIManager.getIcon("Tree.openIcon"))
+    SelectFileAction(String name, Icon icon, Closure closure) {
+        super(name, icon)
         this.closure = closure
+
     }
 
     @Override
