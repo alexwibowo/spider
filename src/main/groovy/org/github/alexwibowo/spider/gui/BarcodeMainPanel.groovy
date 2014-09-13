@@ -214,6 +214,15 @@ class BarcodeMainPanel extends MainPanel {
     }
 
     private SelectFileAction createOpenCatalogueAction() {
+        javax.swing.filechooser.FileFilter catalogueFileFilter = new javax.swing.filechooser.FileFilter() {
+            boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".xls") || f.isDirectory();
+            }
+            String getDescription() {
+                return "Excel 97-2004 (.xls)";
+            }
+        }
+
         def selectCatalogueAction = new SelectFileAction("", new ImageIcon(getClass().getResource("/catalogue.png")), { File selectedFile ->
             LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
             SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
@@ -245,6 +254,7 @@ class BarcodeMainPanel extends MainPanel {
                 }
             })
         })
+        selectCatalogueAction.fileFilter = catalogueFileFilter
         selectCatalogueAction.putValue(Action.SHORT_DESCRIPTION, "Open catalogue file containing the barcode and the corresponding product name")
         selectCatalogueAction
     }
