@@ -15,9 +15,9 @@ class QueuedImageFilesTableModel extends AbstractTableAdapter<FileEntry> {
     }
 
     protected enum Column {
-        FileName("File Name", 0),
-        LastModifiedDate("Last Modified", 1),
-        Status("Status", 2),
+        Status("", 0),
+        FileName("File Name", 1),
+        LastModifiedDate("Last Modified", 2),
         Barcode("Barcode", 3),
         ProductName("Product Name", 4)
 

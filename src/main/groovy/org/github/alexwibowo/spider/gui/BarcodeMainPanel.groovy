@@ -59,7 +59,7 @@ class BarcodeMainPanel extends MainPanel {
 
     public static class FileEntryTabelRowRenderer extends DefaultTableCellRenderer {
         QueuedImageFilesTableModel fileTableModel
-
+        JLabel lbl = new JLabel();
         FileEntryTabelRowRenderer() {
             setOpaque(true); //MUST do this for background to show up.
         }
@@ -68,14 +68,25 @@ class BarcodeMainPanel extends MainPanel {
         Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             FileEntry fileEntry = fileTableModel.getRow(row)
-            if (fileEntry.status == Status.Unprocessed) {
+            if (column == 0) {
+                if (fileEntry.status == Status.Unprocessed) {
+                    lbl.setIcon(new ImageIcon(getClass().getResource("/bullet_blue.png")))
+                } else if (fileEntry.status == Status.Processing) {
+                    lbl.setIcon(new ImageIcon(getClass().getResource("/bullet_orange.png")))
+                } else if (fileEntry.status == Status.Processed) {
+                    lbl.setIcon(new ImageIcon(getClass().getResource("/bullet_green.png")))
+                }
+                return lbl;
+            }else{
+                return c;
+            }
+           /* if (fileEntry.status == Status.Unprocessed) {
                 c.setBackground(Color.WHITE);
             } else if (fileEntry.status == Status.Processing) {
                 c.setBackground(Color.ORANGE);
             } else if (fileEntry.status == Status.Processed) {
                 c.setBackground(Color.GREEN);
-            }
-            return c;
+            }*/
         }
     }
 
