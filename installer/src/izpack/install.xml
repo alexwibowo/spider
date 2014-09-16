@@ -34,6 +34,7 @@
     <!-- Need to define ant properties we want to use during install as variables -->
     <variables>
         <variable name="app.name" value="@{app.name}"/>
+        <variable name="JDKPathPanel.minVersion" value="1.7" />
         <variable name="UserPathPanelVariable" value="@{default.dest.dir.sql}"/>
         <variable name="UserPathPanelDependsName" value="Install Database Server"/>
     </variables>
@@ -59,6 +60,7 @@
         <panel classname="HelloPanel"/>
         <panel classname="InfoPanel"/>
         <panel classname="LicencePanel"/>
+        <panel classname="JDKPathPanel"/>
         <panel classname="TargetPanel"/>
         <panel classname="PacksPanel"/>
         <!--<panel classname="UserInputPanel" id="UserInputPanel.0"/>-->
