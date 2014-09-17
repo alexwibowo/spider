@@ -174,6 +174,14 @@ class BarcodeMainPanel extends MainPanel {
                 processTask.get().cancel(true)
             }
         })
+
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                LOGGER.info("Exiting Barcode Spider");
+                System.exit(0);
+            }
+        })
     }
 
 

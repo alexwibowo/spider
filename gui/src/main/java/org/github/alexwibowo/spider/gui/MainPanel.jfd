@@ -34,7 +34,7 @@ new FormModel {
 						name: "separator1"
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem2"
+						name: "exitMenuItem"
 						"text": "Exit"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/exit.png" )
 					} )

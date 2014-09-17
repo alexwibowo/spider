@@ -29,7 +29,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 		menu1 = new JMenu();
 		openFolderMenuItem = new JMenuItem();
 		openCatalogueMenuItem = new JMenuItem();
-		menuItem2 = new JMenuItem();
+		exitMenuItem = new JMenuItem();
 		mainBodySplitPane = new JSplitPane();
 		topLevelSplitPane = new JSplitPane();
 		sourceFolderPanel = new JPanel();
@@ -84,10 +84,10 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 				menu1.add(openCatalogueMenuItem);
 				menu1.addSeparator();
 
-				//---- menuItem2 ----
-				menuItem2.setText("Exit");
-				menuItem2.setIcon(new ImageIcon(getClass().getResource("/exit.png")));
-				menu1.add(menuItem2);
+				//---- exitMenuItem ----
+				exitMenuItem.setText("Exit");
+				exitMenuItem.setIcon(new ImageIcon(getClass().getResource("/exit.png")));
+				menu1.add(exitMenuItem);
 			}
 			menuBar1.add(menu1);
 		}
@@ -268,7 +268,7 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JMenu menu1;
 	protected JMenuItem openFolderMenuItem;
 	protected JMenuItem openCatalogueMenuItem;
-	protected JMenuItem menuItem2;
+	protected JMenuItem exitMenuItem;
 	protected JSplitPane mainBodySplitPane;
 	protected JSplitPane topLevelSplitPane;
 	protected JPanel sourceFolderPanel;
