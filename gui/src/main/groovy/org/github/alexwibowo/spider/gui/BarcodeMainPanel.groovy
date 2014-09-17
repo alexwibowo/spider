@@ -111,8 +111,16 @@ class BarcodeMainPanel extends MainPanel {
     protected void initEventHandling() {
         super.initEventHandling()
 
-        toolbarOpenFolderButton.action = createOpenImageFolderAction()
-        toolbarOpenCatalogueButton.action = createOpenCatalogueAction()
+
+        def openFolderAction = createOpenImageFolderAction()
+        toolbarOpenFolderButton.action = openFolderAction
+        openFolderMenuItem.action =  openFolderAction
+
+
+        def openCatalogueAction = createOpenCatalogueAction()
+        toolbarOpenCatalogueButton.action = openCatalogueAction
+        openCatalogueMenuItem.action = openCatalogueAction
+
         targetDirectoryBrowseButton.action = createSelectTargetFolderAction()
         clearLogButton.action = createClearLogAction()
         processButton.addActionListener(new ActionListener() {
@@ -175,6 +183,7 @@ class BarcodeMainPanel extends MainPanel {
             }
         })
 
+
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
@@ -202,7 +211,7 @@ class BarcodeMainPanel extends MainPanel {
     }
 
     private SelectFolderAction createOpenImageFolderAction() {
-        def action = new SelectFolderAction("", new ImageIcon(getClass().getResource("/directory.png")), { File selectedDirectory ->
+        def action = new SelectFolderAction("Choose Folder", new ImageIcon(getClass().getResource("/directory.png")), { File selectedDirectory ->
             LOGGER.info("Directory ${selectedDirectory} was chosen as input directory");
             SwingWorker<List<FileEntry>, Void> worker = getPM().loadInputDirectory(selectedDirectory)
             worker.addPropertyChangeListener(new PropertyChangeListener() {
@@ -242,7 +251,7 @@ class BarcodeMainPanel extends MainPanel {
             }
         }
 
-        def selectCatalogueAction = new SelectFileAction("", new ImageIcon(getClass().getResource("/catalogue.png")), { File selectedFile ->
+        def selectCatalogueAction = new SelectFileAction("Open Catalogue", new ImageIcon(getClass().getResource("/catalogue.png")), { File selectedFile ->
             LOGGER.info("File ${selectedFile} was chosen as the catalogue file.");
             SwingWorker<ProductCatalogue, Product> worker = getPM().loadCatalogue(selectedFile)
             worker.addPropertyChangeListener(new PropertyChangeListener() {
