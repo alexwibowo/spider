@@ -144,10 +144,6 @@ class BarcodeSpiderModel extends Model implements Validatable {
             sourceFile = inputFile
             callback= closure
         }
-/*
-        SwingWorker<Void, Integer> worker = new ExcelHSSFProductCatalogueLoader(
-
-        )*/
         loader.execute()
         loader
     }

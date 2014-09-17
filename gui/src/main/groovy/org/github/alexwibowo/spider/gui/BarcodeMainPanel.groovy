@@ -49,6 +49,8 @@ class BarcodeMainPanel extends MainPanel {
         super.initComponents()
         ValidationComponentUtils.setMandatory(targetDirectoryValueLabel, true);
 
+        this.fileTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN)
+
         getPM().validationResultModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             void propertyChange(PropertyChangeEvent evt) {
@@ -77,16 +79,9 @@ class BarcodeMainPanel extends MainPanel {
                     lbl.setIcon(new ImageIcon(getClass().getResource("/bullet_green.png")))
                 }
                 return lbl;
-            }else{
+            } else {
                 return c;
             }
-           /* if (fileEntry.status == Status.Unprocessed) {
-                c.setBackground(Color.WHITE);
-            } else if (fileEntry.status == Status.Processing) {
-                c.setBackground(Color.ORANGE);
-            } else if (fileEntry.status == Status.Processed) {
-                c.setBackground(Color.GREEN);
-            }*/
         }
     }
 
@@ -99,8 +94,15 @@ class BarcodeMainPanel extends MainPanel {
 
         TableColumnModel columnModel = this.fileTable.getColumnModel()
         columnModel.getColumn(0).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(0).preferredWidth = 5
+        columnModel.getColumn(0).maxWidth = 5
+
         columnModel.getColumn(1).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(1).preferredWidth = 100
+
         columnModel.getColumn(2).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
+        columnModel.getColumn(2).preferredWidth = 100
+
         columnModel.getColumn(3).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
         columnModel.getColumn(4).setCellRenderer(new FileEntryTabelRowRenderer(fileTableModel: getPM().fileTableModel))
 
@@ -114,7 +116,7 @@ class BarcodeMainPanel extends MainPanel {
 
         def openFolderAction = createOpenImageFolderAction()
         toolbarOpenFolderButton.action = openFolderAction
-        openFolderMenuItem.action =  openFolderAction
+        openFolderMenuItem.action = openFolderAction
 
 
         def openCatalogueAction = createOpenCatalogueAction()
@@ -245,8 +247,9 @@ class BarcodeMainPanel extends MainPanel {
         javax.swing.filechooser.FileFilter excel97FileFilter = new javax.swing.filechooser.FileFilter() {
             boolean accept(File f) {
                 return f.getName().toLowerCase().endsWith(".xls") ||
-                       f.isDirectory();
+                        f.isDirectory();
             }
+
             String getDescription() {
                 return "Excel 97-2007 (.xls) ";
             }
@@ -254,8 +257,9 @@ class BarcodeMainPanel extends MainPanel {
         javax.swing.filechooser.FileFilter excel2007FileFilter = new javax.swing.filechooser.FileFilter() {
             boolean accept(File f) {
                 return f.getName().toLowerCase().endsWith(".xlsx") ||
-                       f.isDirectory();
+                        f.isDirectory();
             }
+
             String getDescription() {
                 return "Excel 2007 OOXML (.xlsx) ";
             }
@@ -292,11 +296,10 @@ class BarcodeMainPanel extends MainPanel {
                 }
             })
         })
-        selectCatalogueAction.fileFilters << excel97FileFilter  << excel2007FileFilter
+        selectCatalogueAction.fileFilters << excel97FileFilter << excel2007FileFilter
         selectCatalogueAction.putValue(Action.SHORT_DESCRIPTION, "Open catalogue file containing the barcode and the corresponding product name")
         selectCatalogueAction
     }
-
 
 
     private class ClearLogAction extends AbstractAction {
