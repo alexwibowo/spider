@@ -91,6 +91,7 @@
             </fileset>
             <file src="barcodeSpider.sh" targetdir="$INSTALL_PATH"/>
             <parsable targetfile="$INSTALL_PATH/barcodeSpider.sh"/>
+            <executable targetfile="$INSTALL_PATH/barcodeSpider.sh"/>
         </pack>
 
         <!--  <pack name="Install Database Server" required="no" preselected="yes" os="windows"
