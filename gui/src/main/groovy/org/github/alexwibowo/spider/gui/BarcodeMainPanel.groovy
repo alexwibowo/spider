@@ -242,12 +242,22 @@ class BarcodeMainPanel extends MainPanel {
     }
 
     private SelectFileAction createOpenCatalogueAction() {
-        javax.swing.filechooser.FileFilter catalogueFileFilter = new javax.swing.filechooser.FileFilter() {
+        javax.swing.filechooser.FileFilter excel97FileFilter = new javax.swing.filechooser.FileFilter() {
             boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith(".xls") || f.isDirectory();
+                return f.getName().toLowerCase().endsWith(".xls") ||
+                       f.isDirectory();
             }
             String getDescription() {
-                return "Excel 97-2004 (.xls)";
+                return "Excel 97-2007 (.xls) ";
+            }
+        }
+        javax.swing.filechooser.FileFilter excel2007FileFilter = new javax.swing.filechooser.FileFilter() {
+            boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".xlsx") ||
+                       f.isDirectory();
+            }
+            String getDescription() {
+                return "Excel 2007 OOXML (.xlsx) ";
             }
         }
 
@@ -282,7 +292,7 @@ class BarcodeMainPanel extends MainPanel {
                 }
             })
         })
-        selectCatalogueAction.fileFilter = catalogueFileFilter
+        selectCatalogueAction.fileFilters << excel97FileFilter  << excel2007FileFilter
         selectCatalogueAction.putValue(Action.SHORT_DESCRIPTION, "Open catalogue file containing the barcode and the corresponding product name")
         selectCatalogueAction
     }

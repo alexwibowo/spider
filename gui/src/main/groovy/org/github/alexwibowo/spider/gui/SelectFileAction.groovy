@@ -12,13 +12,14 @@ import java.awt.event.ActionEvent
 class SelectFileAction extends AbstractAction{
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectFileAction.class.getName());
 
-    javax.swing.filechooser.FileFilter fileFilter
+    List<javax.swing.filechooser.FileFilter> fileFilters
 
     Closure closure
 
     SelectFileAction(String name, Icon icon, Closure closure) {
         super(name, icon)
         this.closure = closure
+        this.fileFilters = []
 
     }
 
@@ -27,7 +28,9 @@ class SelectFileAction extends AbstractAction{
         JFileChooser chooser = new JFileChooser();
         chooser.fileSelectionMode = JFileChooser.FILES_ONLY
         chooser.setLocation(50, 50)
-        chooser.setFileFilter(fileFilter)
+        fileFilters.each {
+            chooser.addChoosableFileFilter(it)
+        }
         if (chooser.showOpenDialog(BarcodeSpiderMainFrame.instance()) == JFileChooser.APPROVE_OPTION) {
             closure.call(chooser.selectedFile)
         } else {

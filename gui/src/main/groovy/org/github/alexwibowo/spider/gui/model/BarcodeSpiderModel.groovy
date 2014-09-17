@@ -10,7 +10,9 @@ import org.github.alexwibowo.spider.barcode.BarcodeReader
 import org.github.alexwibowo.spider.catalogue.Product
 import org.github.alexwibowo.spider.catalogue.ProductCatalogue
 import org.github.alexwibowo.spider.gui.task.BarcodeProcessingTask
-import org.github.alexwibowo.spider.gui.task.ExcelProductCatalogueLoader
+import org.github.alexwibowo.spider.gui.task.BaseExcelProductCatalogueLoader
+import org.github.alexwibowo.spider.gui.task.ExcelHSSFProductCatalogueLoader
+import org.github.alexwibowo.spider.gui.task.ExcelProductCatalogueLoaderFactory
 import org.github.alexwibowo.spider.gui.task.SourceFolderPreprocessorTask
 
 import javax.swing.*
@@ -135,14 +137,19 @@ class BarcodeSpiderModel extends Model implements Validatable {
         worker
     }
 
-    SwingWorker<Void, Integer> loadCatalogue(File sourceFile, Closure closure) {
-        SwingWorker<Void, Integer> worker = new ExcelProductCatalogueLoader(
-                catalogue: productCatalogue,
-                sourceFile: sourceFile,
-                callback: closure
-        )
-        worker.execute()
-        worker
+    SwingWorker<Void, Integer> loadCatalogue(File inputFile, Closure closure) {
+        BaseExcelProductCatalogueLoader loader = new ExcelProductCatalogueLoaderFactory().createLoader(inputFile)
+        loader.with {
+            catalogue = productCatalogue
+            sourceFile = inputFile
+            callback= closure
+        }
+/*
+        SwingWorker<Void, Integer> worker = new ExcelHSSFProductCatalogueLoader(
+
+        )*/
+        loader.execute()
+        loader
     }
 
     @Override

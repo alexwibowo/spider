@@ -1,17 +1,17 @@
 package org.github.alexwibowo.spider.catalogue
 
-import org.github.alexwibowo.spider.gui.task.ExcelProductCatalogueLoader
+import org.github.alexwibowo.spider.gui.task.ExcelHSSFProductCatalogueLoader
 import spock.lang.Specification
 
 
-class ExcelProductCatalogueLoaderSpec extends Specification {
-    private ExcelProductCatalogueLoader catalogueLoader
+class ExcelHSSFProductCatalogueLoaderSpec extends Specification {
+    private ExcelHSSFProductCatalogueLoader catalogueLoader
 
     private ProductCatalogue catalogue
 
     def setup() {
         catalogue = new ProductCatalogue()
-        catalogueLoader = new ExcelProductCatalogueLoader(catalogue: catalogue)
+        catalogueLoader = new ExcelHSSFProductCatalogueLoader(catalogue: catalogue)
     }
 
     private File getTestInputFile(String filename) {
@@ -48,9 +48,6 @@ class ExcelProductCatalogueLoaderSpec extends Specification {
         assert catalogue.size() == 3
     }
 
-    def "should be able to read the catalogue in XLSX format"() {
-
-    }
 
     def "should fail when given catalogue without the barcode column"() {
         when: "reading the catalogue"
