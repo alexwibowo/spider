@@ -125,7 +125,27 @@ class BarcodeMainPanel extends MainPanel {
 
         targetDirectoryBrowseButton.action = createSelectTargetFolderAction()
         clearLogButton.action = createClearLogAction()
-        processButton.addActionListener(new ActionListener() {
+        processButton.addActionListener(createProcessAction())
+
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                processTask.get().cancel(true)
+            }
+        })
+
+
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                LOGGER.info("Exiting Barcode Spider");
+                System.exit(0);
+            }
+        })
+    }
+
+    private ActionListener createProcessAction() {
+        new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
                 SwingWorker<Integer, Integer> worker = getPM().processFiles()
@@ -134,8 +154,8 @@ class BarcodeMainPanel extends MainPanel {
                     void propertyChange(PropertyChangeEvent event) {
                         switch (event.getPropertyName()) {
                             case "progress":
-                                processProgressBar.setIndeterminate(false);
-                                processProgressBar.setValue((Integer) event.getNewValue());
+                                BarcodeMainPanel.this.getProcessProgressBar().setIndeterminate(false);
+                                BarcodeMainPanel.this.getProcessProgressBar().setValue((Integer) event.getNewValue());
                                 break;
                             case "state":
                                 switch ((SwingWorker.StateValue) event.getNewValue()) {
@@ -143,12 +163,12 @@ class BarcodeMainPanel extends MainPanel {
                                         break
                                     case SwingWorker.StateValue.STARTED:
                                         getPM().resetInputFilesStatus()
-                                        processButton.setEnabled(false)
-                                        stopButton.setEnabled(true)
+                                        BarcodeMainPanel.this.getProcessButton().setEnabled(false)
+                                        BarcodeMainPanel.this.getStopButton().setEnabled(true)
                                         break
                                     case SwingWorker.StateValue.DONE:
-                                        processButton.setEnabled(true)
-                                        stopButton.setEnabled(false)
+                                        BarcodeMainPanel.this.getProcessButton().setEnabled(true)
+                                        BarcodeMainPanel.this.getStopButton().setEnabled(false)
 
                                         try {
                                             int totalProcessedFiles = worker.get();
@@ -176,23 +196,7 @@ class BarcodeMainPanel extends MainPanel {
                 })
                 processTask.set(worker)
             }
-        })
-
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            void actionPerformed(ActionEvent e) {
-                processTask.get().cancel(true)
-            }
-        })
-
-
-        exitMenuItem.addActionListener(new ActionListener() {
-            @Override
-            void actionPerformed(ActionEvent e) {
-                LOGGER.info("Exiting Barcode Spider");
-                System.exit(0);
-            }
-        })
+        }
     }
 
 

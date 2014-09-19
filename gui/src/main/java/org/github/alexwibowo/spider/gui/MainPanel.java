@@ -297,4 +297,17 @@ public class MainPanel extends BasePanel<BarcodeMainPanelPresentationModel> {
 	protected JToolBar catalogueInternalFrameToolbar;
 	protected JButton toolbarOpenCatalogueButton;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
+
+
+    public JProgressBar getProcessProgressBar() {
+        return processProgressBar;
+    }
+
+    public JButton getProcessButton() {
+        return processButton;
+    }
+
+    public JButton getStopButton() {
+        return stopButton;
+    }
 }

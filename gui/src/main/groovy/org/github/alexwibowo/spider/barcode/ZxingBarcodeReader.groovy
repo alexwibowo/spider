@@ -124,7 +124,7 @@ class ZxingBarcodeReader implements BarcodeReader {
 
     private static void handleException(ReaderException re) {
         if (re instanceof NotFoundException) {
-            LOGGER.info("Not found: " + re);
+            // do nothing. Probably not critical
         } else if (re instanceof FormatException) {
             LOGGER.info("Format problem: " + re);
         } else if (re instanceof ChecksumException) {
