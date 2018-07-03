@@ -1,0 +1,85 @@
+
+
+Agreement concerning the Kukkiwon Education Media Center's Homepage("this Agreement")
+
+Chapter I General Provisions
+- Article 1 (Purpose)
+The purpose of this Agreement is to detail the rights, obligations, responsibilities and other necessary matters of the Kukkiwon Education Media Center and the user in the user’s use of the membership Service (“the Service”) provided by the Homepage of the Kukkiwon Education Media Center.
+- Article 2 (Effectuation and Amendment)
+1. This Agreement shall become effective when the user subscribes to the Service and accepts the provisions of this Agreement, which will be displayed on the Service screen or put on pubic notice, otherwise.
+2. the Kukkiwon Education Media Center reserves the right to amend this Agreement, either partially or wholly, from time to time, as required. The amended Agreement will be put on public notice on the Service screen so that the user may see it.
+3. The user may stop using the Service and cancel his/her registration as a member, if he/she does not agree to the amended Agreement. The user’s continued use of the Service will constitute his/her consent to the amended Agreement.
+4. Concerning matters stipulated in this Agreement, this Agreement shall prevail over other relevant laws and regulations. Concerning matters not covered by this Agreement, relevant laws or regulations or commercial practices, such as the Telecommunications Basic Act, the Telecommunications Business Act, the Act on Promotion of Information and Communication Network Utilization and Information Protection, the Regulations concerning the Information and Communication Ethics Committee’s Deliberations, the Code of Ethics concerning Information and Communication, and the Computer Program Protection Act, shall govern.
+- Article 3 (Definitions)
+1. The following terms used in this Agreement shall have their meanings defined in the following way:
+① “The user” means a member or a non-member when connecting to and using the Service provided by the Kukkiwon Education Media Center.
+② “A member” means a person who has consented to the provisions of this Agreement and been issued his/her ID and PASSWORD.
+③ “A non-member” means a person using the Service provided the Kukkiwon Education Media Center without subscribing as a member.
+④ “ID” means the e-mail address selected by a member and provided to the Kukkiwon Education Media Center for identification and more efficient use of the Service
+⑤ “PASSWORD” means a combination of letters and numbers selected by the user for protection of his/her personal information.
+⑥ “Cancellation of the Service” means the expression of the intention of either the user or the Kukkiwon Education Media Center to terminate the use of the Service.
+2. Except for those stated in Paragraph 1, the definitions of the terms used in this Agreement shall follow what is stipulated by the relevant laws and regulations or services.
+Chapter II Contract for Use of Service
+- Article 4 (Effectuation of the Contract for the Use of the Service)
+The Contract for the use of the Service shall be deemed to have been made automatically by the user’s consent to the provisions of this Agreement.
+- Article 5 (Application for the Use of the Service)
+The user shall apply for the use of the Service by filling in his/her personal information as required by the form provided by the Kukkiwon Education Media Center on the member information screen.
+- Article 6 (Amendment)
+A member shall update his/her submitted personal information as required through the information management process. All responsibilities shall lie with the member in this respect including any penalties that may result from his/her failure to update their personal information.
+Chapter III Provision and Use of Service
+- Article 7 (Use of the Service)
+1. In the event of the inability to provide the Service due to an internal problem, the Kukkiwon Education Media Center will notify members or put out a public notice on relevant sites.
+2. The Service will be provided around the clock, provided that the Service may be temporarily stopped when there is an internal problem or an operational requirement. This includes periodical system checks, in which case the Kukkiwon Education Media Center will give users the relevant notice.
+- Article 8 (Change of the Contents of the Service and Stoppage of the Service)
+the Kukkiwon Education Media Center reserves the right to change the contents of the Service or stop the Service after giving relevant notice in advance and shall not be held responsible for any outcomes thereafter.
+- Article 9 (Provision of Information and Commercial Advertisements)
+1. the Kukkiwon Education Media Center may provide members with commercial advertisements or information regarded as necessary in connection with members’ use of the Service. This may be via e-mail, ordinary mail, short message Service (SMS), direct mail (DM) or internet messenger. A member may refuse to receive unwanted information.
+2. In connection with the operation of the Service, the Kukkiwon Education Media Center may carry commercial advertisements on the Service screen, the Homepage, or e-mail messages.
+- Article 10 (Deletion of Bulletin Board Posts)
+When matters posted by a member on the bulletin board or otherwise registered in connection with the Service are judged to fall into the following categories, the Kukkiwon Education Media Center may delete it without prior notice and shall not be held responsible for any result that may be caused by it:
+
+1. Contents defaming the honor of the Kukkiwon Education Media Center, another member, or a third party through slander or libel.
+2. Contents disturbing public order or established social customs and morals.
+3. Contents associated with a criminal act.
+4. Contents infringing on a third party’s copyright or other rights.
+5. Contents not in alignment with the nature of the Service.
+6. Contents in violation of other relevant laws or regulations or rules set by the Kukkiwon Education Media Center.
+- Article 11 (Copyright of Matters Posted on the Bulletin Board)
+1. The copyright of matters posted on the bulletin board by a member shall belong to that member, but the Kukkiwon Education Media Center may use such posts in the other services it provides.
+2. A member shall be solely responsible for any result that may be caused by his/her matters posted on the bulletin board, including infringement of others’ copyright (program copyright included), under the Civil Law or the Penal Code.
+3. A member shall not use information or material provided by the Service for a commercial purpose, including rearrangement or sale of such material
+- Article 12 (the Kukkiwon Education Media Center’s Ownership)
+1. the Kukkiwon Education Media Center reserves all rights, including intellectual property rights, concerning the Service. This also includes the software, images, marks, logos, designs, Service names, information and trademarks related to it.
+2. Unless explicitly approved by the Kukkiwon Education Media Center, a member shall not (cause to) change, lease, lend, sell, distribute, transfer, sublicense, establish collateral right or be engaged in the commercial use, either partially or wholly, concerning the rights stated in Paragraph 1.
+Chapter IV Obligation of Parties to the Agreement
+- Article 13 (Members’ Obligations and Protection of Information concerning Others)
+1. When subscribing to the Service, a member shall provide correct and updated personal information.
+2. A member shall not be engaged in the following acts:
+① An act causing harm to others, including:
+a) Using another person’s ID or PASSWORD.
+b) Making false statements concerning relationships with a specified person.
+c) Making a (false) statement intended to slander or defame others.
+d) Distribution of false information to cause property-related advantage or disadvantage for oneself or a specified person.
+② Putting or offering the following on the bulletin board or sending it via e-mail:
+a) Unnecessary or unapproved advertisement or sales promotional material or junk mail, spam mail, chain letters, or any type of pyramid scheme.
+b) Obscene material, text, software, music, photo, graphics or video messages (“contents”).
+c) Contents unauthorized by the party holding the relevant rights (including intellectual property rights).
+d) Software viruses intended to destroy, disturb, or limit the functions of computer software/hardware or telecommunications equipment.
+e) Collecting or saving other users’ personal information.
+f) Other illegal or dishonest acts.
+③A member shall comply with relevant laws and regulations
+Article 14 (Obligations of the Kukkiwon Education Media Center)
+1. the Kukkiwon Education Media Center shall provide a stable Service without interruption under this Agreement.
+2. the Kukkiwon Education Media Center shall promptly deal with the reasonable opinions or complaints raised by members. It shall inform the relevant member of the reason and expected time frame when it is difficult to handle such opinions or complaints promptly.
+3. the Kukkiwon Education Media Center will do its best to protect members’ personal information under the relevant laws and regulations and Article 15 hereof.
+Article 15 (Protection of Personal Information)
+1. the Kukkiwon Education Media Center collects members’ general information based on what they submit at the time of subscription to the Service. Such information is used in connection with the purpose of carrying out this Agreement and providing the Service.
+2. the Kukkiwon Education Media Center shall not disclose members’ personal information in the course of providing the Service to a third party. Additionally, such information shall not be used for commercial purposes without members’ prior consent, provided that what is stated in Paragraph 2 does not apply due to the following events:
+① When there is a request from a relevant government institution for investigation under law.
+② When there is a request from the Information Communication Ethics Committee.
+③ When there is a request in accordance with the procedures stipulated in the relevant laws and regulations.
+Chapter V Others
+Article 16 (Service Fee)
+With the exception of information or services provided on a fee-for-service basis, the Service is provided free.
+Additional Rules
+(Effectuation) This Agreement shall become effective on November 10, 2009.

@@ -1,0 +1,5 @@
+org/github/alexwibowo/spider/catalogue/ExcelHSSFProductCatalogueLoaderSpec.class
+org/github/alexwibowo/spider/catalogue/ExcelXSSFProductCatalogueLoaderSpec.class
+org/github/alexwibowo/spider/gui/model/InputFilesPreProcessorUnitSpec.class
+org/github/alexwibowo/spider/gui/model/FileEntryUnitSpec.class
+org/github/alexwibowo/spider/barcode/ZxingBarcodeReaderUnitSpec.class
